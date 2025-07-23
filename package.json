@@ -1,0 +1,33 @@
+{
+  "name": "nb2-dearcarmate-team1",
+  "version": "1.0.0",
+  "description": "**nb2-DearCarmate-team1**",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --clean",
+    "start": "node dist/app.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrkgus413/nb2-dearcarmate-team1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jrkgus413/nb2-dearcarmate-team1/issues"
+  },
+  "homepage": "https://github.com/jrkgus413/nb2-dearcarmate-team1#readme",
+  "dependencies": {
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
