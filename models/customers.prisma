@@ -1,0 +1,4 @@
+model Customers{
+    id Int @id @default(autoincrement())
+    name String @db.VarChar(50)
+}
