@@ -15,6 +15,10 @@ datasource db {
 const modelDir = path.join(__dirname, 'models');
 const modelFiles = fs.readdirSync(modelDir);
 
-const mergedModels = modelFiles.map((file) => fs.readFileSync(path.join(modelDir, file), 'utf8')).join('\n\n');
+const mergedModels = modelFiles.map((file) => {
+  const content = fs.readFileSync(path.join(modelDir, file), 'utf8');
+  const replaced = content.replace(/(Model)\b/, '');
+  return replaced;
+}).join('\n\n');
 
 fs.writeFileSync(path.join(__dirname, 'schema.prisma'), schemaHeader + '\n' + mergedModels);
