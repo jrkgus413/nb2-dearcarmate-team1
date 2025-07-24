@@ -17,7 +17,7 @@ const modelFiles = fs.readdirSync(modelDir);
 
 const mergedModels = modelFiles.map((file) => {
   const content = fs.readFileSync(path.join(modelDir, file), 'utf8');
-  const replaced = content.replace(/(Model)\b/, '');
+  const replaced = content.replaceAll(/Model\b/g, '');
   return replaced;
 }).join('\n\n');
 
