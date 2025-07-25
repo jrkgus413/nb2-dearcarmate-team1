@@ -1,0 +1,11 @@
+model ContractDocumentFile {
+  id                 BigInt @id @default(autoincrement())
+  contractDocumentId BigInt
+  fileId             BigInt
+
+  contractDocument  ContractDocument @relation(fields: [contractDocumentId], references: [id])
+  file              File             @relation(fields: [fileId], references: [id])
+
+  @@unique([contractDocumentId, fileId])
+  @@index([contractDocumentId])
+}
