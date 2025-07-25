@@ -4,7 +4,7 @@ model CarImage {
   carId  BigInt
 
   file File @relation(fields: [fileId], references: [id])
-  car  Car  @relation(fields: [carId], references: [id])
+  car  Car  @relation(fields: [carId], references: [id], onDelete: Cascade)
 
   @@unique([carId, fileId])
   @@index([carId])

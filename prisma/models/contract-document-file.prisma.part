@@ -3,7 +3,7 @@ model ContractDocumentFile {
   contractDocumentId BigInt
   fileId             BigInt
 
-  contractDocument  ContractDocument @relation(fields: [contractDocumentId], references: [id])
+  contractDocument  ContractDocument @relation(fields: [contractDocumentId], references: [id], onDelete: Cascade)
   file              File             @relation(fields: [fileId], references: [id])
 
   @@unique([contractDocumentId, fileId])

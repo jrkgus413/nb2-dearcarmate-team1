@@ -4,5 +4,5 @@ model UserImage {
   userId  BigInt  @unique
 
   file     File    @relation(fields: [fileId], references: [id])
-  user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
