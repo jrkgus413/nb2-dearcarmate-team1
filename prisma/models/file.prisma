@@ -1,3 +1,0 @@
-model FileModel {
-  id BigInt @id @default(autoincrement())
-}

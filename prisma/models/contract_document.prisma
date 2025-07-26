@@ -1,3 +1,0 @@
-model ContractDocumentModel {
-  id BigInt @id @default(autoincrement())
-}
