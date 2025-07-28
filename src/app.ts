@@ -5,6 +5,7 @@ import express from 'express';
 
 import imagesRouter from './routes/images.router';
 import rootRouter from './routes/root.router';
+import carRouter from './routes/car.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // ROUTERS
 app.get('/', rootRouter);
 app.use('/images', imagesRouter);
+app.use('/cars', carRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
