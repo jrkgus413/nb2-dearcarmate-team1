@@ -1,3 +1,0 @@
-model CustomerModel {
-  id BigInt @id @default(autoincrement())
-}
