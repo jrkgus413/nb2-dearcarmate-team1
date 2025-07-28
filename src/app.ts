@@ -1,8 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { Request, Response } from 'express';
+import express from 'express';
+
 import imagesRouter from './routes/images.router';
+import rootRouter from './routes/root.router';
+
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
 
@@ -14,10 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ROUTERS
-app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello, world!');
-});
-
+app.get('/', rootRouter);
 app.use('/images', imagesRouter);
 
 // POST MIDDLEWARES
