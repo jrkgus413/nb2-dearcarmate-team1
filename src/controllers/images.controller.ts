@@ -5,7 +5,7 @@ import { BadRequestError } from '../types/error.type';
 export const handleUploadImage: RequestHandler = async (req, res) => {
   const file = req.file;
   if (!file) {
-    throw new BadRequestError();
+    throw new BadRequestError('파일이 없습니다.');
   }
 
   const body = await uploadImage(file);
