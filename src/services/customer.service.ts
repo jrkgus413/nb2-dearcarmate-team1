@@ -1,4 +1,5 @@
 import * as customerRepo from '../repositories/customer.repository';
+import { CustomerCsvUploadRequest } from '../types/customer.type';
 
 const getCustomersList = async (
     reqQuery: Record<string, string>
@@ -31,21 +32,24 @@ const getCustomersList = async (
     return customersListObj;
 };
 
-// const getCustomerById = async (id: bigint) => {
+const getCustomerById = async (_id: bigint) => {
 
-// };
+};
 
-// const createCustomer = async (data: any) => {
-    
-// };
+const createCustomer = async (_user: Express.User, _data: CustomerCsvUploadRequest) => {
+    // user를 통해서 companyId를 알아내고 data와 합쳐서 보낸다.
+    // const createdCustomer = await customerRepo.create(data);
 
-// const removeCustomer = async (id: bigint) => {
+    // return createdCustomer;
+};
 
-// };
+const removeCustomer = async (_id: bigint) => {
+
+};
 
 export {
     getCustomersList,
-    // getCustomerById,
-    // createCustomer,
-    // removeCustomer
+    getCustomerById,
+    createCustomer,
+    removeCustomer
 };

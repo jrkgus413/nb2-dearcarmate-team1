@@ -6,11 +6,11 @@ const customerRouter = Router();
 customerRouter.get(
     '/',
     customerController.getCustomersList
-)
+);
 
-// customerRouter.post(
-//     '/',
-//     customerController.createCustomer
-// )
+customerRouter.post(
+    '/',
+    customerController.createCustomer
+);
 
 export default customerRouter;

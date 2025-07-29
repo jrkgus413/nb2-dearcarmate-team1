@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express'; // RequestHandler
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as customerService from '../services/customer.service';
+import { UnauthorizedError } from '../types/error.type';
 // import { BadRequestError, NotFoundError } from '../types/error.type';
 
 const getCustomersList = async (
@@ -16,35 +17,40 @@ const getCustomersList = async (
     }
 };
 
-// const getCustomerById: RequestHandler = async (req, res, next) => {
-//     try{
-//     } catch(err){
-//         next(err);
-//     }
-// };
+const getCustomerById: RequestHandler = async (_req, _res, next) => {
+    try{
+    } catch(err){
+        next(err);
+    }
+};
 
-// const createCustomer: RequestHandler = async (req, res, next) => {
-//     try{
+const createCustomer: RequestHandler = async (req, res, next) => {
+    try{
+        
+        if(req.user == null){
+            throw new UnauthorizedError('권한이 없습니다.')
+        }
 
-//         const data = req.body;
-//         const createdCustomerObj = await customerService.createCustomer(data);
+        const user = req.user;
+        const data = req.body;
+        const createdCustomerObj = await customerService.createCustomer(user, data);
 
-//         res.status(201).json(createdCustomerObj);
-//     } catch(err){
-//         next(err);
-//     }
-// };
+        res.status(201).json(createdCustomerObj);
+    } catch(err){
+        next(err);
+    }
+};
 
-// const removeCustomer: RequestHandler = async (req, res, next) => {
-//     try{
-//     } catch(err){
-//         next(err);
-//     }
-// };
+const removeCustomer: RequestHandler = async (_req, _res, next) => {
+    try{
+    } catch(err){
+        next(err);
+    }
+};
 
 export {
     getCustomersList,
-    // getCustomerById,
-    // createCustomer,
-    // removeCustomer
+    getCustomerById,
+    createCustomer,
+    removeCustomer
 }
