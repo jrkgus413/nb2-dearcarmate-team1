@@ -12,16 +12,14 @@ export type CompanyListRequest = {
 export type CompanyGetQuery = { 
   page?: number; 
   pageSize?: number; 
-  searchBy?: string; 
+  searchBy?: 'companyName' | 'companyCode'; // 더 구체적인 타입
   keyword?: string 
 }
 
-export type CompanyUpdateRequest = Partial<CompanyCreateRequest> & {
-  companyId: bigint;
-}
+export type CompanyUpdateRequest = Partial<CompanyCreateRequest>; 
 
 export type CompanyResponse = {
-  companyId: bigint;
+  companyId: bigint
   companyName: string;
   companyCode: string;
   userCount: number;
