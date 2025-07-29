@@ -1,5 +1,5 @@
 import { CompanyCreateRequest, CompanyListRequest, CompanyUpdateRequest } from '../types/company.type';
-import { prisma } from '../utils/db.util';
+import { prisma } from '../utils/prisma.util';
 
 export default class CompanyRepository {
   /**
