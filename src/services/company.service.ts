@@ -10,7 +10,7 @@ export default class CompanyService {
    */
   static async createCompany({ companyName, companyCode }: CompanyCreateRequest) {
     const existingCompany = await CompanyRepository.getCompanyByCode(companyCode);
-    if (existingCompany) throw new ConflictError(`동일한 회사코드로 변경할 수 없습니다.`);
+    if (existingCompany) throw new ConflictError(`동일한 회사코드가 이미 존재합니다.`);
 
     const newCompany = await CompanyRepository.createCompany({ companyName, companyCode });
     const { _count, ...companyWithoutUsers } = newCompany;
