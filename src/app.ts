@@ -5,6 +5,7 @@ dotenv.config();
 import rootRouter from './routes/root.router';
 import imagesRouter from './routes/images.router';
 import carRouter from './routes/car.router';
+import customerRouter from './routes/customer.router';
 import companiesRouter from './routes/company.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', rootRouter);
 app.use('/images', imagesRouter);
 app.use('/cars', carRouter);
+app.use('/customers', customerRouter);
 app.use('/companies', companiesRouter);
 
 // POST MIDDLEWARES
