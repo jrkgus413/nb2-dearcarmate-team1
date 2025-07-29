@@ -1,3 +1,0 @@
-model CompanyModel {
-  id BigInt @id @default(autoincrement())
-}
