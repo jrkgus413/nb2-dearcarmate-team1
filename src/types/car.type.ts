@@ -9,8 +9,8 @@ export type CarCreateRequest = {
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
-  status: string;
-  companyId: bigint;
+  status?: string;
+  companyId?: bigint;
   uploadFileId?: bigint;
 };
 
@@ -35,4 +35,16 @@ export type CarResponse = {
   uploadFileId?: bigint;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type CarCsvUploadRequest = {
+  carNumber: string;
+  manufacturer: string;
+  model: string;
+  manufacturingYear: number;
+  mileage: bigint;
+  price: bigint;
+  accidentCount: number;
+  explanation?: string;
+  accidentDetails?: string;
 };
