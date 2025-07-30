@@ -1,0 +1,38 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const verifyEnv = (name: string): any => {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`missing env[${name}]`);
+  }
+  return value;
+};
+
+const ENV = {
+  PORT: verifyEnv('PORT'),
+  // DATABASE
+  DATABASE_URL: verifyEnv('DATABASE_URL'),
+  // TOKEN
+  ACCESS_SECRET_KEY: verifyEnv('ACCESS_SECERET_KEY'),
+  REFRESH_SECRET_KEY: verifyEnv('REFRESH_SECRET_KEY'),
+  ACCESS_EXPIRY_UNIT: verifyEnv('ACCESS_EXPIRY_UNIT'),
+  REFRESH_EXPIRY_UNIT: verifyEnv('REFRESH_EXPIRY_UNIT'),
+  ACCESS_EXPIRY_VALUE: verifyEnv('ACCESS_EXPIRY_VALUE'),
+  REFRESH_EXPIRY_VALUE: verifyEnv('REFRESH_EXPIRY_VALUE'),
+  // FIREBASE
+  FIREBASE_TYPE: verifyEnv('FIREBASE_TYPE'),
+  FIREBASE_PROJECT_ID: verifyEnv('FIREBASE_PROJECT_ID'),
+  FIREBASE_PRIVATE_KEY_ID: verifyEnv('FIREBASE_PRIVATE_KEY_ID'),
+  FIREBASE_PRIVATE_KEY: verifyEnv('FIREBASE_PRIVATE_KEY'),
+  FIREBASE_CLIENT_EMAIL: verifyEnv('FIREBASE_CLIENT_EMAIL'),
+  FIREBASE_CLIENT_ID: verifyEnv('FIREBASE_CLIENT_ID'),
+  FIREBASE_AUTH_URI: verifyEnv('FIREBASE_AUTH_URI'),
+  FIREBASE_TOKEN_URI: verifyEnv('FIREBASE_TOKEN_URI'),
+  FIREBASE_AUTH_PROVIDER_CERT_URL: verifyEnv('FIREBASE_AUTH_PROVIDER_CERT_URL'),
+  FIREBASE_CLIENT_CERT_URL: verifyEnv('FIREBASE_CLIENT_CERT_URL'),
+  FIREBASE_UNIVERSE_DOMAIN: verifyEnv('FIREBASE_UNIVERSE_DOMAIN'),
+};
+
+export default ENV;
