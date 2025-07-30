@@ -34,7 +34,7 @@ const createCustomer: RequestHandler = async (req, res, next) => {
             throw new UnauthorizedError('권한이 없습니다.')
         }
 
-        const userId = req.user.id;
+        const userId = BigInt(req.user.id);
         const data = req.body;
         const createdCustomerObj = await customerService.createCustomer(userId, data);
 
