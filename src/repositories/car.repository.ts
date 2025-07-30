@@ -17,8 +17,14 @@ export const findById = (id: bigint) => {
 };
 
 // 차량 등록
-export const create = (data: CarCreateRequest) => {
-  return prisma.car.create({ data });
+export const create = (data: CarCreateRequest & { companyId: bigint }) => {
+  return prisma.car.create({
+    data: {
+      ...data,
+      status: "possession",
+      companyId: BigInt(data.companyId),
+    },
+  });
 };
 
 // 차량 수정
@@ -37,15 +43,23 @@ export const softDelete = (id: bigint) => {
   });
 };
 
-//
+// 차량 대용량 업로드
 export const createMany = async (cars: CarCsvUploadRequest[]) => {
-  return await prisma.car.createMany({ data: cars, skipDuplicates: true });
+  const prepared = cars.map((car) => ({
+    ...car,
+    status: "possession",         
+    companyId: BigInt(1),        // 임시 값 (나중에 동적으로 처리 가능)
+  }));
+
+  return await prisma.car.createMany({
+    data: prepared,
+    skipDuplicates: true,
+  });
 };
 
-// [TODO] 차량 모델 목록 조회
-export const findDistinctModels = async () => {
+// 차량 모델 목록 조회
+export const findAllModels = async () => {
   return await prisma.car.findMany({
-    distinct: ['model'],
     select: {
       manufacturer: true,
       model: true,
