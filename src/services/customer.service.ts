@@ -1,6 +1,7 @@
 import * as customerRepo from '../repositories/customer.repository';
 import { CustomerCsvUploadRequest } from '../types/customer.type';
 
+// 고객 목록 조회
 const getCustomersList = async (
     reqQuery: Record<string, string>
 ) => {
@@ -32,24 +33,39 @@ const getCustomersList = async (
     return customersListObj;
 };
 
-const getCustomerById = async (_id: bigint) => {
+// 고객 상세 정보 조회
+const getCustomerById = async (customerId: bigint) => {
+    const customerObj = await customerRepo.findById(customerId);
 
+    return customerObj;
 };
 
-const createCustomer = async (_user: Express.User, _data: CustomerCsvUploadRequest) => {
+// 고객 등록
+const createCustomer = async (_userId: bigint, _data: CustomerCsvUploadRequest) => {
     // user를 통해서 companyId를 알아내고 data와 합쳐서 보낸다.
     // const createdCustomer = await customerRepo.create(data);
 
     // return createdCustomer;
 };
 
-const removeCustomer = async (_id: bigint) => {
+// 고객 수정
+const updateCustomer = async (_userId: bigint, _customerId: bigint, _data: CustomerCsvUploadRequest) => {
+    // 특정 고객을 user를 통해서 companyId를 알아내고 data와 합쳐서 보낸다.
+    // const updatedCustomer = await customerRepo.update(customerId, data);
+    return updateCustomer;
+};
 
+// 고객 삭제
+const removeCustomer = async (_customerId: bigint) => {
+    const deletedCustomer = await customerRepo.remove(_customerId);
+
+    return deletedCustomer;
 };
 
 export {
     getCustomersList,
     getCustomerById,
     createCustomer,
+    updateCustomer,
     removeCustomer
 };

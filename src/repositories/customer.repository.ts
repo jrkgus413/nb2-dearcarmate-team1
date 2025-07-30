@@ -1,17 +1,35 @@
-import { createData } from '../types/customer.type';
+import { Prisma as P } from "@prisma/client";
 import { prisma } from '../utils/prisma.util';
 
-const findAll = async (query:any) => await prisma.customer.findMany(query);
+type data = P.XOR<P.CustomerCreateInput, P.CustomerUncheckedCreateInput>
 
-const findById = async (id: bigint) => await prisma.customer.findUniqueOrThrow({ where:{ id } });
+// 고객 목록 조회
+const findAll = async (query: P.CustomerFindManyArgs ) => await prisma.customer.findMany(query);
 
-const create = async(data: createData) => await prisma.customer.create({ data });
+// 고객 상세 정보 조회
+const findById = async (customerId: bigint) => await prisma.customer.findUniqueOrThrow({ where:{ id:customerId } });
 
-const remove = async(id:bigint) => await prisma.customer.delete({ where:{ id } });
+// 고객 등록
+const create = async(
+    data: data
+) => await prisma.customer.create({ data });
+
+// 고객 수정
+const update = async(
+    customerId:bigint, 
+    data:data
+) => await prisma.customer.update({
+    where:{ id:customerId },
+    data
+});
+
+// 고객 삭제
+const remove = async(customerId:bigint) => await prisma.customer.delete({ where:{ id:customerId } });
 
 export {
     findAll,
     findById,
     create,
+    update,
     remove
 };

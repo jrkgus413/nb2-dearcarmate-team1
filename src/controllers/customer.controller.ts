@@ -3,6 +3,7 @@ import * as customerService from '../services/customer.service';
 import { UnauthorizedError } from '../types/error.type';
 // import { BadRequestError, NotFoundError } from '../types/error.type';
 
+//
 const getCustomersList = async (
     req: Request<{}, {}, {}, Record<string, string>>, 
     res: Response, 
@@ -17,6 +18,7 @@ const getCustomersList = async (
     }
 };
 
+//
 const getCustomerById: RequestHandler = async (_req, _res, next) => {
     try{
     } catch(err){
@@ -24,6 +26,7 @@ const getCustomerById: RequestHandler = async (_req, _res, next) => {
     }
 };
 
+//
 const createCustomer: RequestHandler = async (req, res, next) => {
     try{
         
@@ -31,9 +34,9 @@ const createCustomer: RequestHandler = async (req, res, next) => {
             throw new UnauthorizedError('권한이 없습니다.')
         }
 
-        const user = req.user;
+        const userId = req.user.id;
         const data = req.body;
-        const createdCustomerObj = await customerService.createCustomer(user, data);
+        const createdCustomerObj = await customerService.createCustomer(userId, data);
 
         res.status(201).json(createdCustomerObj);
     } catch(err){
@@ -41,6 +44,7 @@ const createCustomer: RequestHandler = async (req, res, next) => {
     }
 };
 
+//
 const removeCustomer: RequestHandler = async (_req, _res, next) => {
     try{
     } catch(err){
