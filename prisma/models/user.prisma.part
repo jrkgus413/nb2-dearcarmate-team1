@@ -9,12 +9,16 @@ model User {
   createdAt      DateTime  @default(now()) @db.Timestamp()
   updatedAt      DateTime  @updatedAt @db.Timestamp()
   deletedAt      DateTime? @db.Timestamp()
+
   isDeleted      Boolean   @default(false)
   isAdmin        Boolean   @default(false)
 
-  companyCode    String    @unique @db.VarChar(50)
-  employeeNumber String    @unique @db.VarChar(50)
   companyId      BigInt
 
+  companyCode    String    @db.VarChar(50)
+  employeeNumber String    @unique @db.VarChar(50)
+
   company        Company   @relation(fields: [companyId], references: [id])
+  userImage      UserImage?
+  contracts      Contract[]
 }
