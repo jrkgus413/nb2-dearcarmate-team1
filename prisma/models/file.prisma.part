@@ -1,10 +1,14 @@
 model File {
-  id         BigInt    @id @default(autoincrement())
-  url        String    @unique
-  name       String
-  ext        String
-  size       BigInt
+  id        BigInt    @id @default(autoincrement())
+  url       String    @unique
+  name      String
+  ext       String
+  size      BigInt
   createdAt DateTime  @default(now())
   deletedAt DateTime?
   isDeleted Boolean   @default(false)
+
+  userImage         UserImage?
+  carImages         CarImage[]
+  contractDocuments ContractDocument[]
 }
