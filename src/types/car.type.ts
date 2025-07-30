@@ -4,14 +4,11 @@ export type CarCreateRequest = {
   manufacturer: string;
   model: string;
   manufacturingYear: number;
-  mileage: bigint;
-  price: bigint;
+  mileage: number;
+  price: number;
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
-  status?: string;
-  companyId?: bigint;
-  uploadFileId?: bigint;
 };
 
 // 차량 수정 요청 타입
@@ -19,24 +16,21 @@ export type CarUpdateRequest = Partial<CarCreateRequest>;
 
 // 차량 응답 타입
 export type CarResponse = {
-  id: bigint;
+  id: number;
   carNumber: string;
   manufacturer: string;
   model: string;
+  type?: string; 
   manufacturingYear: number;
-  mileage: bigint;
-  price: bigint;
+  mileage: number;
+  price: number;
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
-  status: string;
-  imageUrl?: string;
-  companyId: bigint;
-  uploadFileId?: bigint;
-  createdAt: Date;
-  updatedAt: Date;
+  status: 'possession' | 'contractProceeding' | 'contractCompleted';
 };
 
+// TODO: 통합 고려 CSV 전용 업로드
 export type CarCsvUploadRequest = {
   carNumber: string;
   manufacturer: string;

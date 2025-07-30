@@ -14,7 +14,8 @@ export const getCarById = async (id: bigint) => {
 
 // 차량 등록
 export const createCar = async (data: CarCreateRequest) => {
-  return await carRepo.create(data);
+  const dataWithCompanyId = { ...data, companyId: BigInt(1) }; // Replace '1' with the actual companyId value
+  return await carRepo.create(dataWithCompanyId);
 };
 
 // 차량 수정
@@ -27,13 +28,13 @@ export const deleteCar = async (id: bigint) => {
   return await carRepo.softDelete(id);
 };
 
-// [TODO] 차량 대용량 업로드
+// 차량 대용량 업로드
 export const uploadCars = async (csv: any) => {
   const cars: CarCsvUploadRequest[] = csvToCarList(csv);
   return await carRepo.createMany(cars);
 };
 
-// [TODO] 차량 모델 목록 조회
+// 차량 모델 목록 조회
 export const getCarModels = async () => {
-  return await carRepo.findDistinctModels();
+  return await carRepo.findAllModels();
 };

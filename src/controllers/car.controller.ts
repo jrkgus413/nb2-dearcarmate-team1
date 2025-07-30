@@ -8,7 +8,7 @@ export const getAllCars = async (_req: Request, res: Response) => {
   res.status(200).json(cars);
 };
 
-// 단일 차량 조회
+// 차량 단건 조회
 export const getCarById = async (req: Request, res: Response) => {
   const id = BigInt(req.params.carId);
 
@@ -62,6 +62,23 @@ export const uploadCars = async (req: Request, res: Response) => {
 
 // 차량 모델 목록 조회
 export const getCarModels = async (_req: Request, res: Response) => {
-  // TODO: 차량 제조사별 모델 목록 조회 로직 구현 예정
-  res.status(501).json({ message: '차량 모델 목록 조회는 구현 예정입니다.' });
+  const carModels: { manufacturer: string; model: string }[] = await carService.getCarModels();
+
+  const grouped: Record<string, Set<string>> = carModels.reduce(
+    (acc: Record<string, Set<string>>, car) => {
+      if (!acc[car.manufacturer]) {
+        acc[car.manufacturer] = new Set();
+      }
+      acc[car.manufacturer].add(car.model);
+      return acc;
+    },
+    {}
+  );
+
+  const result = Object.entries(grouped).map(([manufacturer, modelSet]) => ({
+    manufacturer,
+    model: Array.from(modelSet),
+  }));
+
+  res.status(200).json({ data: result });
 };
