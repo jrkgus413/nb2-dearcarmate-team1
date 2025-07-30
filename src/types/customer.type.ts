@@ -22,6 +22,7 @@ export type Region =
   | '제주';
 
 export type CustomerCsvUploadRequest = {
+  companyId: bigint;
   name: string;
   gender: Gender;
   phoneNumber: string;
@@ -32,15 +33,15 @@ export type CustomerCsvUploadRequest = {
 };
 
 export type createData = {
-  id?: bigint | number
-  name: string
-  gender: string
-  phoneNumber: string
-  ageGroup?: string | null
-  region?: string | null
-  email: string
-  memo?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  companyId: bigint | number
-}
+  id?: bigint | number;
+  name: string;
+  gender: string;
+  phoneNumber: string;
+  ageGroup?: string | null;
+  region?: string | null;
+  email: string;
+  memo?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  companyId: bigint | number;
+};

@@ -3,14 +3,10 @@ import * as customerController from '../controllers/customer.controller';
 
 const customerRouter = Router();
 
-customerRouter.get(
-    '/',
-    customerController.getCustomersList
-);
+customerRouter.get('/', customerController.getCustomersList);
 
-customerRouter.post(
-    '/',
-    customerController.createCustomer
-);
+customerRouter.post('/', customerController.createCustomer);
+
+customerRouter.post('/upload', customerController.handleUploadCustomerCsvFile);
 
 export default customerRouter;

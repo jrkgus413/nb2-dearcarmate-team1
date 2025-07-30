@@ -20,7 +20,7 @@ export type CarResponse = {
   carNumber: string;
   manufacturer: string;
   model: string;
-  type?: string; 
+  type?: string;
   manufacturingYear: number;
   mileage: number;
   price: number;
@@ -32,6 +32,7 @@ export type CarResponse = {
 
 // TODO: 통합 고려 CSV 전용 업로드
 export type CarCsvUploadRequest = {
+  companyId: bigint;
   carNumber: string;
   manufacturer: string;
   model: string;

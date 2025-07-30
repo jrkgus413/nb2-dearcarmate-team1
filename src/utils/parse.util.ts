@@ -2,7 +2,7 @@ import { CarCsvUploadRequest } from '../types/car.type';
 import { AgeGroup, CustomerCsvUploadRequest, Gender, Region } from '../types/customer.type';
 import { BadRequestError } from '../types/error.type';
 
-export const csvToCarList = (csv: any) => {
+export const csvToCarList = (csv: any, companyId: bigint) => {
   const rows = csv;
   if (!rows || !Array.isArray(rows)) {
     throw new BadRequestError('[CARS] csv data is empty.');
@@ -32,6 +32,7 @@ export const csvToCarList = (csv: any) => {
     }
 
     const parsedCar: CarCsvUploadRequest = {
+      companyId,
       carNumber: row.carNumber,
       manufacturer: row.manufacturer,
       model: row.model,
@@ -49,7 +50,7 @@ export const csvToCarList = (csv: any) => {
   return parsedCarList;
 };
 
-export const csvToCustomerList = (csv: any) => {
+export const csvToCustomerList = (csv: any, companyId: bigint) => {
   const rows = csv;
   if (!rows || !Array.isArray(rows)) {
     throw new BadRequestError('[CUSTOMERS] csv data is empty.');
@@ -96,6 +97,7 @@ export const csvToCustomerList = (csv: any) => {
     }
 
     const parsedCustomer: CustomerCsvUploadRequest = {
+      companyId,
       name: row.name?.trim(),
       gender,
       phoneNumber: row.phoneNumber?.trim(),
