@@ -1,13 +1,13 @@
 model Customer {
   id          BigInt   @id @default(autoincrement())
   name        String   @db.VarChar(50)
-  gender      Gender
+  gender      String   @db.Char(6)
   
   phoneNumber String   @unique @db.VarChar(13)
   email       String   @unique @db.VarChar(50)
 
-  ageGroup    Age
-  region      Region
+  ageGroup    String   @db.Char(7)
+  region      String   @db.Char(7)
   memo        String?
 
   createdAt   DateTime @default(now()) @db.Timestamp()
@@ -20,40 +20,4 @@ model Customer {
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   contracts Contract[]
-}
-
-enum Gender {
-  MALE    @map("male")
-  FEMALE  @map("female")
-}
-
-enum Region {
-  SEOUL      @map("서울")
-  GYEONGGI   @map("경기")
-  INCHEON    @map("인천")
-  GANGWON    @map("강원")
-  CHUNGBUK   @map("충북")
-  CHUNGNAM   @map("충남")
-  SEJONG     @map("세종")
-  DAEJEON    @map("대전")
-  JEONBUK    @map("전북")
-  JEONNAM    @map("전남")
-  GWANGJU    @map("광주")
-  GYEONGBUK  @map("경북")
-  GYEONGNAM  @map("경남")
-  DAEGU      @map("대구")
-  ULSAN      @map("울산")
-  BUSAN      @map("부산")
-  JEJU       @map("제주")
-}
-
-enum Age {
-  TEN     @map("10")
-  TWENTY  @map("20")
-  THIRTY  @map("30")
-  FORTY   @map("40")
-  FIFTY   @map("50")
-  SIXTY   @map("60")
-  SEVENTY @map("70")
-  EIGHTY  @map("80")
 }
