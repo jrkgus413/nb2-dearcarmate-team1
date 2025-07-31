@@ -1,6 +1,5 @@
 import { Request } from 'express';
 import { Payload } from '../types/payload.type';
-import { USER_ROLE } from '../enums/user.enum';
 import { UnauthorizedError } from '../types/error.type';
 
 export const getUser = (req: Request): Payload => {
@@ -11,4 +10,4 @@ export const getUser = (req: Request): Payload => {
   throw new UnauthorizedError();
 };
 export const setUser = (req: Request, user: Payload): Payload => (req.user = user);
-export const isUserAdmin = (user: Payload): boolean => user.role === USER_ROLE.ADMIN;
+export const isUserAdmin = (user: Payload): boolean => user.isAdmin;

@@ -88,10 +88,10 @@ const removeCustomer = async (customerId: bigint) => {
 
 // 고객 대용량 업로드
 const uploadCustomerCsvFile = async (user: Payload, csv: any) => {
-  const companyId: bigint = BigInt(user.companyId); // getCompanyByUserId
-  const customerList: CustomerCsvUploadRequest[] = csvToCustomerList(csv, companyId);
+  const companyId: bigint = BigInt(user.companyId);
+  const customerListRequest: CustomerCsvUploadRequest[] = csvToCustomerList(csv, companyId);
 
-  return await customerRepo.createMany(customerList);
+  return await customerRepo.createMany(customerListRequest);
 };
 
 export { getCustomersList, getCustomerById, createCustomer, updateCustomer, removeCustomer, uploadCustomerCsvFile };
