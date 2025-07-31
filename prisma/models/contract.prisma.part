@@ -1,12 +1,14 @@
 model Contract {
   id BigInt @id @default(autoincrement())
 
+  contractName String
   status      String
   resolutionDate  DateTime
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
+
   isDeleted  Boolean   @default(false)
 
   carId            BigInt

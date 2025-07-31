@@ -4,6 +4,7 @@ model ContractDocument {
   
   contractId  BigInt   
   fileId      BigInt
+  fileName    String
 
   contract    Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
   
