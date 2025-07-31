@@ -2,27 +2,29 @@ import { GetContractListRequest } from '../types/contract-document.type';
 import { prisma } from '../utils/prisma.util';
 
 // 계약 목록 조희
-export const getContractListWithDocument = async (body: GetContractListRequest, _companyId: bigint) => {
+export const getContractListWithDocument = async (body: GetContractListRequest, companyId: bigint) => {
   const { page, pageSize, searchBy, keyword } = body;
 
   const skip = (page - 1) * pageSize;
 
-  const where =
-    keyword && searchBy
+  const where = {
+    companyId,
+    ...(keyword && searchBy
       ? {
           [searchBy]: {
             contains: keyword,
             mode: 'insensitive',
           },
         }
-      : {};
+      : {}),
+  };
 
   const totalItemCount = await prisma.contract.count({
-    where: where,
+    where,
   });
 
   const contractList = await prisma.contract.findMany({
-    where: where,
+    where,
     skip,
     take: pageSize,
     include: {
@@ -61,4 +63,34 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
     totalItemCount,
     data,
   };
+};
+
+export const getContractList = async (companyId: bigint) => {
+  const where = {
+    companyId,
+  };
+
+  const contractList = await prisma.contract.findMany({
+    where,
+    include: {
+      car: {
+        select: {
+          model: true,
+        },
+      },
+      customer: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
+
+  return contractList.map((contract) => ({
+    id: contract.id,
+    data: `${contract.car.model} - ${contract.customer.name} 고객님`,
+  }));
 };

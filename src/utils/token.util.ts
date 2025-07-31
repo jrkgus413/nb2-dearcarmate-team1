@@ -34,13 +34,31 @@ export const verifyRefreshToken = (token: string): Payload => {
 // ACCESS_TOKEN GET/SET/DELETE
 export const setAccessToken = (res: Response, token: string, options: CookieOptions) =>
   res.cookie(COOKIE_TYPE.ACCESS, token, options);
-export const getAccessToken = (req: Request) => req.cookies[COOKIE_TYPE.ACCESS];
+export const getAccessToken = (req: Request) => {
+  // 쿠키에 있는 토큰
+  const tokenFromCookie = req.cookies?.[COOKIE_TYPE.ACCESS];
+
+  // Authorization 헤더
+  const authHeader = req.headers.authorization;
+  const tokenFromHeader = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : undefined;
+
+  return tokenFromCookie || tokenFromHeader;
+};
 export const deleteAccessToken = (res: Response) => res.clearCookie(COOKIE_TYPE.ACCESS);
 
 // REFRESH_TOKEN GET/SET/DELETE
 export const setRefreshToken = (res: Response, token: string, options: CookieOptions) =>
   res.cookie(COOKIE_TYPE.REFRESH, token, options);
-export const getRefreshToken = (req: Request) => req.cookies[COOKIE_TYPE.REFRESH];
+export const getRefreshToken = (req: Request) => {
+  // 쿠키에 있는 토큰
+  const tokenFromCookie = req.cookies?.[COOKIE_TYPE.REFRESH];
+
+  // Authorization 헤더
+  const authHeader = req.headers.authorization;
+  const tokenFromHeader = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : undefined;
+
+  return tokenFromCookie || tokenFromHeader;
+};
 export const deleteRefreshToken = (res: Response) => res.clearCookie(COOKIE_TYPE.REFRESH);
 
 // 남은 토큰 기간 확인
