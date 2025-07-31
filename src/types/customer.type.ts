@@ -22,6 +22,7 @@ export type Region =
   | '제주';
 
 export type CustomerCsvUploadRequest = {
+  companyId: bigint;
   name: string;
   gender: Gender;
   phoneNumber: string;

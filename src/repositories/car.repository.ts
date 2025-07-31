@@ -21,7 +21,7 @@ export const create = (data: CarCreateRequest & { companyId: bigint }) => {
   return prisma.car.create({
     data: {
       ...data,
-      status: "possession",
+      status: 'possession',
       companyId: BigInt(data.companyId),
     },
   });
@@ -44,11 +44,11 @@ export const softDelete = (id: bigint) => {
 };
 
 // 차량 대용량 업로드
-export const createMany = async (cars: CarCsvUploadRequest[]) => {
+export const createMany = async (cars: CarCsvUploadRequest[], companyId: bigint) => {
   const prepared = cars.map((car) => ({
     ...car,
-    status: "possession",         
-    companyId: BigInt(1),        // 임시 값 (나중에 동적으로 처리 가능)
+    status: 'possession',
+    companyId, // 임시 값 (나중에 동적으로 처리 가능)
   }));
 
   return await prisma.car.createMany({

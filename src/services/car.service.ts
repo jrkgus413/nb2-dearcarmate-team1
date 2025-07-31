@@ -28,10 +28,11 @@ export const deleteCar = async (id: bigint) => {
   return await carRepo.softDelete(id);
 };
 
-// 차량 대용량 업로드
-export const uploadCars = async (csv: any) => {
-  const cars: CarCsvUploadRequest[] = csvToCarList(csv);
-  return await carRepo.createMany(cars);
+// [TODO] 차량 대용량 업로드
+export const uploadCars = async (csv: any, _userId: bigint) => {
+  const companyId: bigint = BigInt(1); // getCompanyByUserId
+  const data: CarCsvUploadRequest[] = csvToCarList(csv, companyId);
+  return await carRepo.createMany(data, companyId);
 };
 
 // 차량 모델 목록 조회

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as carService from '../services/car.service';
-import { BadRequestError, NotFoundError } from '../types/error.type';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../types/error.type';
 
 // 전체 차량 조회
 export const getAllCars = async (_req: Request, res: Response) => {
@@ -55,7 +55,12 @@ export const deleteCar = async (req: Request, res: Response) => {
 
 // 차량 대용량 업로드
 export const uploadCars = async (req: Request, res: Response) => {
-  await carService.uploadCars(req.csv);
+  const user = req.user;
+  if (!user) {
+    throw new UnauthorizedError();
+  }
+
+  await carService.uploadCars(req.csv, BigInt(user.id));
 
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
