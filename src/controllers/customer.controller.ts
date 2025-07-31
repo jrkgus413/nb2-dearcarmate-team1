@@ -1,17 +1,20 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as customerService from '../services/customer.service';
-import { UnauthorizedError } from '../types/error.type';
 import { getUser } from '../utils/user.util';
-// import { BadRequestError, NotFoundError } from '../types/error.type';
 
-//
+// 고객 목록 조회
 const getCustomersList = async (
   req: Request<{}, {}, {}, Record<string, string>>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const customersListObj = await customerService.getCustomersList(req.query);
+
+    const user = getUser(req);
+
+    const companyId = BigInt(user.companyId);
+
+    const customersListObj = await customerService.getCustomersList(companyId, req.query);
 
     res.status(200).json(customersListObj);
   } catch (err) {
@@ -22,6 +25,9 @@ const getCustomersList = async (
 // 고객 상세 정보 조회
 const getCustomerById: RequestHandler = async (req, res, next) => {
   try {
+
+    getUser(req);
+
     const customerId = BigInt(req.params.customerId);
     const customerObj = await customerService.getCustomerById(customerId);
 
@@ -34,13 +40,13 @@ const getCustomerById: RequestHandler = async (req, res, next) => {
 // 고객 등록
 const createCustomer: RequestHandler = async (req, res, next) => {
   try {
-    if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.');
-    }
 
-    const userId = BigInt(req.user.id);
+    const user = getUser(req);
+
+    const companyId = BigInt(user.companyId);
     const data = req.body;
-    const createdCustomerObj = await customerService.createCustomer(userId, data);
+    
+    const createdCustomerObj = await customerService.createCustomer({companyId, ...data});
 
     res.status(201).json(createdCustomerObj);
   } catch (err) {
@@ -51,15 +57,15 @@ const createCustomer: RequestHandler = async (req, res, next) => {
 // 고객 수정
 const updateCustomer: RequestHandler = async (req, res, next) => {
   try {
-    if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.');
-    }
 
+    const user = getUser(req);
+
+    const companyId = BigInt(user.companyId);
     const customerId = BigInt(req.params.customerId);
-    const userId = BigInt(req.user.id);
+    
     const data = req.body;
 
-    const updatedCustomerObj = await customerService.updateCustomer(userId, customerId, data);
+    const updatedCustomerObj = await customerService.updateCustomer(customerId, {companyId, ...data});
 
     res.status(200).json(updatedCustomerObj);
   } catch (err) {
@@ -70,14 +76,12 @@ const updateCustomer: RequestHandler = async (req, res, next) => {
 // 고객 삭제
 const removeCustomer: RequestHandler = async (req, res, next) => {
   try {
-    if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.');
-    }
+
+    getUser(req);
 
     const customerId = BigInt(req.params.customerId);
-    const userId = BigInt(req.user.id);
 
-    const deletedCustomerObj = await customerService.removeCustomer(userId, customerId);
+    const deletedCustomerObj = await customerService.removeCustomer(customerId);
 
     console.log(deletedCustomerObj);
 
@@ -87,6 +91,7 @@ const removeCustomer: RequestHandler = async (req, res, next) => {
   }
 };
 
+// 고객 대용량 업로드
 const handleUploadCustomerCsvFile = async (req: Request, res: Response) => {
   const user = getUser(req);
 
@@ -95,11 +100,4 @@ const handleUploadCustomerCsvFile = async (req: Request, res: Response) => {
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
 
-export {
-  getCustomersList,
-  getCustomerById,
-  createCustomer,
-  updateCustomer,
-  removeCustomer,
-  handleUploadCustomerCsvFile,
-};
+export { getCustomersList, getCustomerById, createCustomer, updateCustomer, removeCustomer, handleUploadCustomerCsvFile };

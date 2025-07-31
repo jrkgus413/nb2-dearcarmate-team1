@@ -4,6 +4,7 @@
   "description": "**nb2-DearCarmate-team1**",
   "main": "index.js",
   "scripts": {
+    "ts-node": "ts-node",
     "build": "tsc --build --clean && tsc --build",
     "start": "node dist/app.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
