@@ -11,6 +11,7 @@ model Company {
   customers Customer[]
   users     User[]
   cars      Car[]
+  contract  Contract[]
 
   @@map("companies")
 }

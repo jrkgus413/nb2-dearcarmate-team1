@@ -14,13 +14,16 @@ model Contract {
   carId            BigInt
   customerId       BigInt    
   userId           BigInt    
-  // meetingId        BigInt
+  companyId        BigInt
+  // meetingId     BigInt
 
   car     Car      @relation(fields: [carId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   customer  Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   meetings   Meeting[] // @relation(fields: [meetingId], references: [id])
 

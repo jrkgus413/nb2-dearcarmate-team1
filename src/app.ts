@@ -8,6 +8,7 @@ import carRouter from './routes/car.router';
 import customerRouter from './routes/customer.router';
 import companiesRouter from './routes/company.router';
 import dashboardRouter from './routes/dashboard.router';
+import contractDocumentRouter from './routes/contract-document.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
@@ -27,6 +28,7 @@ app.use('/cars', carRouter);
 app.use('/customers', customerRouter);
 app.use('/companies', companiesRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/contractDocuments', contractDocumentRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
