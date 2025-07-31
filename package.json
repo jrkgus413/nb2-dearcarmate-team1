@@ -9,7 +9,8 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
     "prisma:build": "node prisma/merge-schema.js",
     "prisma:migrate": "npm run prisma:build && npx prisma migrate dev",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "prisma:seed": "npx ts-node prisma/seed.ts"
   },
   "repository": {
     "type": "git",
