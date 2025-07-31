@@ -81,9 +81,11 @@ const removeCustomer: RequestHandler = async (req, res, next) => {
 
     const customerId = BigInt(req.params.customerId);
 
-    const deletedCustomerObj = await customerService.removeCustomer(customerId);
+    // 테스트하는 동안, 주석처리
+    // const deletedCustomerObj = 
+    await customerService.removeCustomer(customerId);
 
-    console.log(deletedCustomerObj);
+    // console.log(deletedCustomerObj);
 
     res.status(200).json({ message: '고객 삭제 성공' });
   } catch (err) {

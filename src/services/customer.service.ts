@@ -42,10 +42,9 @@ const getCustomersList = async (
 
   const findCustomersList = await customerRepo.findAll(ormQuery);
 
-  const resultJson = {
-    
-    data:findCustomersList
-  }
+  // const resultJson = {
+  //   data:findCustomersList
+  // }
 
   return convertBigIntToString(findCustomersList);
 };
