@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as customerService from '../services/customer.service';
 import { UnauthorizedError } from '../types/error.type';
+import { getUser } from '../utils/user.util';
 // import { BadRequestError, NotFoundError } from '../types/error.type';
 
 //
@@ -34,7 +35,7 @@ const getCustomerById: RequestHandler = async (req, res, next) => {
 const createCustomer: RequestHandler = async (req, res, next) => {
   try {
     if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.')
+      throw new UnauthorizedError('권한이 없습니다.');
     }
 
     const userId = BigInt(req.user.id);
@@ -51,7 +52,7 @@ const createCustomer: RequestHandler = async (req, res, next) => {
 const updateCustomer: RequestHandler = async (req, res, next) => {
   try {
     if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.')
+      throw new UnauthorizedError('권한이 없습니다.');
     }
 
     const customerId = BigInt(req.params.customerId);
@@ -60,7 +61,7 @@ const updateCustomer: RequestHandler = async (req, res, next) => {
 
     const updatedCustomerObj = await customerService.updateCustomer(userId, customerId, data);
 
-    res.status(200).json(updatedCustomerObj)
+    res.status(200).json(updatedCustomerObj);
   } catch (err) {
     next(err);
   }
@@ -70,7 +71,7 @@ const updateCustomer: RequestHandler = async (req, res, next) => {
 const removeCustomer: RequestHandler = async (req, res, next) => {
   try {
     if (req.user == null) {
-      throw new UnauthorizedError('권한이 없습니다.')
+      throw new UnauthorizedError('권한이 없습니다.');
     }
 
     const customerId = BigInt(req.params.customerId);
@@ -80,21 +81,25 @@ const removeCustomer: RequestHandler = async (req, res, next) => {
 
     console.log(deletedCustomerObj);
 
-    res.status(200).json({ "message": "고객 삭제 성공" });
+    res.status(200).json({ message: '고객 삭제 성공' });
   } catch (err) {
     next(err);
   }
 };
 
 const handleUploadCustomerCsvFile = async (req: Request, res: Response) => {
-  const user = req.user;
-  if (!user) {
-    throw new UnauthorizedError();
-  }
+  const user = getUser(req);
 
-  await customerService.uploadCustomerCsvFile(req.csv, BigInt(user.id));
+  await customerService.uploadCustomerCsvFile(user, req.csv);
 
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
 
-export { getCustomersList, getCustomerById, createCustomer, updateCustomer, removeCustomer, handleUploadCustomerCsvFile };
+export {
+  getCustomersList,
+  getCustomerById,
+  createCustomer,
+  updateCustomer,
+  removeCustomer,
+  handleUploadCustomerCsvFile,
+};

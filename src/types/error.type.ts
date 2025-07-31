@@ -14,7 +14,7 @@ export class BadRequestError extends HttpError {
 }
 
 export class UnauthorizedError extends HttpError {
-  constructor(message = 'Unauthorized') {
+  constructor(message = '로그인이 필요합니다.') {
     super(401, message);
   }
 }

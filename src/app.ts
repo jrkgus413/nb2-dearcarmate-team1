@@ -1,5 +1,6 @@
 import ENV from './utils/env.util';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 
 import rootRouter from './routes/root.router';
 import imagesRouter from './routes/images.router';
@@ -16,6 +17,7 @@ const port: number = Number(ENV.PORT) || 3000;
 // PRE MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ROUTERS
 app.get('/', rootRouter);
