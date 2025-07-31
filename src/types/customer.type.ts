@@ -32,4 +32,17 @@ export type CustomerCsvUploadRequest = {
   memo: string;
 };
 
-export type CustomerCreateData = Omit<CustomerCsvUploadRequest, "companyId">
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+export type CustomerCreateData = Modify<CustomerCsvUploadRequest, {
+  memo?: string | null;
+}>
+
+export type CustomerUpdateData = Modify<CustomerCreateData, {
+  name?: string;
+  gender?: Gender;
+  phoneNumber?: string;
+  ageGroup?: AgeGroup;
+  region?: Region;
+  email?: string;
+}>
