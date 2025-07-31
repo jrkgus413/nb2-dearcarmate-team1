@@ -6,6 +6,7 @@ import imagesRouter from './routes/images.router';
 import carRouter from './routes/car.router';
 import customerRouter from './routes/customer.router';
 import companiesRouter from './routes/company.router';
+import dashboardRouter from './routes/dashboard.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
@@ -23,6 +24,7 @@ app.use('/images', imagesRouter);
 app.use('/cars', carRouter);
 app.use('/customers', customerRouter);
 app.use('/companies', companiesRouter);
+app.use('/dashboard', dashboardRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
