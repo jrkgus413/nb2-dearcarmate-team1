@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as customerController from '../controllers/customer.controller';
+import { allow } from '../middlewares/allow.middleware';
+import { USER_ROLE } from '../enums/user.enum';
 
 const customerRouter = Router();
 
@@ -18,6 +20,7 @@ customerRouter.patch('/:customerId', customerController.updateCustomer);
 // 고객 삭제
 customerRouter.delete('/:customerId', customerController.removeCustomer);
 
-customerRouter.post('/upload', customerController.handleUploadCustomerCsvFile);
+// 고객 대용량 업로드
+customerRouter.post('/upload', allow([USER_ROLE.USER]), customerController.handleUploadCustomerCsvFile);
 
 export default customerRouter;

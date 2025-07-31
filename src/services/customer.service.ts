@@ -1,5 +1,6 @@
 import * as customerRepo from '../repositories/customer.repository';
 import { CustomerCsvUploadRequest, CustomerCreateData } from '../types/customer.type';
+import { Payload } from '../types/payload.type';
 import { csvToCustomerList } from '../utils/parse.util';
 
 // 고객 목록 조회
@@ -8,7 +9,7 @@ const getCustomersList = async (reqQuery: Record<string, string>) => {
   const pageSize = reqQuery.pageSize !== undefined ? Number(reqQuery.pageSize) : 10;
 
   // 1, 2, 3, ...
-  const page = reqQuery.page !== undefined ? Number(reqQuery.page) : 1
+  const page = reqQuery.page !== undefined ? Number(reqQuery.page) : 1;
 
   // name | email
   const searchBy = reqQuery.name;
@@ -48,7 +49,7 @@ const createCustomer = async (userId: bigint, data: CustomerCreateData) => {
 
   const createdCustomer = await customerRepo.create({
     companyId,
-    ...data
+    ...data,
   });
 
   return createdCustomer;
@@ -60,20 +61,16 @@ const updateCustomer = async (userId: bigint, customerId: bigint, data: Customer
 
   const user = await customerRepo.findUserCompanyId(userId);
   const companyId = user.companyId;
-  const updatedCustomer = await customerRepo.update(
-    customerId,
-    {
-      companyId,
-      ...data
-    }
-  );
+  const updatedCustomer = await customerRepo.update(customerId, {
+    companyId,
+    ...data,
+  });
 
   return updatedCustomer;
 };
 
 // 고객 삭제
 const removeCustomer = async (userId: bigint, customerId: bigint) => {
-
   // user가 진짜로 있는지 확인하는 용도
   await customerRepo.findUserCompanyId(userId);
 
@@ -82,8 +79,8 @@ const removeCustomer = async (userId: bigint, customerId: bigint) => {
   return deletedCustomer;
 };
 
-const uploadCustomerCsvFile = async (csv: any, _userId: bigint) => {
-  const companyId: bigint = BigInt(1); // getCompanyByUserId
+const uploadCustomerCsvFile = async (user: Payload, csv: any) => {
+  const companyId: bigint = BigInt(user.companyId); // getCompanyByUserId
   const customerList: CustomerCsvUploadRequest[] = csvToCustomerList(csv, companyId);
 
   return await customerRepo.createMany(customerList);
