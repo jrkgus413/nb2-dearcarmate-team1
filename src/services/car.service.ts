@@ -13,8 +13,8 @@ export const getCarById = async (id: bigint) => {
 };
 
 // 차량 등록
-export const createCar = async (data: CarCreateRequest) => {
-  const dataWithCompanyId = { ...data, companyId: BigInt(1) }; // Replace '1' with the actual companyId value
+export const createCar = async (data: CarCreateRequest, companyId: bigint) => {
+  const dataWithCompanyId = { ...data, companyId }; 
   return await carRepo.create(dataWithCompanyId);
 };
 
