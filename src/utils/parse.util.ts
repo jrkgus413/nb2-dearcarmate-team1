@@ -42,6 +42,7 @@ export const csvToCarList = (csv: any, companyId: bigint) => {
       accidentCount: parseInt(accidentStr, 10),
       explanation: row.explanation || undefined,
       accidentDetails: row.accidentDetails || undefined,
+      type: row.type || 'sedan', // 기본값 설정
     };
 
     return parsedCar;

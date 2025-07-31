@@ -9,6 +9,7 @@ export type CarCreateRequest = {
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
+  type: string;
 };
 
 // 차량 수정 요청 타입
@@ -42,4 +43,5 @@ export type CarCsvUploadRequest = {
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
+  type: string; 
 };

@@ -21,6 +21,7 @@ export const create = (data: CarCreateRequest & { companyId: bigint }) => {
   return prisma.car.create({
     data: {
       ...data,
+      type: data.type,
       status: 'possession',
       companyId: BigInt(data.companyId),
     },
@@ -48,6 +49,7 @@ export const createMany = async (cars: CarCsvUploadRequest[], companyId: bigint)
   const prepared = cars.map((car) => ({
     ...car,
     status: 'possession',
+    type: car.type,
     companyId, // 임시 값 (나중에 동적으로 처리 가능)
   }));
 
