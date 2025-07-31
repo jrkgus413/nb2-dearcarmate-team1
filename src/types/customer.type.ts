@@ -31,3 +31,5 @@ export type CustomerCsvUploadRequest = {
   email: string;
   memo: string;
 };
+
+export type CustomerCreateData = Omit<CustomerCsvUploadRequest, "companyId">

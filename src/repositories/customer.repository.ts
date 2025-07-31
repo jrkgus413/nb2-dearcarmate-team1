@@ -11,9 +11,7 @@ const findAll = async (query: P.CustomerFindManyArgs) => await prisma.customer.f
 const findById = async (customerId: bigint) => await prisma.customer.findUniqueOrThrow({ where: { id: customerId } });
 
 // 고객 등록
-const create = async (
-    data: data
-) => await prisma.customer.create({ data });
+const create = async (data: data) => await prisma.customer.create({ data });
 
 // 고객 수정
 const update = async (
@@ -30,4 +28,7 @@ const remove = async (customerId: bigint) => await prisma.customer.delete({ wher
 const createMany = async (data: CustomerCsvUploadRequest[]) =>
     await prisma.customer.createMany({ data, skipDuplicates: true });
 
-export { findAll, findById, create, update, remove, createMany };
+// 유저의 회사 ID 찾기
+const findUserCompanyId = async (userId: bigint) => await prisma.user.findUniqueOrThrow({ where: { id: userId }, select: { companyId: true } });
+
+export { findAll, findById, create, update, remove, createMany, findUserCompanyId };
