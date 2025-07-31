@@ -9,7 +9,6 @@ import companiesRouter from './routes/company.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
-import { generateAccessToken } from './utils/token.util';
 
 const app = express();
 const port: number = Number(ENV.PORT) || 3000;
@@ -28,8 +27,6 @@ app.use('/companies', companiesRouter);
 // POST MIDDLEWARES
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
-
-// 테스트 토큰 생성
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
