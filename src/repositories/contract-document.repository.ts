@@ -1,4 +1,5 @@
 import { GetContractListRequest } from '../types/contract-document.type';
+import { FileCreateRequest } from '../types/file.type';
 import { prisma } from '../utils/prisma.util';
 
 // 계약 목록 조희
@@ -93,4 +94,10 @@ export const getContractList = async (companyId: bigint) => {
     id: contract.id,
     data: `${contract.car.model} - ${contract.customer.name} 고객님`,
   }));
+};
+
+export const createContractDocument = async (fileCreateRequest: FileCreateRequest) => {
+  const createdContractDocument = await prisma.file.create({ data: fileCreateRequest });
+
+  return createdContractDocument;
 };

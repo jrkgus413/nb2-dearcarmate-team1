@@ -1,12 +1,9 @@
 import { RequestHandler } from 'express';
 import { uploadImage } from '../services/images.service';
-import { BadRequestError } from '../types/error.type';
+import { getFile } from '../utils/file.util';
 
 export const handleUploadImage: RequestHandler = async (req, res) => {
-  const file = req.file;
-  if (!file) {
-    throw new BadRequestError('파일이 없습니다.');
-  }
+  const file = getFile(req);
 
   const body = await uploadImage(file);
 
