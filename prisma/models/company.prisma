@@ -1,3 +1,4 @@
-model CompanyModel {
+model companymodel {
   id BigInt @id @default(autoincrement())
+  users usermodel[] 
 }
