@@ -1,23 +1,25 @@
 model Customer {
   id          BigInt   @id @default(autoincrement())
   name        String   @db.VarChar(50)
-  gender      String   @db.Char(6)
+  gender      String   @db.VarChar(6)
   
-  phoneNumber String   @unique @db.VarChar(13)
+  phoneNumber String   @unique @db.VarChar(13) @map("phone_number")
   email       String   @unique @db.VarChar(50)
 
-  ageGroup    String   @db.Char(7)
-  region      String   @db.Char(7)
+  ageGroup    String   @db.VarChar(7) @map("age_group")
+  region      String   @db.VarChar(7)
   memo        String?
 
-  createdAt   DateTime @default(now()) @db.Timestamp()
-  updatedAt   DateTime @updatedAt @db.Timestamp()
-  deletedAt   DateTime?
-  isDeleted   Boolean  @default(false)
+  createdAt   DateTime @default(now()) @db.Timestamp() @map("created_at")
+  updatedAt   DateTime @updatedAt @db.Timestamp() @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
 
-  companyId   BigInt
+  companyId   BigInt @map("company_id")
 
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   contracts Contract[]
+
+  @@map("customer")
 }
