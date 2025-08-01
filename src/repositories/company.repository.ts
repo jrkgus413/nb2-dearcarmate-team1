@@ -88,7 +88,7 @@ export const getUserbyCompany = async ({ whereCondition, pageSize, page }: Compa
       take: Number(pageSize),
       skip: (Number(page) - 1) * Number(pageSize),
       include: {
-        company: { select: { name: true } }
+        affiliatedCompany: { select: { name: true } }
       }
     }),
     prisma.user.count({

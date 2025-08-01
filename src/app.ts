@@ -9,9 +9,11 @@ import customerRouter from './routes/customer.router';
 import companiesRouter from './routes/company.router';
 import dashboardRouter from './routes/dashboard.router';
 import contractDocumentRouter from './routes/contract-document.router';
+import userRouter from './routes/user.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
+
 
 const app = express();
 const port: number = Number(ENV.PORT) || 3000;
@@ -29,6 +31,7 @@ app.use('/customers', customerRouter);
 app.use('/companies', companiesRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/contractDocuments', contractDocumentRouter);
+app.use('/users', userRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
