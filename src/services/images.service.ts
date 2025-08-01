@@ -35,8 +35,8 @@ export const uploadImage = async (file: Express.Multer.File) => {
 
         const createdImage = await createUserImage(fileCreateRequest);
         resolve({ imageUrl: createdImage.url });
-      } catch (err) {
-        reject(err);
+      } catch (error) {
+        reject(error);
       }
     });
 

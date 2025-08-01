@@ -1,10 +1,15 @@
+import { Prisma } from '@prisma/client';
 import * as customerRepo from '../repositories/customer.repository';
 import { CustomerCsvUploadRequest, CustomerCreateData } from '../types/customer.type';
 import { Payload } from '../types/payload.type';
 import { csvToCustomerList } from '../utils/parse.util';
+import { convertBigIntToString } from '../utils/convert.util';
 
 // 고객 목록 조회
-const getCustomersList = async (reqQuery: Record<string, string>) => {
+const getCustomersList = async (
+  companyId: bigint,
+  reqQuery: Record<string, string>
+) => {
   // 3, 7, 10, ...
   const pageSize = reqQuery.pageSize !== undefined ? Number(reqQuery.pageSize) : 10;
 
@@ -14,7 +19,7 @@ const getCustomersList = async (reqQuery: Record<string, string>) => {
   // name | email
   const searchBy = reqQuery.name;
 
-  // string
+  // 문자열의 일부분. 예: 박 -> 박지호, 박기수, 김박준
   const keyword = reqQuery.keyword;
 
   const take = pageSize;
@@ -22,63 +27,65 @@ const getCustomersList = async (reqQuery: Record<string, string>) => {
 
   const ormQuery = {
     where: {
-      ...(typeof searchBy === 'string' && keyword !== undefined && { [searchBy]: keyword }),
+      companyId,
+      ...(typeof searchBy === 'string' && keyword !== undefined && { 
+        [searchBy]: {
+          contains: keyword,
+          mode: Prisma.QueryMode.insensitive
+        } 
+      }),
     },
+
     take,
     skip,
   };
 
   const findCustomersList = await customerRepo.findAll(ormQuery);
 
-  return findCustomersList;
+  // const resultJson = {
+  //   data:findCustomersList
+  // }
+
+  return convertBigIntToString(findCustomersList);
 };
 
 // 고객 상세 정보 조회
 const getCustomerById = async (customerId: bigint) => {
   const findCustomer = await customerRepo.findById(customerId);
 
-  return findCustomer;
+  return convertBigIntToString(findCustomer);
 };
 
 // 고객 등록
-const createCustomer = async (userId: bigint, data: CustomerCreateData) => {
-  // user를 통해서 companyId를 알아내고 data와 합쳐서 보낸다.
+const createCustomer = async (
+  data: CustomerCreateData
+) => {
 
-  const user = await customerRepo.findUserCompanyId(userId);
-  const companyId = user.companyId;
+  const createdCustomer = await customerRepo.create(data);
 
-  const createdCustomer = await customerRepo.create({
-    companyId,
-    ...data,
-  });
-
-  return createdCustomer;
+  return convertBigIntToString(createdCustomer);
 };
 
 // 고객 수정
-const updateCustomer = async (userId: bigint, customerId: bigint, data: CustomerCreateData) => {
-  // 특정 고객을 user를 통해서 companyId를 알아내고 data와 합쳐서 보낸다.
+const updateCustomer = async (
+  customerId: bigint, 
+  data: CustomerCreateData
+) => {
 
-  const user = await customerRepo.findUserCompanyId(userId);
-  const companyId = user.companyId;
-  const updatedCustomer = await customerRepo.update(customerId, {
-    companyId,
-    ...data,
-  });
+  const updatedCustomer = await customerRepo.update(customerId, data);
 
-  return updatedCustomer;
+  return convertBigIntToString(updatedCustomer);
 };
 
 // 고객 삭제
-const removeCustomer = async (userId: bigint, customerId: bigint) => {
-  // user가 진짜로 있는지 확인하는 용도
-  await customerRepo.findUserCompanyId(userId);
+const removeCustomer = async (customerId: bigint) => {
 
   const deletedCustomer = await customerRepo.remove(customerId);
 
   return deletedCustomer;
 };
 
+// 고객 대용량 업로드
 const uploadCustomerCsvFile = async (user: Payload, csv: any) => {
   const companyId: bigint = BigInt(user.companyId);
   const customerListRequest: CustomerCsvUploadRequest[] = csvToCustomerList(csv, companyId);

@@ -6,19 +6,39 @@ import { USER_ROLE } from '../enums/user.enum';
 const customerRouter = Router();
 
 // 고객 목록 조회
-customerRouter.get('/', customerController.getCustomersList);
+customerRouter.get(
+  '/', 
+  allow([USER_ROLE.USER]),
+  customerController.getCustomersList
+);
 
 // 고객 상세 정보 조회
-customerRouter.get('/:customerId', customerController.getCustomerById);
+customerRouter.get(
+  '/:customerId',
+  allow([USER_ROLE.USER]), 
+  customerController.getCustomerById
+);
 
 // 고객 등록
-customerRouter.post('/', customerController.createCustomer);
+customerRouter.post(
+  '/', 
+  allow([USER_ROLE.USER]),
+  customerController.createCustomer
+);
 
 // 고객 수정
-customerRouter.patch('/:customerId', customerController.updateCustomer);
+customerRouter.patch(
+  '/:customerId', 
+  allow([USER_ROLE.USER]),
+  customerController.updateCustomer
+);
 
 // 고객 삭제
-customerRouter.delete('/:customerId', customerController.removeCustomer);
+customerRouter.delete(
+  '/:customerId', 
+  allow([USER_ROLE.USER]),
+  customerController.removeCustomer
+);
 
 // 고객 대용량 업로드
 customerRouter.post('/upload', allow([USER_ROLE.USER]), customerController.handleUploadCustomerCsvFile);
