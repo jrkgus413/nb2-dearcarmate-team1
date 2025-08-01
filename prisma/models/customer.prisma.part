@@ -4,10 +4,10 @@ model Customer {
   gender      String   @db.VarChar(6)
   
   phoneNumber String   @unique @db.VarChar(13) @map("phone_number")
-  email       String   @unique @db.VarChar(50)
+  email       String?   @unique @db.VarChar(50)
 
-  ageGroup    String   @db.VarChar(7) @map("age_group")
-  region      String   @db.VarChar(7)
+  ageGroup    String?   @db.VarChar(7) @map("age_group")
+  region      String?   @db.VarChar(7)
   memo        String?
 
   createdAt   DateTime @default(now()) @db.Timestamp() @map("created_at")
