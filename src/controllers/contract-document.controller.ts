@@ -32,9 +32,11 @@ export const handleUploadContractDocument = async (req: Request, res: Response) 
   res.status(200).json(body);
 };
 
-export const handleDownloadContractDocument = async (_req: Request, res: Response) => {
+export const handleDownloadContractDocument = async (req: Request<{ id: string }>, res: Response) => {
   //const user = getUser(req);
+  const { id } = req.params;
 
-  await downloadContractDocument();
+  await downloadContractDocument(id);
+
   res.status(200).json({ message: '계약서 다운로드 성공' });
 };
