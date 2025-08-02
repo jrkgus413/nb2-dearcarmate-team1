@@ -1,0 +1,9 @@
+model ContractDocument {
+  id          BigInt   @id @default(autoincrement())
+  contractId  BigInt   
+  fileId      BigInt
+  contract    Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  file        File @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([contractId])
+}

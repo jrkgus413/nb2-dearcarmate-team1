@@ -1,0 +1,11 @@
+model Imagemodel {
+  id BigInt @id @default(autoincrement())
+}
+model userimagemodel {
+  id        BigInt  @id @default(autoincrement())
+  fileId    BigInt  @unique
+  userId    BigInt  @unique
+
+ filemodel   filemodel @relation(fields: [fileId], references: [id])
+  usermodel      usermodel    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
