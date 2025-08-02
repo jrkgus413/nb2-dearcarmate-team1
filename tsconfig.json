@@ -14,8 +14,7 @@
     "noImplicitAny": true, // 암시적 any 금지
     "noUnusedLocals": true, // 사용되지 않는 지역변수 검사
     "noUnusedParameters": true, // 사용되지 않는 매개변수 검사
-    "noFallthroughCasesInSwitch": true, // switch 문 fallthrough 방지
-    "typeRoots": ["./src/types", "./node_modules/@types"] // Declare Global 적용
+    "noFallthroughCasesInSwitch": true // switch 문 fallthrough 방지
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

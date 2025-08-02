@@ -1,3 +1,0 @@
-model RefreshTokenModel {
-  id BigInt @id @default(autoincrement())
-}
