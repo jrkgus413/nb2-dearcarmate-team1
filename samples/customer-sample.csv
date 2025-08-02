@@ -1,6 +1,0 @@
-name,gender,phoneNumber,ageGroup,region,email,memo
-홍길동,male,010-1234-5678,30대,서울,hong@example.com,단골 고객입니다.
-김영희,female,010-2345-6789,20대,부산,kim@example.com,신규 가입자
-박철수,male,010-3456-7890,40대,경기,park@example.com,문의 많음
-이민정,female,010-4567-8901,50대,광주,lee@example.com,리뷰 작성 고객
-정우성,male,010-5678-9012,60대,제주,jung@example.com,전화 상담 완료
