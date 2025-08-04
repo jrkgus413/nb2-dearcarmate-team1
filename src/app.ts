@@ -13,6 +13,7 @@ import userRouter from './routes/user.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
+import { bigintSerialization } from './middlewares/bigint-serialization.middleware';
 
 const app = express();
 const port: number = Number(ENV.PORT) || 3000;
@@ -21,6 +22,7 @@ const port: number = Number(ENV.PORT) || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bigintSerialization);
 
 // ROUTERS
 app.use('/', rootRouter);
