@@ -1,27 +1,25 @@
-import { ConflictError, NotFoundError } from "../types/error.type";
-import { CompanyCreateRequest, CompanyListRequest, CompanyUpdateRequest } from "../types/company.type";
-import { convertBigIntToString } from "../utils/convert.util";
-import * as CompanyRepository from "../repositories/company.repository";
+import { ConflictError, NotFoundError } from '../types/error.type';
+import { CompanyCreateRequest, CompanyListRequest, CompanyUpdateRequest } from '../types/company.type';
+import { convertBigIntToString } from '../utils/convert.util';
+import * as CompanyRepository from '../repositories/company.repository';
 
 /**
-  * @description 회사 등록
-  */
+ * @description 회사 등록
+ */
 export const createCompany = async ({ companyName, companyCode }: CompanyCreateRequest) => {
   const existingCompany = await CompanyRepository.getCompanyByCode(companyCode);
   console.log(existingCompany);
   if (existingCompany) throw new ConflictError(`동일한 회사코드가 이미 존재합니다.`);
-  
 
   const newCompany = await CompanyRepository.createCompany({ companyName, companyCode });
   const { _count, ...companyWithoutUsers } = newCompany;
   const formattedCompany = {
     ...companyWithoutUsers,
-    usersCount: _count.users
+    usersCount: _count.users,
   };
 
   return convertBigIntToString(formattedCompany);
-}
-
+};
 
 /**
  * @description 회사 목록 조회
@@ -31,20 +29,20 @@ export const getCompanies = async ({ whereCondition, pageSize, page }: CompanyLi
 
   const formattedCompanies = companies.map(({ _count, ...company }) => ({
     ...company,
-    usersCount: _count.users
+    usersCount: _count.users,
   }));
 
   return {
     page: Number(page),
     pageSize: Number(pageSize),
     totalCount,
-    data: convertBigIntToString(formattedCompanies)
-  }
-}
+    data: convertBigIntToString(formattedCompanies),
+  };
+};
 
 /***
-* @description 회사별 유저 조회
-*/
+ * @description 회사별 유저 조회
+ */
 export const getUserbyCompany = async ({ whereCondition, pageSize, page }: CompanyListRequest) => {
   const { usersByCompany, totalCount } = await CompanyRepository.getUserbyCompany({ whereCondition, pageSize, page });
 
@@ -55,17 +53,17 @@ export const getUserbyCompany = async ({ whereCondition, pageSize, page }: Compa
       email: user.email,
       employeeNumber: user.employeeNumber,
       phoneNumber: user.phoneNumber,
-      company: user.company
-    }
+      company: user.affiliatedCompany,
+    };
   });
 
   return {
     page: Number(page),
     pageSize: Number(pageSize),
     totalCount,
-    data: convertBigIntToString(formattedUsers)
-  }
-}
+    data: convertBigIntToString(formattedUsers),
+  };
+};
 
 /**
  * @description 회사 정보 수정
@@ -84,11 +82,11 @@ export const updateCompanies = async (companyId: bigint, { companyName, companyC
   const { _count, ...companyWithoutUsers } = companies;
   const formattedCompany = {
     ...companyWithoutUsers,
-    usersCount: _count.users
+    usersCount: _count.users,
   };
 
   return convertBigIntToString(formattedCompany);
-}
+};
 
 /**
  * @description 회사 삭제
@@ -99,4 +97,4 @@ export const deleteCompanies = async (companyId: bigint) => {
 
   const companies = await CompanyRepository.deleteCompanies(companyId);
   return convertBigIntToString(companies);
-}
+};
