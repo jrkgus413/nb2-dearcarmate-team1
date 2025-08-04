@@ -5,36 +5,28 @@ import * as dashboardRepository from '../repositories/dashboard.repository';
  * @description 대시보드 데이터 조회
  */
 
-export const getDashboard = async ({
-  startOfMonth,
-  endOfMonth,
-  startOfLastMonth,
-  endOfLastMonth
-}: DashboardDateRange
-) => {
-  const [
+export const getDashboard = async ({ startOfMonth, endOfMonth, startOfLastMonth, endOfLastMonth }: DashboardDateRange) => {
+  const {
     monthlySales,
     lastMonthSales,
     proceedingContractsCount,
     completedContractsCount,
     contractsByCarType,
-    totalPriceByCarType
-  ] = await Promise.all([
-    dashboardRepository.monthlySales(startOfMonth, endOfMonth),
-    dashboardRepository.lastMonthSales(startOfLastMonth, endOfLastMonth),
-    dashboardRepository.proceedingContractsCount(),
-    dashboardRepository.completedContractsCount(),
-    dashboardRepository.contractsByCarType(),
-    dashboardRepository.salesByCarType()
-  ]);
-  // 이번달 매출
+    salesByCarType
+  } = await dashboardRepository.getDashboard({
+    startOfMonth,
+    endOfMonth,
+    startOfLastMonth,
+    endOfLastMonth
+  });
+
   // 차량별 계약서 건수 포맷팅
   const formattedContractsByCarType = contractsByCarType.map(car => ({
     carType: car.type,
     count: car._count.id ?? 0, // BigInt로 처리
   }));
   // 차량별 매출액 포맷팅
-  const formattedTotalPriceByCarType = totalPriceByCarType.map(car => ({
+  const formattedTotalPriceByCarType = salesByCarType.map(car => ({
     carType: car.type,
     sales: Number(car._sum.totalPrice) ?? 0n, // BigInt로 처리
   }));

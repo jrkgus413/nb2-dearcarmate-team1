@@ -1,8 +1,42 @@
 import { prisma } from '../utils/prisma.util';
+import { DashboardDateRange, TransactionClient } from '../types/dashboard.type';
+
+export const getDashboard = async ({ startOfMonth,  endOfMonth, startOfLastMonth, endOfLastMonth } : DashboardDateRange) => {
+  return await prisma.$transaction(async(tx) => {
+    // 모든 쿼리를 병렬로 실행
+    const [
+      monthlySalesResult,
+      lastMonthSalesResult,
+      proceedingContractsCountResult,
+      completedContractsCountResult,
+      contractsByCarTypeResult,
+      salesByCarTypeResult
+    ] = await Promise.all([
+      monthlySales(tx, startOfMonth, endOfMonth),
+      lastMonthSales(tx, startOfLastMonth, endOfLastMonth),
+      proceedingContractsCount(tx),
+      completedContractsCount(tx),
+      contractsByCarType(tx),
+      salesByCarType(tx)
+    ]);
+
+    return {
+      monthlySales: monthlySalesResult,
+      lastMonthSales: lastMonthSalesResult,
+      proceedingContractsCount: proceedingContractsCountResult,
+      completedContractsCount: completedContractsCountResult,
+      contractsByCarType: contractsByCarTypeResult,
+      salesByCarType: salesByCarTypeResult
+    }
+  }, {
+    timeout: 10000, // 10초 타임아웃
+    isolationLevel: 'ReadCommitted'
+  })
+}
 
 // 이번달 매출
-export const monthlySales = async(startOfMonth:Date, endOfMonth:Date) => {
-  return await prisma.car.aggregate({
+const monthlySales = async(tx: TransactionClient, startOfMonth: Date, endOfMonth: Date) => {
+  return await tx.car.aggregate({
       _sum: {
         totalPrice: true,
       },
@@ -20,8 +54,8 @@ export const monthlySales = async(startOfMonth:Date, endOfMonth:Date) => {
 }
 
 // 지난달 매출
-export const lastMonthSales = async(startOfLastMonth:Date, endOfLastMonth:Date) => {
-  return await prisma.car.aggregate({
+const lastMonthSales = async(tx: TransactionClient, startOfLastMonth: Date, endOfLastMonth: Date) => {
+  return await tx.car.aggregate({
       _sum: {
         totalPrice: true,
       },
@@ -39,8 +73,8 @@ export const lastMonthSales = async(startOfLastMonth:Date, endOfLastMonth:Date) 
 }
 
 // 진행 중인 계약 건수
-export const proceedingContractsCount = async() => {
-  return await prisma.contract.count({
+const proceedingContractsCount = async(tx: TransactionClient) => {
+  return await tx.contract.count({
     where: {
       status: 'contractDraft'
     },
@@ -48,8 +82,8 @@ export const proceedingContractsCount = async() => {
 }
 
 // 완료된 계약 건수
-export const completedContractsCount = async() => {
-  return await prisma.contract.count({
+const completedContractsCount = async(tx: TransactionClient) => {
+  return await tx.contract.count({
     where: {
       status: 'contractSuccessful',
     },
@@ -57,8 +91,8 @@ export const completedContractsCount = async() => {
 }
 
 // 차량별 계약서 건수
-export const contractsByCarType = async() => {
-  return await prisma.car.groupBy({
+const contractsByCarType = async(tx: TransactionClient) => {
+  return await tx.car.groupBy({
     by: ['type'],
     _count: {
       id: true, // 계약서 건수
@@ -74,8 +108,8 @@ export const contractsByCarType = async() => {
 }
 
 // 차량별 매출액
-export const salesByCarType = async() => {
-  return await prisma.car.groupBy({
+const salesByCarType = async(tx: TransactionClient) => {
+  return await tx.car.groupBy({
     by: ['type'],
     _sum: {
       totalPrice: true,
