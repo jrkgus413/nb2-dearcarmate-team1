@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+
 export type DashboardResponse = {
   monthlySales: number | null, // 이번달 매출
   lastMonthSales: number | null, // 지난달 매출
@@ -25,3 +27,5 @@ export type DashboardDateRange = {
   startOfLastMonth: Date,
   endOfLastMonth: Date
 }
+
+export type TransactionClient = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>;
