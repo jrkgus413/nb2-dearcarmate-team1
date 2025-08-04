@@ -5,6 +5,7 @@ model User {
   phoneNumber    String    @db.VarChar(13)
   password       String    @db.VarChar(150)
   image_url      String?
+  company        String
 
   createdAt      DateTime  @default(now()) @db.Timestamp()
   updatedAt      DateTime  @updatedAt @db.Timestamp()
@@ -18,7 +19,7 @@ model User {
   companyCode    String    @db.VarChar(50)
   employeeNumber String    @unique @db.VarChar(50)
 
-  company        Company   @relation(fields: [companyId], references: [id])
+  affiliatedCompany        Company   @relation(fields: [companyId], references: [id])
   userImage      UserImage?
   contracts      Contract[]
 }

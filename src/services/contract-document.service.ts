@@ -1,5 +1,6 @@
 import {
   createContractDocument,
+  getContractDocument,
   getContractList,
   getContractListWithDocument,
 } from '../repositories/contract-document.repository';
@@ -67,4 +68,4 @@ export const uploadContractDocument = async (file: Express.Multer.File) => {
   });
 };
 
-export const downloadContractDocument = async () => {};
+export const downloadContractDocument = async (id: string) => await getContractDocument(BigInt(id));

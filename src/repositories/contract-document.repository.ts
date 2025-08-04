@@ -101,3 +101,8 @@ export const createContractDocument = async (fileCreateRequest: FileCreateReques
 
   return createdContractDocument;
 };
+
+export const getContractDocument = async (contractDocumentId: bigint) =>
+  await prisma.contractDocument.findUnique({
+    where: { id: contractDocumentId },
+  });
