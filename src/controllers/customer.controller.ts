@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as customerService from '../services/customer.service';
 import { getUser } from '../utils/user.util';
+import { BadRequestError } from '../types/error.type';
 
 // 고객 목록 조회
 const getCustomersList = async (
@@ -14,7 +15,28 @@ const getCustomersList = async (
 
     const companyId = BigInt(user.companyId);
 
-    const customersListObj = await customerService.getCustomersList(companyId, req.query);
+    const query = req.query;
+    
+    // 3, 7, 10, ...
+    const pageSize = query.pageSize !== undefined ? Number(query.pageSize) : 10;
+
+    // 1, 2, 3, ...
+    const page = query.page !== undefined ? Number(query.page) : 1;
+
+    // name | email
+    const searchBy = query.searchBy;
+    // 문자열의 일부분. 예: 박 -> 박지호, 박기수, 김박준
+    const keyword = query.keyword;
+    if(searchBy && !['name', 'email'].includes(searchBy)){
+      throw new BadRequestError("검색 기준이 올바르지 않습니다.");
+    } else if(keyword && typeof keyword !== 'string'){
+      throw new BadRequestError("검색은 문자열만 가능합니다.");
+    }
+
+    const take = pageSize;
+    const skip = (page - 1) * pageSize;
+
+    const customersListObj = await customerService.getCustomersList({companyId, take, skip, searchBy, keyword});
 
     res.status(200).json(customersListObj);
   } catch (err) {
@@ -45,8 +67,8 @@ const createCustomer: RequestHandler = async (req, res, next) => {
 
     const companyId = BigInt(user.companyId);
     const data = req.body;
-    
-    const createdCustomerObj = await customerService.createCustomer({companyId, ...data});
+
+    const createdCustomerObj = await customerService.createCustomer({ companyId, ...data });
 
     res.status(201).json(createdCustomerObj);
   } catch (err) {
@@ -62,10 +84,10 @@ const updateCustomer: RequestHandler = async (req, res, next) => {
 
     const companyId = BigInt(user.companyId);
     const customerId = BigInt(req.params.customerId);
-    
+
     const data = req.body;
 
-    const updatedCustomerObj = await customerService.updateCustomer(customerId, {companyId, ...data});
+    const updatedCustomerObj = await customerService.updateCustomer(customerId, { companyId, ...data });
 
     res.status(200).json(updatedCustomerObj);
   } catch (err) {
@@ -81,11 +103,7 @@ const removeCustomer: RequestHandler = async (req, res, next) => {
 
     const customerId = BigInt(req.params.customerId);
 
-    // 테스트하는 동안, 주석처리
-    // const deletedCustomerObj = 
     await customerService.removeCustomer(customerId);
-
-    // console.log(deletedCustomerObj);
 
     res.status(200).json({ message: '고객 삭제 성공' });
   } catch (err) {
