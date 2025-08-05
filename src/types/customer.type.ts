@@ -54,3 +54,12 @@ export type FindManyArgs = {
   searchBy?: string;
   keyword?: string;
 };
+
+export type CountArgs = Omit<FindManyArgs, 'take' | 'skip'>;
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
