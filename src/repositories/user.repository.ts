@@ -1,12 +1,15 @@
 import { prisma } from '../utils/prisma.util';
 import { userRegisterRequest } from '../types/user.type';
 
-export const UserRepository = {
+export const userRepository = {
   findByEmail: (email: string) =>
     prisma.user.findUnique({ where: { email } }),
 
+  getUserById: (userId: number) =>
+    prisma.user.findUnique({ where: { id: userId } }),
+
   create: (data: userRegisterRequest) => {
-    const companyId = BigInt(1); // company랑 company code로 Company를 찾아서 id를 넣습니다.
+    const companyId = BigInt(1); // 예시용
     return prisma.user.create({
       data: {
         name: data.name,
@@ -20,13 +23,20 @@ export const UserRepository = {
       },
       include: {
         affiliatedCompany: {
-          select: {
-            companyCode: true,
-          },
+          select: { companyCode: true },
         },
       },
     });
   },
-};
 
- 
+  // 여기 추가!
+  softDeleteUser: async (userId: number) =>
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true,
+      },
+      select: { id: true },
+    }),
+};
