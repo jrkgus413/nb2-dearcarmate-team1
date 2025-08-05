@@ -42,4 +42,23 @@ export const createUser = async (data: CreateUserParams) => {
       }
     }
   });
+}
+
+export const userRepository = {
+  findByEmail: (email: string) =>
+    prisma.user.findUnique({ where: { email } }),
+
+  getUserById: (userId: number) =>
+    prisma.user.findUnique({ where: { id: userId } }),
+
+  // 여기 추가!
+  softDeleteUser: (userId: number) =>
+    prisma.user.update({
+      where: { id: userId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true,
+      },
+    }),
 };
+
