@@ -36,7 +36,7 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 
 export type CustomerCreateData = Modify<CustomerCsvUploadRequest, {
   memo?: string | null;
-}>
+}>;
 
 export type CustomerUpdateData = Modify<CustomerCreateData, {
   name?: string;
@@ -46,3 +46,20 @@ export type CustomerUpdateData = Modify<CustomerCreateData, {
   region?: Region;
   email?: string;
 }>
+
+export type FindManyArgs = {
+  companyId: bigint;
+  take: number;
+  skip: number;
+  searchBy?: string;
+  keyword?: string;
+};
+
+export type CountArgs = Omit<FindManyArgs, 'take' | 'skip'>;
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]

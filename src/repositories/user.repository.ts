@@ -1,5 +1,12 @@
 import { prisma } from '../utils/prisma.util';
-import { userRegisterRequest } from '../types/user.type';
+export const findCompanyByNameAndCode = async (name: string, code: string) => {
+  return prisma.company.findFirst({
+    where: {
+      name: name,
+      companyCode: code
+    }
+  });
+};
 
 export const userRepository = {
   findByEmail: (email: string) =>
@@ -40,3 +47,4 @@ export const userRepository = {
       select: { id: true },
     }),
 };
+

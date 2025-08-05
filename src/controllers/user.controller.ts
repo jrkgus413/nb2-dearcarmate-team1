@@ -3,34 +3,37 @@ import * as userService from '../services/user.service';
 import { NotFoundError } from '../types/error.type';
 import { userRepository } from '../repositories/user.repository';
 
-export const register: RequestHandler = async (req, res, next) => {
-  try {
-    const {
-      name,
-      email,
-      employeeNumber,
-      phoneNumber,
-      password,
-      passwordConfirmation,
-      companyCode,
-      company
-    } = req.body;
+export const register = async (req: Request, res: Response) => {
+  const {
+    name,
+    email,
+    phoneNumber,
+    password,
+    passwordConfirm,
+    companyName,
+    companyCode,
+    employeeNumber
+  } = req.body;
 
-    const newUser = await userService.register({
-      name,
-      email,
-      employeeNumber,
-      phoneNumber,
-      password,
-      passwordConfirmation,
-      companyCode,
-      company
-    });
-
-    res.status(201).json(newUser);
-  } catch (err) {
-    next(err);
+  if (!name || !email || !phoneNumber || !password || !passwordConfirm || !companyName || !companyCode || !employeeNumber) {
+    throw new BadRequestError('필수 입력값이 누락되었습니다.');
   }
+
+  if (password !== passwordConfirm) {
+    throw new BadRequestError('비밀번호와 비밀번호 확인이 일치하지 않습니다');
+  }
+
+  const user = await registerUser({
+    name,
+    email,
+    phoneNumber,
+    password,
+    company: companyName,
+    companyCode,
+    employeeNumber
+  });
+
+  res.status(201).json(user);
 };
 
 
