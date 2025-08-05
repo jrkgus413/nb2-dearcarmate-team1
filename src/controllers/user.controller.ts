@@ -9,12 +9,12 @@ export const register = async (req: Request, res: Response) => {
     phoneNumber,
     password,
     passwordConfirm,
-    company,
+    companyName,
     companyCode,
     employeeNumber
   } = req.body;
 
-  if (!name || !email || !phoneNumber || !password || !passwordConfirm || !company || !companyCode || !employeeNumber) {
+  if (!name || !email || !phoneNumber || !password || !passwordConfirm || !companyName || !companyCode || !employeeNumber) {
     throw new BadRequestError('필수 입력값이 누락되었습니다.');
   }
 
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response) => {
     email,
     phoneNumber,
     password,
-    company,
+    company: companyName,
     companyCode,
     employeeNumber
   });
