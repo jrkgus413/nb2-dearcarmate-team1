@@ -1,84 +1,60 @@
-import { Prisma } from '@prisma/client';
 import * as customerRepo from '../repositories/customer.repository';
-import { CustomerCsvUploadRequest, CustomerCreateData } from '../types/customer.type';
+import { CustomerCsvUploadRequest, CustomerCreateData, FindManyArgs, CustomerUpdateData } from '../types/customer.type';
 import { Payload } from '../types/payload.type';
 import { csvToCustomerList } from '../utils/parse.util';
-import { convertBigIntToString } from '../utils/convert.util';
 
 // 고객 목록 조회
-const getCustomersList = async (
-  companyId: bigint,
-  reqQuery: Record<string, string>
+export const getCustomersList = async (
+  {companyId, take, skip, searchBy, keyword}: FindManyArgs
 ) => {
-  // 3, 7, 10, ...
-  const pageSize = reqQuery.pageSize !== undefined ? Number(reqQuery.pageSize) : 10;
 
-  // 1, 2, 3, ...
-  const page = reqQuery.page !== undefined ? Number(reqQuery.page) : 1;
+  const findCustomersList = await customerRepo.findAll({companyId, take, skip, searchBy, keyword});
 
-  // name | email
-  const searchBy = reqQuery.name;
+  const totalItemCount = await customerRepo.count({companyId, searchBy, keyword}); 
 
-  // 문자열의 일부분. 예: 박 -> 박지호, 박기수, 김박준
-  const keyword = reqQuery.keyword;
-
-  const take = pageSize;
-  const skip = (page - 1) * pageSize;
-
-  const ormQuery = {
-    where: {
-      companyId,
-      ...(typeof searchBy === 'string' && keyword !== undefined && { 
-        [searchBy]: {
-          contains: keyword,
-          mode: Prisma.QueryMode.insensitive
-        } 
-      }),
-    },
-
-    take,
-    skip,
+  return {
+    totalItemCount,
+    data: findCustomersList.map((customer) => ({...customer, contractCount: customer._count.contracts, _count: undefined }))
   };
-
-  const findCustomersList = await customerRepo.findAll(ormQuery);
-
-  // const resultJson = {
-  //   data:findCustomersList
-  // }
-
-  return convertBigIntToString(findCustomersList);
 };
 
 // 고객 상세 정보 조회
-const getCustomerById = async (customerId: bigint) => {
+export const getCustomerById = async (customerId: bigint) => {
+
   const findCustomer = await customerRepo.findById(customerId);
 
-  return convertBigIntToString(findCustomer);
+  return {
+    ...findCustomer,
+    contractCount: findCustomer._count.contracts,
+    _count: undefined
+  };
 };
 
 // 고객 등록
-const createCustomer = async (
-  data: CustomerCreateData
-) => {
+export const createCustomer = async (data: CustomerCreateData) => {
 
   const createdCustomer = await customerRepo.create(data);
 
-  return convertBigIntToString(createdCustomer);
+  return {
+    ...createdCustomer,
+    contractCount: 0
+  };
 };
 
 // 고객 수정
-const updateCustomer = async (
-  customerId: bigint, 
-  data: CustomerCreateData
-) => {
+export const updateCustomer = async (customerId: bigint, data: CustomerUpdateData) => {
 
   const updatedCustomer = await customerRepo.update(customerId, data);
 
-  return convertBigIntToString(updatedCustomer);
+  return {
+    ...updatedCustomer,
+    contractCount: updatedCustomer._count.contracts,
+    _count: undefined
+  };
 };
 
 // 고객 삭제
-const removeCustomer = async (customerId: bigint) => {
+export const removeCustomer = async (customerId: bigint) => {
 
   const deletedCustomer = await customerRepo.remove(customerId);
 
@@ -86,11 +62,9 @@ const removeCustomer = async (customerId: bigint) => {
 };
 
 // 고객 대용량 업로드
-const uploadCustomerCsvFile = async (user: Payload, csv: any) => {
+export const uploadCustomerCsvFile = async (user: Payload, csv: any) => {
   const companyId: bigint = BigInt(user.companyId);
   const customerListRequest: CustomerCsvUploadRequest[] = csvToCustomerList(csv, companyId);
 
   return await customerRepo.createMany(customerListRequest);
 };
-
-export { getCustomersList, getCustomerById, createCustomer, updateCustomer, removeCustomer, uploadCustomerCsvFile };
