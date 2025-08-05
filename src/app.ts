@@ -1,5 +1,6 @@
 import ENV from './utils/env.util';
 import express from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import rootRouter from './routes/root.router';
@@ -10,6 +11,7 @@ import companiesRouter from './routes/company.router';
 import dashboardRouter from './routes/dashboard.router';
 import contractDocumentRouter from './routes/contract-document.router';
 import userRouter from './routes/user.router';
+import authRouter from './routes/auth.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
@@ -19,6 +21,7 @@ const app = express();
 const port: number = Number(ENV.PORT) || 3000;
 
 // PRE MIDDLEWARES
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -33,6 +36,7 @@ app.use('/companies', companiesRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/contractDocuments', contractDocumentRouter);
 app.use('/users', userRouter);
+app.use('/auth', authRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
