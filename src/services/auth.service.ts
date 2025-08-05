@@ -42,7 +42,7 @@ export const login = async (req: Request) => {
   const refreshToken = generateRefreshToken(payload);
 
   return {
-    formattedUser,
+    user: formattedUser,
     accessToken,
     refreshToken,
   };
