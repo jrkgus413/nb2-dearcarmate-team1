@@ -8,17 +8,17 @@ export const register = async (req: Request, res: Response) => {
     email,
     phoneNumber,
     password,
-    passwordConfirm,
+    passwordConfirmation,
     companyName,
     companyCode,
     employeeNumber
   } = req.body;
 
-  if (!name || !email || !phoneNumber || !password || !passwordConfirm || !companyName || !companyCode || !employeeNumber) {
+  if (!name || !email || !phoneNumber || !password || !passwordConfirmation || !companyName || !companyCode || !employeeNumber) {
     throw new BadRequestError('필수 입력값이 누락되었습니다.');
   }
 
-  if (password !== passwordConfirm) {
+  if (password !== passwordConfirmation) {
     throw new BadRequestError('비밀번호와 비밀번호 확인이 일치하지 않습니다');
   }
 
