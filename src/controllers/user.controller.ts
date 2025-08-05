@@ -1,34 +1,36 @@
-import { RequestHandler } from 'express';
-import * as userService from '../services/user.service';
+import { Request, Response } from 'express';
+import { registerUser } from '../services/user.service';
+import { BadRequestError } from '../types/error.type';
 
-export const register: RequestHandler = async (req, res, next) => {
-  try {
-    const {
-      name,
-      email,
-      employeeNumber,
-      phoneNumber,
-      password,
-      passwordConfirmation,
-      companyCode,
-      company
-    } = req.body;
+export const register = async (req: Request, res: Response) => {
+  const {
+    name,
+    email,
+    phoneNumber,
+    password,
+    passwordConfirm,
+    company,
+    companyCode,
+    employeeNumber
+  } = req.body;
 
-    const newUser = await userService.register({
-      name,
-      email,
-      employeeNumber,
-      phoneNumber,
-      password,
-      passwordConfirmation,
-      companyCode,
-      company
-    });
-
-    res.status(201).json(newUser);
-  } catch (err) {
-    next(err);
+  if (!name || !email || !phoneNumber || !password || !passwordConfirm || !company || !companyCode || !employeeNumber) {
+    throw new BadRequestError('필수 입력값이 누락되었습니다.');
   }
+
+  if (password !== passwordConfirm) {
+    throw new BadRequestError('비밀번호와 비밀번호 확인이 일치하지 않습니다');
+  }
+
+  const user = await registerUser({
+    name,
+    email,
+    phoneNumber,
+    password,
+    company,
+    companyCode,
+    employeeNumber
+  });
+
+  res.status(201).json(user);
 };
-
-

@@ -3,10 +3,10 @@
 import { Router } from 'express';
 import { register } from '../controllers/user.controller';
 
-const userRouter = Router();
+const router = Router();
 
 //회원가입
-userRouter.post('/', register);
+router.post('/register', register);
 //내 정보 조회
 //userRouter.get('/me', getMyInfo);
 //내 정보 수정
@@ -16,4 +16,4 @@ userRouter.post('/', register);
 //유저 삭제(관리자 전용)
 //userRouter.delete('/:id', adminDeleteUser);
 
-export default userRouter;
+export default router;

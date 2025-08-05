@@ -1,46 +1,66 @@
-import bcrypt from 'bcrypt';
-import { UserRepository } from '../repositories/user.repository';
-import { getCompanyByCode } from '../repositories/company.repository';
+import { hash } from 'bcrypt';
+import * as userRepository from '../repositories/user.repository';
+import { BadRequestError, ConflictError } from '../types/error.type';
 
-
-export const register = async ({
-   name,
-  email,
-  employeeNumber,
-  phoneNumber,
-  password,
-  passwordConfirmation,
-  company,
-  companyCode } : {name: string;
+interface RegisterUserParams {
+  name: string;
   email: string;
-  employeeNumber: string;
   phoneNumber: string;
   password: string;
-  passwordConfirmation: string;
   company: string;
   companyCode: string;
-  }) => {
-  if (password !== passwordConfirmation) {
-    throw new Error('비밀번호가 일치하지 않습니다.');
-  }
+  employeeNumber: string;
+}
 
-  const existing = await UserRepository.findByEmail(email);
-  if (existing) throw new Error('이미 존재하는 이메일입니다.');
-
- const companyByCode = await getCompanyByCode(companyCode);
-  if (!companyByCode) throw new Error('회사 코드가 유효하지 않습니다.');
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  return await UserRepository.create({
+export const registerUser = async (data: RegisterUserParams) => {
+  const {
     name,
     email,
-    employeeNumber,
+    phoneNumber,
+    password,
+    company,
+    companyCode,
+    employeeNumber
+  } = data;
+
+  const existingCompany = await userRepository.findCompanyByNameAndCode(company, companyCode);
+  if (!existingCompany) {
+    throw new BadRequestError('기업명과 인증코드가 일치하지 않습니다.');
+  }
+
+  const existingUser = await userRepository.findUserByEmail(email);
+  if (existingUser) {
+    throw new ConflictError('이미 존재하는 이메일입니다');
+  }
+
+  const duplicateEmp = await userRepository.findUserByEmployeeNumber(employeeNumber);
+  if (duplicateEmp) {
+    throw new ConflictError('이미 존재하는 사원번호입니다');
+  }
+
+  const hashedPassword = await hash(password, 10);
+
+  const createdUser = await userRepository.createUser({
+    name,
+    email,
     phoneNumber,
     password: hashedPassword,
-    passwordConfirmation,
-    company, 
+    company,
     companyCode,
+    employeeNumber,
+    companyId: existingCompany.id
   });
-};
 
+  return {
+    id: Number(createdUser.id),
+    name: createdUser.name,
+    email: createdUser.email,
+    employeeNumber: createdUser.employeeNumber,
+    phoneNumber: createdUser.phoneNumber,
+    imageUrl: createdUser.image_url,
+    isAdmin: createdUser.isAdmin,
+    company: {
+      companyCode: createdUser.companyCode
+    }
+  };
+};
