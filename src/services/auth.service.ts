@@ -3,7 +3,7 @@ import { getUserByEmail } from '../repositories/auth.repository';
 import { NotFoundError } from '../types/error.type';
 import { comparePassword } from '../utils/password.util';
 import { Payload } from '../types/payload.type';
-import { generateAccessToken, generateRefreshToken } from '../utils/token.util';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/token.util';
 
 export const login = async (req: Request) => {
   const { body } = req;
@@ -45,5 +45,21 @@ export const login = async (req: Request) => {
     user: formattedUser,
     accessToken,
     refreshToken,
+  };
+};
+
+export const refresh = async (req: Request) => {
+  const { body } = req;
+  const { refreshToken } = body;
+  console.log(refreshToken);
+
+  const payload = verifyRefreshToken(refreshToken);
+
+  const accessTokenNew = generateAccessToken(payload);
+  const refreshTokenNew = generateRefreshToken(payload);
+
+  return {
+    accessToken: accessTokenNew,
+    refreshToken: refreshTokenNew,
   };
 };
