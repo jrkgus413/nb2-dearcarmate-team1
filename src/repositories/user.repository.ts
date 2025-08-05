@@ -8,38 +8,43 @@ export const findCompanyByNameAndCode = async (name: string, code: string) => {
   });
 };
 
-export const findUserByEmail = async (email: string) => {
-  return prisma.user.findUnique({
-    where: { email }
-  });
+export const userRepository = {
+  findByEmail: (email: string) =>
+    prisma.user.findUnique({ where: { email } }),
+
+  getUserById: (userId: number) =>
+    prisma.user.findUnique({ where: { id: userId } }),
+
+  create: (data: userRegisterRequest) => {
+    const companyId = BigInt(1); // 예시용
+    return prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        employeeNumber: data.employeeNumber,
+        phoneNumber: data.phoneNumber,
+        password: data.password,
+        companyCode: data.companyCode,
+        company: data.company,
+        companyId,
+      },
+      include: {
+        affiliatedCompany: {
+          select: { companyCode: true },
+        },
+      },
+    });
+  },
+
+  // 여기 추가!
+  softDeleteUser: async (userId: number) =>
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true,
+      },
+      select: { id: true },
+    }),
 };
 
-export const findUserByEmployeeNumber = async (employeeNumber: string) => {
-  return prisma.user.findUnique({
-    where: { employeeNumber }
-  });
-};
-
-interface CreateUserParams {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-  company: string;
-  companyCode: string;
-  employeeNumber: string;
-  companyId: bigint;
-}
-
-export const createUser = async (data: CreateUserParams) => {
-  return prisma.user.create({
-    data,
-    include: {
-      affiliatedCompany: {
-        select: {
-          companyCode: true
-        }
-      }
-    }
-  });
-};
