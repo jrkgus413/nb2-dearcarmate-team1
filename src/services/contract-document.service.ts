@@ -8,8 +8,9 @@ import { GetContractListRequest } from '../types/contract-document.type';
 import { ParsedQs } from 'qs';
 import { bucket } from '../utils/firebase';
 import { FileCreateRequest } from '../types/file.type';
+import { Payload } from '../types/payload.type';
 
-export const getContractDocumentList = async (companyId: bigint, query: ParsedQs) => {
+export const getContractDocumentList = async (user: Payload, query: ParsedQs) => {
   const { page = '1', pageSize = '10', searchBy = '', keyword = '' } = query;
 
   const data: GetContractListRequest = {
@@ -19,12 +20,10 @@ export const getContractDocumentList = async (companyId: bigint, query: ParsedQs
     keyword: keyword as string,
   };
 
-  return await getContractListWithDocument(data, companyId);
+  return await getContractListWithDocument(data, user);
 };
 
-export const getContractDocumentDraftList = async (companyId: bigint) => {
-  return await getContractList(companyId);
-};
+export const getContractDocumentDraftList = async (user: Payload) => await getContractList(user);
 
 export const uploadContractDocument = async (file: Express.Multer.File) => {
   return new Promise(async (resolve, reject) => {

@@ -6,6 +6,6 @@ import { handleLogin, handleRefresh } from '../controllers/auth.controller';
 const auth = express.Router();
 
 auth.post('/login', allow([USER_ROLE.PUBLIC]), handleLogin);
-auth.post('/refresh', allow([USER_ROLE.USER]), handleRefresh);
+auth.post('/refresh', allow([USER_ROLE.NONE]), handleRefresh);
 
 export default auth;

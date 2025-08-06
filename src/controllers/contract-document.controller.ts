@@ -11,7 +11,7 @@ import { getFile } from '../utils/file.util';
 export const handleGetContractDocumentList = async (req: Request, res: Response) => {
   const user = getUser(req);
 
-  const body = await getContractDocumentList(BigInt(user.companyId), req.query);
+  const body = await getContractDocumentList(user, req.query);
 
   res.status(200).json(body);
 };
@@ -19,7 +19,7 @@ export const handleGetContractDocumentList = async (req: Request, res: Response)
 export const handleGetContractDocumentDraftList = async (req: Request, res: Response) => {
   const user = getUser(req);
 
-  const body = await getContractDocumentDraftList(BigInt(user.companyId));
+  const body = await getContractDocumentDraftList(user);
 
   res.status(200).json(body);
 };

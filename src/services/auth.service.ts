@@ -51,7 +51,6 @@ export const login = async (req: Request) => {
 export const refresh = async (req: Request) => {
   const { body } = req;
   const { refreshToken } = body;
-  console.log(refreshToken);
 
   const payload = verifyRefreshToken(refreshToken);
 
