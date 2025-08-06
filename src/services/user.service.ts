@@ -1,6 +1,6 @@
-import { hash } from 'bcrypt';
-import * as userRepository from '../repositories/user.repository';
-import { BadRequestError, ConflictError } from '../types/error.type';
+import { BadRequestError, ConflictError, NotFoundError } from "../types/error.type";
+import * as UserRepository from "../repositories/user.repository"
+import { hash } from "bcrypt";
 
 interface RegisterUserParams {
   name: string;
@@ -23,24 +23,24 @@ export const registerUser = async (data: RegisterUserParams) => {
     employeeNumber
   } = data;
 
-  const existingCompany = await userRepository.findCompanyByNameAndCode(company, companyCode);
+  const existingCompany = await UserRepository.findCompanyByNameAndCode(company, companyCode);
   if (!existingCompany) {
     throw new BadRequestError('기업명과 인증코드가 일치하지 않습니다.');
   }
 
-  const existingUser = await userRepository.findUserByEmail(email);
+  const existingUser = await UserRepository.findUserByEmail(email);
   if (existingUser) {
     throw new ConflictError('이미 존재하는 이메일입니다');
   }
 
-  const duplicateEmp = await userRepository.findUserByEmployeeNumber(employeeNumber);
+  const duplicateEmp = await UserRepository.findUserByEmployeeNumber(employeeNumber);
   if (duplicateEmp) {
     throw new ConflictError('이미 존재하는 사원번호입니다');
   }
 
   const hashedPassword = await hash(password, 10);
 
-  const createdUser = await userRepository.createUser({
+  const createdUser = await UserRepository.createUser({
     name,
     email,
     phoneNumber,
@@ -63,4 +63,14 @@ export const registerUser = async (data: RegisterUserParams) => {
       companyCode: createdUser.companyCode
     }
   };
+};
+
+//회원 탈퇴 서비스, 함수 만들기 
+const { userRepository } = UserRepository;
+
+export const deleteMyAccount = async (userId: number) => {
+  const existingUser = await userRepository.getUserById(userId);
+  if (!existingUser) throw new NotFoundError('유저가 존재하지 않습니다.');
+
+  await userRepository.softDeleteUser(userId);
 };
