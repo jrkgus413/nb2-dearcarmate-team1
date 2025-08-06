@@ -10,25 +10,24 @@ export const getCustomersList = async (
   next: NextFunction
 ) => {
   try {
-
     const user = getUser(req);
 
     // undefined, null => error
     const companyId = BigInt(user.companyId);
 
     const query = req.query;
-    
+
     // 3, 7, 10, ...
     const pageSize = query.pageSize !== undefined ? Number(query.pageSize) : 10;
 
     // 1, 2, 3, ...
     const page = query.page !== undefined ? Number(query.page) : 1;
 
-    const string400 = "잘못된 요청입니다.";
+    const string400 = '잘못된 요청입니다.';
 
-    if(pageSize < 1 || Object.is(pageSize, NaN)){
+    if (pageSize < 1 || Object.is(pageSize, NaN)) {
       throw new BadRequestError(string400); // 올바른 페이지 크기가 아닙니다.
-    } else if(page < 1 || Object.is(page, NaN)){
+    } else if (page < 1 || Object.is(page, NaN)) {
       throw new BadRequestError(string400);
     } // 올바른 페이지 번호가 아닙니다.
 
@@ -39,19 +38,19 @@ export const getCustomersList = async (
     const searchBy = query.searchBy;
     // 문자열의 일부분. 예: 박 -> 박지호, 박기수, 김박준
     const keyword = query.keyword;
-    if(searchBy && !['name', 'email'].includes(searchBy)){
-      throw new BadRequestError(string400);// 검색 기준이 올바르지 않습니다.
-    } else if(keyword && typeof keyword !== 'string'){
-      throw new BadRequestError(string400);// 검색은 문자열만 가능합니다.
+    if (searchBy && !['name', 'email'].includes(searchBy)) {
+      throw new BadRequestError(string400); // 검색 기준이 올바르지 않습니다.
+    } else if (keyword && typeof keyword !== 'string') {
+      throw new BadRequestError(string400); // 검색은 문자열만 가능합니다.
     }
 
-    const customersListObj = await customerService.getCustomersList({companyId, take, skip, searchBy, keyword});
+    const customersListObj = await customerService.getCustomersList({ companyId, take, skip, searchBy, keyword });
 
     res.status(200).json({
       currentPage: page,
       pageSize,
-      totalPages:Math.ceil(customersListObj.totalItemCount / pageSize),
-      ...customersListObj
+      totalPages: Math.ceil(customersListObj.totalItemCount / pageSize),
+      ...customersListObj,
     });
   } catch (err) {
     next(err);
@@ -61,7 +60,6 @@ export const getCustomersList = async (
 // 고객 상세 정보 조회
 export const getCustomerById: RequestHandler = async (req, res, next) => {
   try {
-
     getUser(req);
 
     // undefined, null => error
@@ -77,11 +75,10 @@ export const getCustomerById: RequestHandler = async (req, res, next) => {
 // 고객 등록
 export const createCustomer: RequestHandler = async (req, res, next) => {
   try {
-
     const user = getUser(req);
 
     const companyId = BigInt(user.companyId);
-    const data = {companyId, ...req.body};
+    const data = { companyId, ...req.body };
 
     const createdCustomerObj = await customerService.createCustomer(data);
 
@@ -94,13 +91,12 @@ export const createCustomer: RequestHandler = async (req, res, next) => {
 // 고객 수정
 export const updateCustomer: RequestHandler = async (req, res, next) => {
   try {
-
     const user = getUser(req);
 
     const companyId = BigInt(user.companyId);
     const customerId = BigInt(req.params.customerId);
 
-    const data = {companyId, ...req.body};
+    const data = { companyId, ...req.body };
 
     const updatedCustomerObj = await customerService.updateCustomer(customerId, data);
 
@@ -113,7 +109,6 @@ export const updateCustomer: RequestHandler = async (req, res, next) => {
 // 고객 삭제
 export const removeCustomer: RequestHandler = async (req, res, next) => {
   try {
-
     getUser(req);
 
     const customerId = BigInt(req.params.customerId);
@@ -129,7 +124,7 @@ export const removeCustomer: RequestHandler = async (req, res, next) => {
 // 고객 대용량 업로드
 export const handleUploadCustomerCsvFile = async (req: Request, res: Response) => {
   const user = getUser(req);
-
+  console.log(req.csv);
   await customerService.uploadCustomerCsvFile(user, req.csv);
 
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
