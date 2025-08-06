@@ -163,7 +163,7 @@ export const updateExistContract = async (contractId: bigint, request: UpdateCon
       updateOption.status = request.status;
     }
     if (request.resolutionDate !== undefined) {
-      updateOption.resolutionDate = request.resolutionDate;
+      updateOption.resolutionDate = new Date(request.resolutionDate);
     }
     if (request.contractPrice !== undefined) {
       updateOption.contractPrice = request.contractPrice;
@@ -229,7 +229,7 @@ export const updateExistContract = async (contractId: bigint, request: UpdateCon
       for (const meeting of request.meetings) {
         await tx.meeting.create({
           data: {
-            date: meeting.date,
+            date: new Date(meeting.date),
             contract: { connect: { id: contractId } },
             alarms: {
               create: meeting.alarms.map((alarm) => ({

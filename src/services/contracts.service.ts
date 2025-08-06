@@ -32,11 +32,11 @@ export const createContract = async (req: Request) => {
   return {
     id: Number(createdContract.id),
     status: createdContract.status,
-    resolutionDate: createdContract.resolutionDate?.toISOString() ?? null,
+    resolutionDate: createdContract.resolutionDate ?? null,
     contractPrice: Number(createdContract.contractPrice ?? 0),
     meetings: createdContract.meetings.map((m) => ({
-      date: m.date.toISOString(),
-      alarms: m.alarms.map((a) => a.time.toISOString()),
+      date: m.date,
+      alarms: m.alarms.map((a) => a.time),
     })),
     user: {
       id: Number(createdContract.user.id),
