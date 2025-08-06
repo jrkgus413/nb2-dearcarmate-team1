@@ -12,6 +12,7 @@ import dashboardRouter from './routes/dashboard.router';
 import contractDocumentRouter from './routes/contract-document.router';
 import userRouter from './routes/user.router';
 import authRouter from './routes/auth.router';
+import contractsRouter from './routes/contracts.router';
 
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
@@ -37,6 +38,7 @@ app.use('/dashboard', dashboardRouter);
 app.use('/contractDocuments', contractDocumentRouter);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
+app.use('/contracts', contractsRouter);
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);

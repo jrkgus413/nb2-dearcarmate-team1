@@ -25,7 +25,7 @@ export const getContractDocumentList = async (user: Payload, query: ParsedQs) =>
 
 export const getContractDocumentDraftList = async (user: Payload) => await getContractList(user);
 
-export const uploadContractDocument = async (file: Express.Multer.File) => {
+export const uploadContractDocument = async (file: Express.Multer.File, user: Payload) => {
   return new Promise(async (resolve, reject) => {
     const fileName = `contractDocuments/${Date.now()}_${file.originalname}`;
     const blob = bucket.file(fileName);
@@ -56,8 +56,9 @@ export const uploadContractDocument = async (file: Express.Multer.File) => {
           size,
         };
 
-        const createdContractDocument = await createContractDocument(fileCreateRequest);
-        resolve({ contractDocumentId: Number(createdContractDocument.id) });
+        const createdContractDocument = await createContractDocument(fileCreateRequest, user);
+
+        resolve({ id: Number(createdContractDocument.id) });
       } catch (error) {
         reject(error);
       }

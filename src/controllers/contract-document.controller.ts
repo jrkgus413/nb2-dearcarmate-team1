@@ -26,9 +26,9 @@ export const handleGetContractDocumentDraftList = async (req: Request, res: Resp
 
 export const handleUploadContractDocument = async (req: Request, res: Response) => {
   const file = getFile(req);
-  //const user = getUser(req);
+  const user = getUser(req);
 
-  const body = await uploadContractDocument(file);
+  const body = await uploadContractDocument(file, user);
   res.status(200).json(body);
 };
 

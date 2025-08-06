@@ -3,7 +3,7 @@ import { FileCreateRequest } from '../types/file.type';
 import { Payload } from '../types/payload.type';
 import { prisma } from '../utils/prisma.util';
 
-// 계약 목록 조희
+// [계약서 업로드] 시 계약 목록 조회
 export const getContractListWithDocument = async (body: GetContractListRequest, user: Payload) => {
   const { page, pageSize, searchBy, keyword } = body;
 
@@ -44,6 +44,11 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
           carNumber: true,
         },
       },
+      user: {
+        select: {
+          name: true,
+        },
+      },
     },
     orderBy: {
       resolutionDate: 'desc',
@@ -54,9 +59,9 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
     id: contract.id,
     contractName: contract.contractName,
     resolutionDate: contract.resolutionDate,
-    documentsCount: contract.documents.length,
-    manager: contract.userId,
-    carNumber: contract.carId,
+    documentCount: contract.documents.length,
+    userName: contract.user.name,
+    carNumber: contract.car.carNumber,
     documents: contract.documents,
   }));
 
@@ -70,10 +75,14 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
   };
 };
 
+// [계약서 추가] 시 계약 목록 조회
 export const getContractList = async (user: Payload) => {
   const where = {
     companyId: BigInt(user.companyId),
     userId: BigInt(user.id),
+    documents: {
+      none: {},
+    },
   };
 
   const contractList = await prisma.contract.findMany({
@@ -101,13 +110,13 @@ export const getContractList = async (user: Payload) => {
   }));
 };
 
-export const createContractDocument = async (fileCreateRequest: FileCreateRequest) => {
+export const createContractDocument = async (fileCreateRequest: FileCreateRequest, _user: Payload) => {
   const createdContractDocument = await prisma.file.create({ data: fileCreateRequest });
 
   return createdContractDocument;
 };
 
 export const getContractDocument = async (contractDocumentId: bigint) =>
-  await prisma.contractDocument.findUnique({
+  await prisma.file.findUnique({
     where: { id: contractDocumentId },
   });
