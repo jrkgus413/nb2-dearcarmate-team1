@@ -1,5 +1,6 @@
 import * as carRepo from '../repositories/car.repository';
 import { CarCreateRequest, CarCsvUploadRequest, CarUpdateRequest } from '../types/car.type';
+import { Payload } from '../types/payload.type';
 import { csvToCarList } from '../utils/parse.util';
 
 // 전체 차량 조회
@@ -14,7 +15,7 @@ export const getCarById = async (id: bigint) => {
 
 // 차량 등록
 export const createCar = async (data: CarCreateRequest, companyId: bigint) => {
-  const dataWithCompanyId = { ...data, companyId }; 
+  const dataWithCompanyId = { ...data, companyId };
   return await carRepo.create(dataWithCompanyId);
 };
 
@@ -28,9 +29,9 @@ export const deleteCar = async (id: bigint) => {
   return await carRepo.softDelete(id);
 };
 
-// [TODO] 차량 대용량 업로드
-export const uploadCars = async (csv: any, _userId: bigint) => {
-  const companyId: bigint = BigInt(1); // getCompanyByUserId
+// 차량 대용량 업로드
+export const uploadCars = async (user: Payload, csv: any) => {
+  const companyId: bigint = BigInt(user.companyId);
   const data: CarCsvUploadRequest[] = csvToCarList(csv, companyId);
   return await carRepo.createMany(data, companyId);
 };

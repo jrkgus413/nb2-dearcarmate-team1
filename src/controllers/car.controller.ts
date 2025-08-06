@@ -2,14 +2,11 @@ import { Request, Response } from 'express';
 import * as carService from '../services/car.service';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../types/error.type';
 
-
 function convertBigIntToNumber(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(convertBigIntToNumber);
   } else if (obj !== null && typeof obj === 'object') {
-    return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [key, convertBigIntToNumber(value)])
-    );
+    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, convertBigIntToNumber(value)]));
   } else if (typeof obj === 'bigint') {
     // 만약 엄청 큰 숫자라면 Number 대신 String으로 변환할 수도 있음!
     return Number(obj);
@@ -78,7 +75,7 @@ export const uploadCars = async (req: Request, res: Response) => {
     throw new UnauthorizedError();
   }
 
-  await carService.uploadCars(req.csv, BigInt(user.id));
+  await carService.uploadCars(user, req.csv);
 
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
@@ -87,16 +84,13 @@ export const uploadCars = async (req: Request, res: Response) => {
 export const getCarModels = async (_req: Request, res: Response) => {
   const carModels: { manufacturer: string; model: string }[] = await carService.getCarModels();
 
-  const grouped: Record<string, Set<string>> = carModels.reduce(
-    (acc: Record<string, Set<string>>, car) => {
-      if (!acc[car.manufacturer]) {
-        acc[car.manufacturer] = new Set();
-      }
-      acc[car.manufacturer].add(car.model);
-      return acc;
-    },
-    {}
-  );
+  const grouped: Record<string, Set<string>> = carModels.reduce((acc: Record<string, Set<string>>, car) => {
+    if (!acc[car.manufacturer]) {
+      acc[car.manufacturer] = new Set();
+    }
+    acc[car.manufacturer].add(car.model);
+    return acc;
+  }, {});
 
   const result = Object.entries(grouped).map(([manufacturer, modelSet]) => ({
     manufacturer,
