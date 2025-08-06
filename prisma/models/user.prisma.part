@@ -2,7 +2,7 @@ model User {
   id             BigInt    @id @default(autoincrement())
   name           String    @db.VarChar(50)
   email          String    @unique @db.VarChar(50)
-  phoneNumber    String    @db.VarChar(13)
+  phoneNumber    String    @unique @db.VarChar(13) 
   password       String    @db.VarChar(150)
   image_url      String?
   company        String

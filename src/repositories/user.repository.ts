@@ -1,4 +1,16 @@
 import { prisma } from '../utils/prisma.util';
+
+interface CreateUserParams {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  company: string;
+  companyCode: string;
+  employeeNumber: string;
+  companyId: bigint;
+}
+
 export const findCompanyByNameAndCode = async (name: string, code: string) => {
   return prisma.company.findFirst({
     where: {
@@ -19,17 +31,6 @@ export const findUserByEmployeeNumber = async (employeeNumber: string) => {
     where: { employeeNumber }
   });
 };
-
-interface CreateUserParams {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-  company: string;
-  companyCode: string;
-  employeeNumber: string;
-  companyId: bigint;
-}
 
 export const createUser = async (data: CreateUserParams) => {
   return prisma.user.create({
@@ -62,3 +63,17 @@ export const userRepository = {
     }),
 };
 
+export const getMyInfo = async (userId: bigint) => {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phoneNumber: true,
+      company: true,
+      companyCode: true,
+      employeeNumber: true
+    }
+  });
+}
