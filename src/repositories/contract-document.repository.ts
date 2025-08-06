@@ -1,15 +1,16 @@
 import { GetContractListRequest } from '../types/contract-document.type';
 import { FileCreateRequest } from '../types/file.type';
+import { Payload } from '../types/payload.type';
 import { prisma } from '../utils/prisma.util';
 
-// 계약 목록 조희
-export const getContractListWithDocument = async (body: GetContractListRequest, companyId: bigint) => {
+// [계약서 업로드] 시 계약 목록 조회
+export const getContractListWithDocument = async (body: GetContractListRequest, user: Payload) => {
   const { page, pageSize, searchBy, keyword } = body;
 
   const skip = (page - 1) * pageSize;
 
   const where = {
-    companyId,
+    companyId: BigInt(user.companyId),
     ...(keyword && searchBy
       ? {
           [searchBy]: {
@@ -18,6 +19,9 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
           },
         }
       : {}),
+    documents: {
+      some: {},
+    },
   };
 
   const totalItemCount = await prisma.contract.count({
@@ -40,6 +44,11 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
           carNumber: true,
         },
       },
+      user: {
+        select: {
+          name: true,
+        },
+      },
     },
     orderBy: {
       resolutionDate: 'desc',
@@ -50,9 +59,9 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
     id: contract.id,
     contractName: contract.contractName,
     resolutionDate: contract.resolutionDate,
-    documentsCount: contract.documents.length,
-    manager: contract.userId,
-    carNumber: contract.carId,
+    documentCount: contract.documents.length,
+    userName: contract.user.name,
+    carNumber: contract.car.carNumber,
     documents: contract.documents,
   }));
 
@@ -66,9 +75,14 @@ export const getContractListWithDocument = async (body: GetContractListRequest, 
   };
 };
 
-export const getContractList = async (companyId: bigint) => {
+// [계약서 추가] 시 계약 목록 조회
+export const getContractList = async (user: Payload) => {
   const where = {
-    companyId,
+    companyId: BigInt(user.companyId),
+    userId: BigInt(user.id),
+    documents: {
+      none: {},
+    },
   };
 
   const contractList = await prisma.contract.findMany({
@@ -92,17 +106,17 @@ export const getContractList = async (companyId: bigint) => {
 
   return contractList.map((contract) => ({
     id: contract.id,
-    data: `${contract.car.model} - ${contract.customer.name} 고객님`,
+    data: contract.contractName,
   }));
 };
 
-export const createContractDocument = async (fileCreateRequest: FileCreateRequest) => {
+export const createContractDocument = async (fileCreateRequest: FileCreateRequest, _user: Payload) => {
   const createdContractDocument = await prisma.file.create({ data: fileCreateRequest });
 
   return createdContractDocument;
 };
 
 export const getContractDocument = async (contractDocumentId: bigint) =>
-  await prisma.contractDocument.findUnique({
+  await prisma.file.findUnique({
     where: { id: contractDocumentId },
   });

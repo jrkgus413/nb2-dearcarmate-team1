@@ -16,12 +16,7 @@ contractDocument.get('/', allow([USER_ROLE.USER]), handleGetContractDocumentList
 // 계약서 추가 시 계약 목록 조회
 contractDocument.get('/draft', allow([USER_ROLE.USER]), handleGetContractDocumentDraftList);
 // 계약서 업로드
-contractDocument.post(
-  '/upload',
-  allow([USER_ROLE.PUBLIC]),
-  fileUploader.single('contractDocument'),
-  handleUploadContractDocument
-);
+contractDocument.post('/upload', allow([USER_ROLE.USER]), fileUploader.single('file'), handleUploadContractDocument);
 // 계약서 다운로드
 contractDocument.get('/:id/download', allow([USER_ROLE.USER]), handleDownloadContractDocument);
 
