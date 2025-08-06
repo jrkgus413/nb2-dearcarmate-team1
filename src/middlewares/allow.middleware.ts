@@ -26,7 +26,7 @@ export const allow = (roles: USER_ROLE[]) => {
     const payload = verifyAccessToken(accessToken);
 
     setUser(req, payload);
-
+    
     const isAdmin = payload.isAdmin;
 
     // USER
