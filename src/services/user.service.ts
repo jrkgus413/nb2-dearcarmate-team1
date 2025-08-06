@@ -1,6 +1,6 @@
-import { BadRequestError, ConflictError, NotFoundError } from "../types/error.type";
-import * as UserRepository from "../repositories/user.repository"
 import { hash } from "bcrypt";
+import * as UserRepository from '../repositories/user.repository';
+import { BadRequestError, ConflictError, NotFoundError } from '../types/error.type';
 
 interface RegisterUserParams {
   name: string;
@@ -24,6 +24,7 @@ export const registerUser = async (data: RegisterUserParams) => {
   } = data;
 
   const existingCompany = await UserRepository.findCompanyByNameAndCode(company, companyCode);
+
   if (!existingCompany) {
     throw new BadRequestError('기업명과 인증코드가 일치하지 않습니다.');
   }
@@ -74,3 +75,10 @@ export const deleteMyAccount = async (userId: number) => {
 
   await userRepository.softDeleteUser(userId);
 };
+
+// 내 정보 조회
+export const getMyInfo = async (userId: bigint) => {
+  const user = await UserRepository.getMyInfo(userId);
+
+  return user;
+}
