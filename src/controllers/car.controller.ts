@@ -75,7 +75,7 @@ export const uploadCars = async (req: Request, res: Response) => {
     throw new UnauthorizedError();
   }
 
-  await carService.uploadCars(req.csv, BigInt(user.id));
+  await carService.uploadCars(user, req.csv);
 
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
