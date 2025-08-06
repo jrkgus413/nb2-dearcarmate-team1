@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, getContractById } from '../repositories/contracts.repository';
+import { createNewContract, getContractById, updateExistContract } from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
 
@@ -68,9 +68,31 @@ export const updateContract = async (req: Request) => {
     throw new ForbiddenError('담당자만 수정이 가능합니다.');
   }
 
-  console.log(body);
+  const updatedContract = await updateExistContract(contractId, body);
+  if (!updatedContract) {
+    throw new BadRequestError();
+  }
 
-  //const updatedContract = await updateContractWithTransaction(existContract, body);
-
-  return {};
+  return {
+    id: Number(updatedContract.id),
+    status: updatedContract.status,
+    resolutionDate: updatedContract.resolutionDate?.toISOString() ?? null,
+    contractPrice: Number(updatedContract.contractPrice),
+    meetings: updatedContract.meetings.map((meeting) => ({
+      date: meeting.date.toISOString(),
+      alarms: meeting.alarms.map((alarm) => alarm.time.toISOString()),
+    })),
+    user: {
+      id: Number(updatedContract.user.id),
+      name: updatedContract.user.name,
+    },
+    customer: {
+      id: Number(updatedContract.customer.id),
+      name: updatedContract.customer.name,
+    },
+    car: {
+      id: Number(updatedContract.car.id),
+      model: updatedContract.car.model,
+    },
+  };
 };
