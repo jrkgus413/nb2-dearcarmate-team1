@@ -10,6 +10,9 @@ export type CarCreateRequest = {
   explanation?: string;
   accidentDetails?: string;
   type: string;
+  status?: string;
+  isDeleted?: boolean;   
+  deletedAt?: Date | null; 
 };
 
 // 차량 수정 요청 타입
