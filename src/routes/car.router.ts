@@ -2,6 +2,8 @@ import { Router } from 'express';
 import * as carController from '../controllers/car.controller';
 import { csvUploader } from '../utils/uploader';
 import { csvToObject } from '../middlewares/csv-parser.middleware';
+import { allow } from '../middlewares/allow.middleware';
+import { USER_ROLE } from '../enums/user.enum';
 
 const router = Router();
 
@@ -21,7 +23,7 @@ router.patch('/:carId', carController.updateCar);
 router.delete('/:carId', carController.deleteCar);
 
 // 차량 대용량 업로드
-router.post('/upload', csvUploader.single('file'), csvToObject, carController.uploadCars);
+router.post('/upload', allow([USER_ROLE.USER]), csvUploader.single('file'), csvToObject, carController.uploadCars);
 
 // 차량 모델 목록 조회
 router.get('/models', carController.getCarModels);
