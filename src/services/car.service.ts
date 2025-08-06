@@ -15,7 +15,18 @@ export const getCarById = async (id: bigint) => {
 
 // 차량 등록
 export const createCar = async (data: CarCreateRequest, companyId: bigint) => {
-  const dataWithCompanyId = { ...data, companyId };
+  const deletedCar = await carRepo.findDeletedByCarNumber(data.carNumber, companyId);
+
+  if (deletedCar) {
+    return await carRepo.update(deletedCar.id, {
+      ...data,
+      isDeleted: false,
+      deletedAt: null,
+      status: 'possession', // 초기 상태로
+    });
+  }
+
+  const dataWithCompanyId = { ...data, companyId }; 
   return await carRepo.create(dataWithCompanyId);
 };
 

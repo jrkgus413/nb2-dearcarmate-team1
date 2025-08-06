@@ -44,6 +44,17 @@ export const softDelete = (id: bigint) => {
   });
 };
 
+// 차량번호 + 회사ID 기준으로 soft delete된 차량 찾기
+export const findDeletedByCarNumber = async (carNumber: string, companyId: bigint) => {
+  return await prisma.car.findFirst({
+    where: {
+      carNumber,
+      companyId,
+      isDeleted: true,
+    },
+  });
+};
+
 // 차량 대용량 업로드
 export const createMany = async (cars: CarCsvUploadRequest[], companyId: bigint) => {
   const prepared = cars.map((car) => ({
