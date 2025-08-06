@@ -106,7 +106,7 @@ export const getContractList = async (user: Payload) => {
 
   return contractList.map((contract) => ({
     id: contract.id,
-    data: `${contract.car.model} - ${contract.customer.name} 고객님`,
+    data: contract.contractName,
   }));
 };
 

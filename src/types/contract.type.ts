@@ -15,7 +15,7 @@ export type ContractStatus =
 
 export type MeetingRequest = {
   date: Date;
-  alarms: string[];
+  alarms: Date[];
 };
 
 export type ContractDocumentRequest = {
