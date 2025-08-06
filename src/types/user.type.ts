@@ -6,7 +6,7 @@ export type userRegisterRequest = {
   phoneNumber: string;
   password: string;
   passwordConfirmation: string;
-  company: string;
+  companyName: string;
   companyCode: string;
 };
 
