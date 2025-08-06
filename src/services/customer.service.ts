@@ -8,12 +8,10 @@ export const getCustomersList = async (
   {companyId, take, skip, searchBy, keyword}: FindManyArgs
 ) => {
 
-  const findCustomersList = await customerRepo.findAll({companyId, take, skip, searchBy, keyword});
-
-  const totalItemCount = await customerRepo.count({companyId, searchBy, keyword}); 
+  const { findCustomersList, companyCustomerCount } = await customerRepo.findAllWithCount({companyId, take, skip, searchBy, keyword});
 
   return {
-    totalItemCount,
+    totalItemCount:companyCustomerCount,
     data: findCustomersList.map((customer) => ({...customer, contractCount: customer._count.contracts, _count: undefined }))
   };
 };
@@ -23,9 +21,11 @@ export const getCustomerById = async (customerId: bigint) => {
 
   const findCustomer = await customerRepo.findById(customerId);
 
+  if(!findCustomer) return null;
+
   return {
     ...findCustomer,
-    contractCount: findCustomer._count.contracts,
+    contractCount: findCustomer?._count.contracts,
     _count: undefined
   };
 };
@@ -33,11 +33,24 @@ export const getCustomerById = async (customerId: bigint) => {
 // 고객 등록
 export const createCustomer = async (data: CustomerCreateData) => {
 
-  const createdCustomer = await customerRepo.create(data);
+  const deletedCustomerFound = await customerRepo.findDeletedFirst(data.phoneNumber);
+
+  let createdCustomer;
+
+  if( deletedCustomerFound ){
+    createdCustomer = await customerRepo.update(deletedCustomerFound.id, {
+      ...data,
+      isDeleted: false,
+      deletedAt: null
+    });
+  } else {
+    createdCustomer = await customerRepo.create(data);
+  }
 
   return {
     ...createdCustomer,
-    contractCount: 0
+    contractCount: createdCustomer._count.contracts,
+    _count: undefined
   };
 };
 

@@ -1,9 +1,17 @@
 import { prisma } from '../utils/prisma.util';
-import { CountArgs, CustomerCreateData, CustomerCsvUploadRequest, CustomerUpdateData, FindManyArgs, QueryMode } from '../types/customer.type';
+import { CustomerCreateData, CustomerCsvUploadRequest, CustomerUpdateData, FindManyArgs, QueryMode } from '../types/customer.type';
+
+const globalInclude = {
+  _count: {
+    select: {
+      contracts: true
+    }
+  }
+};
 
 // 고객 목록 조회
-export const findAll = async ({ companyId, take, skip, searchBy, keyword }: FindManyArgs) => await prisma.customer.findMany({
-  where: {
+export const findAllWithCount = async ({ companyId, take, skip, searchBy, keyword }: FindManyArgs) => {
+  const where = {
     companyId,
     ...(typeof searchBy === 'string' && keyword !== undefined && {
       [searchBy]: {
@@ -11,67 +19,63 @@ export const findAll = async ({ companyId, take, skip, searchBy, keyword }: Find
         mode: QueryMode.insensitive
       }
     }),
-  },
+    isDeleted:false
+  };
 
-  take,
-  skip,
+  const [findCustomersList, companyCustomerCount] = await Promise.all([
+    prisma.customer.findMany({
+      where,
 
-  include: {
-    _count: {
-      select: {
-        contracts: true
-      }
-    }
-  }
-});
+      take,
+      skip,
+
+      include: globalInclude
+    }),
+    prisma.customer.count({ where })
+  ]);
+
+  return { findCustomersList, companyCustomerCount };
+};
 
 // 고객 상세 정보 조회
-export const findById = async (customerId: bigint) => await prisma.customer.findUniqueOrThrow({
-  where: { id: customerId },
+export const findById = async (customerId: bigint) => await prisma.customer.findUnique({
+  where: { 
+    id: customerId,
+    isDeleted:false
+  },
 
-  include: {
-    _count: {
-      select: {
-        contracts: true
-      }
-    }
+  include: globalInclude
+});
+
+// 삭제된 고객 상세 조회
+export const findDeletedFirst = async (phoneNumber: string) => await prisma.customer.findFirst({
+  where: {
+    phoneNumber,
+    isDeleted:true
   }
 });
 
 // 고객 등록
-export const create = async (data: CustomerCreateData) => await prisma.customer.create({data});
+export const create = async (data: CustomerCreateData) => await prisma.customer.create({ data, include: globalInclude });
 
 // 고객 수정
 export const update = async (customerId: bigint, data: CustomerUpdateData) => await prisma.customer.update({
-  where:{ id:customerId },
+  where: { id: customerId },
   data,
-  include:{
-    _count:{
-      select:{
-        contracts: true
-      }
-    }
-  }
+  include: globalInclude
 });
 
 // 고객 삭제
-export const remove = async (customerId: bigint) => await prisma.customer.delete({where: {id: customerId}});
-
-export const count = async({ companyId, searchBy, keyword }: CountArgs) => {
-  const allCustomersCount = await prisma.customer.count({
-    where: {
-      companyId,
-      ...(typeof searchBy === 'string' && keyword !== undefined && {
-        [searchBy]: {
-          contains: keyword,
-          mode: QueryMode.insensitive
-        }
-      }),
+export const remove = async (customerId: bigint) =>
+  await prisma.customer.update({
+    where: {id: customerId},
+    data:{
+      isDeleted: true,
+      deletedAt: new Date()
     }
-  });
-
-  return allCustomersCount;
-}
+  }
+);
+//await prisma.customer.delete({ where: { id: customerId } });
 
 // 고객 대용량 업로드
 export const createMany = async (data: CustomerCsvUploadRequest[]) =>

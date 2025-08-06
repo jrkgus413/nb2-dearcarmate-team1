@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as customerService from '../services/customer.service';
 import { getUser } from '../utils/user.util';
-import { BadRequestError } from '../types/error.type';
+import { BadRequestError, NotFoundError } from '../types/error.type';
+import { Prisma } from '@prisma/client';
 
 // 고객 목록 조회
 export const getCustomersList = async (
@@ -68,6 +69,10 @@ export const getCustomerById: RequestHandler = async (req, res, next) => {
     const customerId = BigInt(req.params.customerId);
     const customerObj = await customerService.getCustomerById(customerId);
 
+    if(!customerObj) {
+      throw new NotFoundError("존재하지 않는 고객입니다");
+    }
+
     res.status(200).json(customerObj);
   } catch (err) {
     next(err);
@@ -87,6 +92,11 @@ export const createCustomer: RequestHandler = async (req, res, next) => {
 
     res.status(201).json(createdCustomerObj);
   } catch (err) {
+    if(err instanceof Prisma.PrismaClientKnownRequestError){
+      if(err.code === 'P2002'){ // unique constraint failed!
+        throw new BadRequestError("이메일나 전화번호가 이미 존재합니다.");
+      }
+    }
     next(err);
   }
 };

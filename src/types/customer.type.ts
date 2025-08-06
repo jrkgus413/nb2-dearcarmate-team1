@@ -35,6 +35,8 @@ export type CustomerCsvUploadRequest = {
 type Modify<T, R> = Omit<T, keyof R> & R;
 
 export type CustomerCreateData = Modify<CustomerCsvUploadRequest, {
+  ageGroup?: AgeGroup;
+  region?: Region;
   memo?: string | null;
 }>;
 
@@ -42,9 +44,9 @@ export type CustomerUpdateData = Modify<CustomerCreateData, {
   name?: string;
   gender?: Gender;
   phoneNumber?: string;
-  ageGroup?: AgeGroup;
-  region?: Region;
   email?: string;
+  isDeleted?: boolean;
+  deletedAt?: Date | null;
 }>
 
 export type FindManyArgs = {
@@ -54,8 +56,6 @@ export type FindManyArgs = {
   searchBy?: string;
   keyword?: string;
 };
-
-export type CountArgs = Omit<FindManyArgs, 'take' | 'skip'>;
 
 export const QueryMode = {
   default: 'default',
