@@ -1,23 +1,55 @@
 import { Request, Response } from 'express';
 import * as carService from '../services/car.service';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../types/error.type';
+import { getUser } from '../utils/user.util';
+import { prisma } from '../utils/prisma.util';
 
 function convertBigIntToNumber(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(convertBigIntToNumber);
   } else if (obj !== null && typeof obj === 'object') {
-    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, convertBigIntToNumber(value)]));
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [key, convertBigIntToNumber(value)])
+    );
   } else if (typeof obj === 'bigint') {
-    // 만약 엄청 큰 숫자라면 Number 대신 String으로 변환할 수도 있음!
     return Number(obj);
   }
   return obj;
 }
 
 // 전체 차량 조회
-export const getAllCars = async (_req: Request, res: Response) => {
-  const cars = await carService.getAllCars();
-  res.status(200).json(convertBigIntToNumber(cars));
+export const getAllCars = async (req: Request, res: Response) => {
+  const user = getUser(req);
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+
+  const [cars, totalCount] = await Promise.all([
+    prisma.car.findMany({
+      where: {
+        isDeleted: false,
+        companyId: BigInt(user.companyId),
+      },
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.car.count({
+      where: {
+        isDeleted: false,
+        companyId: BigInt(user.companyId),
+      },
+    }),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  return res.status(200).json({
+    currentPage: page,
+    totalPages,
+    totalItemCount: totalCount,
+    data: cars,
+  });
 };
 
 // 차량 단건 조회
@@ -38,8 +70,8 @@ export const createCar = async (req: Request, res: Response) => {
     throw new BadRequestError('필수 값이 누락되었습니다.');
   }
 
-  if (!req.user) throw new UnauthorizedError();
-  const companyId = BigInt(req.user.companyId);
+  const user = getUser(req);
+  const companyId = BigInt(user.companyId);
 
   const created = await carService.createCar(data, companyId);
   res.status(201).json(convertBigIntToNumber(created));
@@ -50,11 +82,19 @@ export const updateCar = async (req: Request, res: Response) => {
   const id = BigInt(req.params.carId);
   const data = req.body;
 
+  const user = getUser(req);
   const existing = await carService.getCarById(id);
-  if (!existing) throw new NotFoundError('존재하지 않는 차량입니다');
+
+  if (!existing || existing.isDeleted) {
+    throw new NotFoundError('존재하지 않는 차량입니다');
+  }
+
+  if (BigInt(existing.companyId) !== BigInt(user.companyId)) {
+    throw new UnauthorizedError('해당 차량을 수정할 권한이 없습니다');
+  }
 
   const updated = await carService.updateCar(id, data);
-  res.status(201).json(convertBigIntToNumber(updated));
+  res.status(200).json(convertBigIntToNumber(updated));
 };
 
 // 차량 삭제
@@ -70,13 +110,9 @@ export const deleteCar = async (req: Request, res: Response) => {
 
 // 차량 대용량 업로드
 export const uploadCars = async (req: Request, res: Response) => {
-  const user = req.user;
-  if (!user) {
-    throw new UnauthorizedError();
-  }
+  const user = getUser(req);
 
   await carService.uploadCars(user, req.csv);
-
   res.status(200).json({ message: '성공적으로 등록되었습니다.' });
 };
 
@@ -85,6 +121,7 @@ export const getCarModels = async (_req: Request, res: Response) => {
   const carModels: { manufacturer: string; model: string }[] = await carService.getCarModels();
 
   const grouped: Record<string, Set<string>> = carModels.reduce((acc: Record<string, Set<string>>, car) => {
+    if (!car.manufacturer || !car.model) return acc;
     if (!acc[car.manufacturer]) {
       acc[car.manufacturer] = new Set();
     }
