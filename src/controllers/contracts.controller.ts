@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createContract, deleteContract, getCarListForContract, updateContract } from '../services/contracts.service';
+import { createContract, deleteContract, getCarListForContract, getContractList, updateContract } from '../services/contracts.service';
 
 export const handleCreateContract = async (req: Request, res: Response) => {
   const body = await createContract(req);
@@ -12,6 +12,13 @@ export const handleUpdateContract = async (req: Request, res: Response) => {
 
   res.status(200).json(body);
 };
+
+
+export const handleGetContracts = async (req: Request, res: Response) => {
+  const result = await getContractList(req);
+  res.status(200).json(result);
+};
+
 
 // TODO : handleDeleteContract
 export const handleDeleteContract = async (req: Request, res: Response) => {
@@ -26,3 +33,5 @@ export const handleGetCarListForContract = async (req: Request, res: Response) =
 
   res.status(200).json(body);
 };
+
+
