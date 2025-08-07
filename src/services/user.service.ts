@@ -66,6 +66,7 @@ export const registerUser = async (data: RegisterUserParams) => {
   };
 };
 
+//회원 탈퇴 
 const { userRepository } = UserRepository;
 
 export const deleteMyAccount = async (userId: number) => {
@@ -74,7 +75,6 @@ export const deleteMyAccount = async (userId: number) => {
 
   await userRepository.softDeleteUser(userId);
 };
-
 
 // 내 정보 조회
 export const getMyInfo = async (userId: bigint) => {

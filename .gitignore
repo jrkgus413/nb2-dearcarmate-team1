@@ -148,3 +148,5 @@ generated/
 prisma/migrations/
 prisma/schema.prisma
 service-account-key.json
+
+docker-compose.yml 
