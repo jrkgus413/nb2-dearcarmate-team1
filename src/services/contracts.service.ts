@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, getContractById, updateExistContract } from '../repositories/contracts.repository';
+import { createNewContract, deleteExistContract, getContractById, updateExistContract } from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
 
@@ -94,5 +94,38 @@ export const updateContract = async (req: Request) => {
       id: Number(updatedContract.car.id),
       model: updatedContract.car.model,
     },
+  };
+};
+
+// TODO : deleteContract
+export const deleteContract = async (req: Request) => {
+  const user = getUser(req);
+  
+  // 1. 어떤 계약(contract)을 지우는가 -> 지울 계약의 id 가 필요
+  // localhost:3001/contracts/1
+  // app.use('/:id', ~~~~);
+  // parameters = {id, *, * ...}
+  const contractId = BigInt(req.params.id);
+
+  // 1.1. 해당 계약이 존재하는지 -> 아니면 404
+  const existContract = await getContractById(contractId);
+  if (!existContract) {
+    throw new NotFoundError('존재하지 않는 계약입니다.');
+  }
+
+  // 1.2. 해당 계약의 담당자가 지금 로그인한 유저 인지 -> 아니면 403
+  const isUserContractManager = BigInt(user.id) === existContract.userId;
+  if (!isUserContractManager) {
+    throw new ForbiddenError('담당자만 삭제가 가능합니다.');
+  }
+  
+
+  // 2. soft delete 를 하기 위해서는 무엇을 해야 하는가
+  // soft : deletedAt, isDeleted 만 업데이트 해주면 됨.
+  await deleteExistContract(contractId);
+
+  // 3. 삭제하고 나서 뭐라고 보내줘야 하나?
+  return {
+    message: '계약 삭제 성공'
   };
 };
