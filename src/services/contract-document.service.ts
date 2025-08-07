@@ -44,7 +44,12 @@ export const uploadContractDocument = async (file: Express.Multer.File, user: Pa
     blobStream.on('finish', async () => {
       try {
         await blob.makePublic();
-        const url = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        const parts = blob.name.split('/');
+        const fileName = parts.pop()!;
+        const directoryName = parts.join('/');
+        const encodedFileName = encodeURIComponent(fileName);
+
+        const url = `https://storage.googleapis.com/${bucket.name}/${directoryName}/${encodedFileName}`;
 
         const name = file.originalname;
         const ext = file.originalname.split('.').pop() || '';

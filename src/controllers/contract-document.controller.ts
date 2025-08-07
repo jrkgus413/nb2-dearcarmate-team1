@@ -7,6 +7,7 @@ import {
 } from '../services/contract-document.service';
 import { getUser } from '../utils/user.util';
 import { getFile } from '../utils/file.util';
+import { BadRequestError } from '../types/error.type';
 
 export const handleGetContractDocumentList = async (req: Request, res: Response) => {
   const user = getUser(req);
@@ -36,7 +37,10 @@ export const handleDownloadContractDocument = async (req: Request<{ id: string }
   //const user = getUser(req);
   const { id } = req.params;
 
-  await downloadContractDocument(id);
+  const downloadableContractDocument = await downloadContractDocument(id);
+  if (!downloadableContractDocument) {
+    throw new BadRequestError('업로드된 문서가 없습니다.');
+  }
 
-  res.status(200).json({ message: '계약서 다운로드 성공' });
+  res.status(200).json({ url: downloadableContractDocument.url, message: '계약서 다운로드 성공' });
 };
