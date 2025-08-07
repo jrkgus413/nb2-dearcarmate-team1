@@ -75,6 +75,7 @@ export const deleteMyAccount = async (userId: number) => {
   await userRepository.softDeleteUser(userId);
 };
 
+
 // 내 정보 조회
 export const getMyInfo = async (userId: bigint) => {
   const user = await UserRepository.getMyInfo(userId);
