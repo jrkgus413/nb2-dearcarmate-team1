@@ -338,3 +338,11 @@ export const findCarListNoContract = async (companyId: bigint) => {
   });
 
 };
+
+export const findCustomerListWithCompanyId= async (companyId: bigint) => {
+  return await prisma.customer.findMany({
+    where:{
+      companyId,
+    }
+  });
+};
