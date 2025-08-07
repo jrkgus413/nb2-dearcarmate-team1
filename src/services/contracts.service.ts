@@ -104,7 +104,7 @@ export const getContractList = async (req: Request) => {
   const companyId = BigInt(user.companyId);
   const { searchBy, keyword } = req.query;
 
-  const statuses = ['carInspection', 'priceNegotiation', 'contractSuccess', 'contractFailed'];
+  const statuses = ['carInspection', 'priceNegotiation', 'contractDraft', 'contractSuccessful', 'contractFailed'];
 
   const result: Record<string, any> = {};
 
