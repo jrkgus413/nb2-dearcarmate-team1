@@ -10,4 +10,8 @@ router.post('/', UserController.register);
 //내 정보 조회
 router.get('/me', allow([USER_ROLE.USER]), UserController.getMyInfo);
 
+//회원 탈퇴 
+router.delete('/me', allow([USER_ROLE.USER]), UserController.deleteMyAccount);
+
 export default router;
+

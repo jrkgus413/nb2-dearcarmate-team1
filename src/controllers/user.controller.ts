@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import { getUser } from '../utils/user.util';
+import { registerUser } from '../services/user.service';
 import { BadRequestError, NotFoundError } from '../types/error.type';
-import * as UserService from '../services/user.service';
-import { userRepository } from '../repositories/user.repository';
+import * as UserService from '../services/user.service'
+import { getUser } from '../utils/user.util';
+
 
 export const register = async (req: Request, res: Response) => {
   const {
@@ -24,7 +25,7 @@ export const register = async (req: Request, res: Response) => {
     throw new BadRequestError('비밀번호와 비밀번호 확인이 일치하지 않습니다');
   }
 
-  const user = await UserService.registerUser({
+  const user = await registerUser({
     name,
     email,
     phoneNumber,
@@ -37,18 +38,16 @@ export const register = async (req: Request, res: Response) => {
   res.status(201).json(user);
 };
 
+//회원 탈퇴 (soft delete)
+export const deleteMyAccount = async (req: Request, res: Response) => {
+  const { id } = getUser(req);
+  const userId = Number(id);
 
-// 회원 탈퇴 (soft delete)
-export const deleteMyAccount = async (userId: number): Promise<void> => {
-  // 1) (선택) 사용자 존재 여부 확인
-  const existingUser = await userRepository.getUserById(userId);
-  if (!existingUser) {
-    throw new NotFoundError('유저가 존재하지 않습니다.');
-  }
-
-  // 2) soft delete 처리
-  await userRepository.softDeleteUser(userId);
-};
+  await UserService.deleteMyAccount(userId);
+  return res
+    .status(200)
+    .json({ message: '정상적으로 회원 탈퇴되었습니다.' });
+}
 
 // 내 정보 조회
 export const getMyInfo = async (req: Request, res: Response) => {
@@ -62,3 +61,4 @@ export const getMyInfo = async (req: Request, res: Response) => {
 
   res.status(200).json(userInfo);
 };
+
