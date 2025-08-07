@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, deleteExistContract, getContractById, updateExistContract } from '../repositories/contracts.repository';
+import { createNewContract, deleteExistContract, findCarListNoContract, getContractById, updateExistContract } from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
 
@@ -128,4 +128,32 @@ export const deleteContract = async (req: Request) => {
   return {
     message: '계약 삭제 성공'
   };
+};
+
+export const getCarListForContract = async (req: Request) => {
+  // 로직
+  // 1. 자동차 목록을 받아와야 함.
+  // - 회사마다 소유한 자동차가 다름.
+  // - 계약이 없는 자동차만 보여야 함.
+  const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
+  // const userId = BigInt(user.id);
+  const companyId = BigInt(user.companyId);
+
+  const carList = await findCarListNoContract(companyId);
+
+  // 2. 형식이 정해져있음
+  // - id : carId
+  // - data : "${car.model}(${car.carNumber})"
+  const formattedCarList:{ id:bigint, data:string }[] = [];
+  for (const car of carList){
+    formattedCarList.push(
+      {
+        id: car.id,
+        data: `${car.model}(${car.carNumber})`
+      }
+    );
+  }
+
+  // 3. 반환
+  return formattedCarList;
 };

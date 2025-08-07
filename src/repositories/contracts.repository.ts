@@ -323,3 +323,18 @@ export const deleteExistContract = async (contractId: bigint) => {
     }
   });
 };
+
+export const findCarListNoContract = async (companyId: bigint) => {
+  // - 회사마다 소유한 자동차가 다름.
+  // - 계약이 없는 자동차만 보여야 함.
+
+  return await prisma.car.findMany({
+    where:{
+      companyId,
+      contracts : {
+        none:{}
+      }
+    }
+  });
+
+};
