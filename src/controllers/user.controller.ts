@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import { registerUser } from '../services/user.service';
+import { BadRequestError } from '../types/error.type';
+import * as UserService from '../services/user.service'
 import { getUser } from '../utils/user.util';
-import { BadRequestError, NotFoundError } from '../types/error.type';
-import * as UserService from '../services/user.service';
-import { userRepository } from '../repositories/user.repository';
+import { UserUpdateRequest } from '../types/user.type';
 
 export const register = async (req: Request, res: Response) => {
   const {
@@ -24,7 +25,7 @@ export const register = async (req: Request, res: Response) => {
     throw new BadRequestError('비밀번호와 비밀번호 확인이 일치하지 않습니다');
   }
 
-  const user = await UserService.registerUser({
+  const user = await registerUser({
     name,
     email,
     phoneNumber,
@@ -37,28 +38,41 @@ export const register = async (req: Request, res: Response) => {
   res.status(201).json(user);
 };
 
+//회원 탈퇴 (soft delete)
+export const deleteMyAccount = async (req: Request, res: Response) => {
+  const { id } = getUser(req);
+  const userId = Number(id);
 
-// 회원 탈퇴 (soft delete)
-export const deleteMyAccount = async (userId: number): Promise<void> => {
-  // 1) (선택) 사용자 존재 여부 확인
-  const existingUser = await userRepository.getUserById(userId);
-  if (!existingUser) {
-    throw new NotFoundError('유저가 존재하지 않습니다.');
-  }
-
-  // 2) soft delete 처리
-  await userRepository.softDeleteUser(userId);
-};
+  await UserService.deleteMyAccount(userId);
+  return res
+    .status(200)
+    .json({ message: '정상적으로 회원 탈퇴되었습니다.' });
+}
 
 // 내 정보 조회
 export const getMyInfo = async (req: Request, res: Response) => {
   const { id } = getUser(req);
   const userId = BigInt(id);
 
-  const userInfo = await UserService.getMyInfo(userId);
-  if (!userInfo) {
-    throw new NotFoundError('사용자 정보를 찾을 수 없습니다.');
-  }
+  const user = await UserService.getMyInfo(userId);
 
-  res.status(200).json(userInfo);
+  res.status(200).json(user);
+};
+
+// 내 정보 수정
+export const updateMyInfo = async (req: Request, res: Response) => {
+  const { id } = getUser(req);
+  const { employeeNumber, phoneNumber, currentPassword, password, passwordConfirmation, imageUrl }: UserUpdateRequest = req.body;
+  const userId = BigInt(id);
+
+  const user = await UserService.updateMyInfo(userId, {
+    employeeNumber,
+    phoneNumber,
+    currentPassword,
+    password,
+    passwordConfirmation,
+    imageUrl
+  });
+
+  res.status(200).json(user);
 };

@@ -100,6 +100,86 @@ export const createNewContract = async (
   return createdContract;
 };
 
+// 계약 목록 조회
+export const getContractList = async ({
+  companyId,
+  status,
+  searchBy,
+  keyword,
+}: {
+  companyId: bigint;
+  status: string;
+  searchBy?: string;
+  keyword?: string;
+}) => {
+  const whereClause: Prisma.ContractWhereInput = {
+    companyId,
+    status,
+    isDeleted: false,
+  };
+
+  if (searchBy === 'customerName' && keyword) {
+    whereClause.customer = {
+      name: {
+        contains: keyword,
+      },
+    };
+  }
+
+  if (searchBy === 'userName' && keyword) {
+    whereClause.user = {
+      name: {
+        contains: keyword,
+      },
+    };
+  }
+
+  const contracts = await prisma.contract.findMany({
+    where: whereClause,
+    include: {
+      car: {
+        select: {
+          id: true,
+          model: true,
+        },
+      },
+      customer: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      meetings: {
+        select: {
+          date: true,
+          alarms: {
+            select: {
+              time: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 5,
+  });
+
+  const totalItemCount = await prisma.contract.count({
+    where: whereClause,
+  });
+
+  return {
+    totalItemCount,
+    contracts,
+  };
+};
+
 export const getContractById = async (contractId: bigint) =>
   await prisma.contract.findUnique({
     where: { id: contractId },

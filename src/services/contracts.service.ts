@@ -1,9 +1,10 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, deleteExistContract, findCarListNoContract, findCustomerListWithCompanyId, getContractById, updateExistContract } from '../repositories/contracts.repository';
+import { createNewContract, deleteExistContract, findCarListNoContract,findCustomerListWithCompanyId, getContractById, updateExistContract, getContractList as fetchContractsByStatus } from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
+
 
 export const createContract = async (req: Request) => {
   const user: Payload = getUser(req);
@@ -97,6 +98,54 @@ export const updateContract = async (req: Request) => {
   };
 };
 
+// 계약 목록 조회
+export const getContractList = async (req: Request) => {
+  const user: Payload = getUser(req);
+  const companyId = BigInt(user.companyId);
+  const { searchBy, keyword } = req.query;
+
+  const statuses = ['carInspection', 'priceNegotiation', 'contractDraft', 'contractSuccessful', 'contractFailed'];
+
+  const result: Record<string, any> = {};
+
+  for (const status of statuses) {
+    const { totalItemCount, contracts } = await fetchContractsByStatus({
+      companyId,
+      status,
+      searchBy: searchBy as string | undefined,
+      keyword: keyword as string | undefined,
+    });
+
+    result[status] = {
+      totalItemCount,
+      data: contracts.map((contract: any) => ({
+        id: Number(contract.id),
+        car: {
+          id: Number(contract.car.id),
+          model: contract.car.model,
+        },
+        customer: {
+          id: Number(contract.customer.id),
+          name: contract.customer.name,
+        },
+        user: {
+          id: Number(contract.user.id),
+          name: contract.user.name,
+        },
+        meetings: contract.meetings.map((m: any) => ({
+          date: m.date,
+          alarms: m.alarms.map((a: any) => a.time),
+        })),
+        contractPrice: Number(contract.contractPrice ?? 0),
+        resolutionDate: contract.resolutionDate ?? null,
+        status: contract.status,
+      })),
+    };
+  }
+
+  return result;
+};
+
 // TODO : deleteContract
 export const deleteContract = async (req: Request) => {
   const user = getUser(req);
@@ -157,7 +206,6 @@ export const getCarListForContract = async (req: Request) => {
   // 3. 반환
   return formattedCarList;
 };
-
 
 
 export const getCustomerListForContract = async (req: Request) => {

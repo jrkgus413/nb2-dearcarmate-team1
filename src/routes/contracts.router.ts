@@ -1,7 +1,8 @@
 import express from 'express';
 import { allow } from '../middlewares/allow.middleware';
 import { USER_ROLE } from '../enums/user.enum';
-import { handleCreateContract,  handleDeleteContract,  handleGetCarListForContract,  handleGetCustomerListForContract,  handleUpdateContract } from '../controllers/contracts.controller';
+import { handleCreateContract,  handleDeleteContract,  handleGetCarListForContract,  handleUpdateContract, handleGetContracts,  handleGetCustomerListForContract, } from '../controllers/contracts.controller';
+
 
 const contracts = express.Router(); //ROUTE + -ER
 
@@ -11,6 +12,7 @@ contracts.patch('/:id', allow([USER_ROLE.USER]), handleUpdateContract);
 contracts.delete('/:id', allow([USER_ROLE.USER]), handleDeleteContract);
 // TODO: 계약용 차량 목록
 contracts.get('/cars', allow([USER_ROLE.USER]), handleGetCarListForContract);
+contracts.get('/', allow([USER_ROLE.USER]), handleGetContracts); // GET /contracts
 
 //TODO: 계약용 유저 목록 조회
 contracts.get('/customers', allow([USER_ROLE.USER]), handleGetCustomerListForContract);
