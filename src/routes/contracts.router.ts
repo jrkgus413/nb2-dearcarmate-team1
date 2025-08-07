@@ -3,7 +3,6 @@ import { allow } from '../middlewares/allow.middleware';
 import { USER_ROLE } from '../enums/user.enum';
 import { handleCreateContract,  handleDeleteContract,  handleGetCarListForContract,  handleUpdateContract, handleGetContracts,  handleGetCustomerListForContract, } from '../controllers/contracts.controller';
 
-
 const contracts = express.Router(); //ROUTE + -ER
 
 contracts.post('/', allow([USER_ROLE.USER]), handleCreateContract); // ROUTE & ENDPOINT
