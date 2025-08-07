@@ -306,3 +306,35 @@ export const updateExistContract = async (contractId: bigint, request: UpdateCon
 
   return updatedExistContract;
 };
+
+// TODO : 계정 삭제(soft)
+// repositoy : 저장소, 데이터베이스 접근 하는 코드
+export const deleteExistContract = async (contractId: bigint) => {
+  // 1. deletedAt, isDeleted 를 업데이트 하면 된다.
+  return await prisma.contract.update({
+    // WHERE : contractId 기반으로 찾음
+    where:{
+      id: contractId,
+    },
+    // DATA : 어떤 데이터가 업데이트 될 것인지 작성
+    data:{
+      deletedAt: new Date(),
+      isDeleted: true,
+    }
+  });
+};
+
+export const findCarListNoContract = async (companyId: bigint) => {
+  // - 회사마다 소유한 자동차가 다름.
+  // - 계약이 없는 자동차만 보여야 함.
+
+  return await prisma.car.findMany({
+    where:{
+      companyId,
+      contracts : {
+        none:{}
+      }
+    }
+  });
+
+};
