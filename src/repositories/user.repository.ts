@@ -1,3 +1,4 @@
+import { UserUpdateRequest } from '../types/user.type';
 import { prisma } from '../utils/prisma.util';
 
 interface CreateUserParams {
@@ -63,16 +64,34 @@ export const userRepository = {
 };
 
 export const getMyInfo = async (userId: bigint) => {
-  return prisma.user.findUnique({
+  return await prisma.user.findUnique({
     where: { id: userId },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phoneNumber: true,
-      company: true,
-      companyCode: true,
-      employeeNumber: true
+    include: {
+      affiliatedCompany: {
+        select: {
+          companyCode: true
+        }
+      }
     }
   });
 }
+
+export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: {
+      employeeNumber: data.employeeNumber,
+      phoneNumber: data.phoneNumber,
+      password: data.password,
+      image_url: data.imageUrl
+    },
+    include: {
+      affiliatedCompany: {
+        select: {
+          companyCode: true
+        }
+      }
+    }
+  });
+}
+

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { registerUser } from '../services/user.service';
-import { BadRequestError, NotFoundError } from '../types/error.type';
+import { BadRequestError } from '../types/error.type';
 import * as UserService from '../services/user.service'
 import { getUser } from '../utils/user.util';
-
+import { UserUpdateRequest } from '../types/user.type';
 
 export const register = async (req: Request, res: Response) => {
   const {
@@ -54,11 +54,25 @@ export const getMyInfo = async (req: Request, res: Response) => {
   const { id } = getUser(req);
   const userId = BigInt(id);
 
-  const userInfo = await UserService.getMyInfo(userId);
-  if (!userInfo) {
-    throw new NotFoundError('사용자 정보를 찾을 수 없습니다.');
-  }
+  const user = await UserService.getMyInfo(userId);
 
-  res.status(200).json(userInfo);
+  res.status(200).json(user);
 };
 
+// 내 정보 수정
+export const updateMyInfo = async (req: Request, res: Response) => {
+  const { id } = getUser(req);
+  const { employeeNumber, phoneNumber, currentPassword, password, passwordConfirmation, imageUrl }: UserUpdateRequest = req.body;
+  const userId = BigInt(id);
+
+  const user = await UserService.updateMyInfo(userId, {
+    employeeNumber,
+    phoneNumber,
+    currentPassword,
+    password,
+    passwordConfirmation,
+    imageUrl
+  });
+
+  res.status(200).json(user);
+};
