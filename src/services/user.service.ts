@@ -65,7 +65,6 @@ export const registerUser = async (data: RegisterUserParams) => {
   };
 };
 
-//회원 탈퇴 서비스, 함수 만들기 
 const { userRepository } = UserRepository;
 
 export const deleteMyAccount = async (userId: number) => {

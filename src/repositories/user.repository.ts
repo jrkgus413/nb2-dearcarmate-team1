@@ -51,7 +51,6 @@ export const userRepository = {
   getUserById: (userId: number) =>
     prisma.user.findUnique({ where: { id: userId } }),
 
-  // 여기 추가!
   softDeleteUser: (userId: number) =>
     prisma.user.update({
       where: { id: userId },
