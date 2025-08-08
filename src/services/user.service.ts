@@ -69,13 +69,13 @@ export const registerUser = async (data: RegisterUserParams) => {
 };
 
 //회원 탈퇴 
-const { userRepository } = UserRepository;
+const { removeAccount } = UserRepository;
 
 export const deleteMyAccount = async (userId: number) => {
-  const existingUser = await userRepository.getUserById(userId);
+  const existingUser = await removeAccount.getUserById(userId);
   if (!existingUser) throw new NotFoundError('유저가 존재하지 않습니다.');
 
-  await userRepository.softDeleteUser(userId);
+  await removeAccount.softDeleteUser(userId);
 };
 
 // 내 정보 조회
@@ -143,3 +143,13 @@ export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
     },
   };
 }
+
+//유저 삭제 
+const { deleteUser } = UserRepository
+export const deleteUserAsAdmin = async (userId: number) => {
+  console.log("서비스에서 받은 userId:", userId, typeof userId);
+  const existingUser = await deleteUser.getUserById(userId);
+  if (!existingUser) throw new NotFoundError('유저가 존재하지 않습니다.');
+
+  await deleteUser.softDeleteUser(userId);
+};

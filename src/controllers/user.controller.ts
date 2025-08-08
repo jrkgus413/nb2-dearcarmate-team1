@@ -76,3 +76,14 @@ export const updateMyInfo = async (req: Request, res: Response) => {
 
   res.status(200).json(user);
 };
+
+//유저 삭제 
+export const deleteUserAsAdmin = async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+  console.log("삭제 요청으로 들어온 userId:", req.params.userId);
+
+  await UserService.deleteUserAsAdmin(userId);
+  return res
+    .status(200)
+    .json({ message: '정상적으로 유저 삭제 되었습니다.' });
+};
