@@ -44,7 +44,7 @@ export const handleGetCustomerListForContract = async (req: Request, res: Respon
 };
 
 //TODO: handleGetusersListForContract
-export const handleGetusersListForContract = async (req: Request, res: Response) => {
+export const handleGetUserListForContract = async (req: Request, res: Response) => {
   const body = await getusersListForContract(req);
 
   res.status(200).json(body);
