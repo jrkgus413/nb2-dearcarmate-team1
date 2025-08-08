@@ -426,3 +426,11 @@ export const findCustomerListWithCompanyId= async (companyId: bigint) => {
     }
   });
 };
+
+export const findusersListWithCompanyId= async (companyId: bigint) => {
+  return await prisma.user.findMany({
+    where:{
+      companyId,
+    }
+  });
+};
