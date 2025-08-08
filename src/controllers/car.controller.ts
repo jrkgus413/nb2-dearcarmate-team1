@@ -3,6 +3,7 @@ import * as carService from '../services/car.service';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../types/error.type';
 import { getUser } from '../utils/user.util';
 import { prisma } from '../utils/prisma.util';
+import { Manufacturer, manufacturerModels } from '../types/car.type';
 
 function convertBigIntToNumber(obj: any): any {
   if (Array.isArray(obj)) {
@@ -117,21 +118,12 @@ export const uploadCars = async (req: Request, res: Response) => {
 };
 
 // 차량 모델 목록 조회
-export const getCarModels = async (_req: Request, res: Response) => {
-  const carModels: { manufacturer: string; model: string }[] = await carService.getCarModels();
+export const getCarModels = (_req: Request, res: Response) => {
+  const manufacturers: Manufacturer[] = Object.keys(manufacturerModels) as Manufacturer[];
 
-  const grouped: Record<string, Set<string>> = carModels.reduce((acc: Record<string, Set<string>>, car) => {
-    if (!car.manufacturer || !car.model) return acc;
-    if (!acc[car.manufacturer]) {
-      acc[car.manufacturer] = new Set();
-    }
-    acc[car.manufacturer].add(car.model);
-    return acc;
-  }, {});
-
-  const result = Object.entries(grouped).map(([manufacturer, modelSet]) => ({
+  const result = manufacturers.map((manufacturer) => ({
     manufacturer,
-    model: Array.from(modelSet),
+    model: manufacturerModels[manufacturer],
   }));
 
   res.status(200).json({ data: result });
