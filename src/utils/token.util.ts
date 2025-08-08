@@ -7,7 +7,7 @@ import ENV from './env.util';
 
 // ACCESS_TOKEN 생성
 export const generateAccessToken = (payload: Payload): string => {
-  const { exp, ...other } = payload;
+  const { iat, exp, ...other } = payload;
   const expiresIn = ENV.ACCESS_EXPIRY_VALUE + ENV.ACCESS_EXPIRY_UNIT;
 
   return jwt.sign(other, ENV.ACCESS_SECRET_KEY, { expiresIn });
@@ -15,7 +15,7 @@ export const generateAccessToken = (payload: Payload): string => {
 
 // REFRESH_TOKEN 생성
 export const generateRefreshToken = (payload: Payload): string => {
-  const { exp, ...other } = payload;
+  const { iat, exp, ...other } = payload;
   const expiresIn = ENV.REFRESH_EXPIRY_VALUE + ENV.REFRESH_EXPIRY_UNIT;
 
   return jwt.sign(other, ENV.REFRESH_SECRET_KEY, { expiresIn });
