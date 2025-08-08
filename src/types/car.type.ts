@@ -1,11 +1,18 @@
-export const MANUFACTURERS = [
-  '현대', '기아', 'BMW', '벤츠', '쉐보레',
-  '아우디', '폭스바겐', '도요타', '테슬라', '르노', '볼보', '지프',
-] as const;
+export type Manufacturer =
+  | '현대'
+  | '기아'
+  | 'BMW'
+  | '벤츠'
+  | '쉐보레'
+  | '아우디'
+  | '폭스바겐'
+  | '도요타'
+  | '테슬라'
+  | '르노'
+  | '볼보'
+  | '지프';
 
-export type Manufacturer = (typeof MANUFACTURERS)[number];
-
-export const CAR_MODELS: Record<Manufacturer, string[]> = {
+  export const manufacturerModels: Record<Manufacturer, string[]> = {
   현대: ['아반떼', '쏘나타', '그랜저', '투싼', '베뉴', '싼타페', '팰리세이드', '아이오닉5', '아이오닉6'],
   기아: ['K3', 'K5', 'K7', 'K9', 'K8', '스포티지', '쏘렌토토', '셀토스', 'EV6'],
   BMW: ['320i', '520d', 'X5'],
@@ -20,13 +27,12 @@ export const CAR_MODELS: Record<Manufacturer, string[]> = {
   지프: ['랭글러', '체로키', '그랜드 체로키'],
 };
 
-export type Model = (typeof CAR_MODELS)[Manufacturer][number];
 
 // 차량 등록 요청 타입
 export type CarCreateRequest = {
   carNumber: string;
   manufacturer: Manufacturer;
-  model: Model;
+  model:( typeof  manufacturerModels)[Manufacturer][number];
   manufacturingYear: number;
   mileage: number;
   price: number;
