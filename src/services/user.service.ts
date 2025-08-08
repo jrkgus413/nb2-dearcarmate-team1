@@ -120,12 +120,15 @@ export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
   // 사원번호 중복 확인
   if (data.employeeNumber) {
     const existingUser = await UserRepository.findUserByEmployeeNumber(data.employeeNumber);
-    if (existingUser && existingUser.companyCode !== user.companyCode && existingUser.id !== userId) {
+    if (existingUser && existingUser.id !== userId) {
       throw new ConflictError('이미 존재하는 사원번호입니다.');
     }
   }
-
-  const updatedUser = await UserRepository.updateMyInfo(userId, data);
+  const hashedPassword = await hash(data.password, 10);
+  const updatedUser = await UserRepository.updateMyInfo(userId, {
+    ...data,
+    password: hashedPassword,
+  });
 
   return {
     id: updatedUser.id,

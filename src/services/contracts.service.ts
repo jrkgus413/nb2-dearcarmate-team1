@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, deleteExistContract, findCarListNoContract, getContractById, updateExistContract, getContractList as fetchContractsByStatus } from '../repositories/contracts.repository';
+import { createNewContract, deleteExistContract, findCarListNoContract,findCustomerListWithCompanyId, getContractById, updateExistContract, getContractList as fetchContractsByStatus, findusersListWithCompanyId } from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
 
@@ -104,7 +104,7 @@ export const getContractList = async (req: Request) => {
   const companyId = BigInt(user.companyId);
   const { searchBy, keyword } = req.query;
 
-  const statuses = ['carInspection', 'priceNegotiation', 'contractSuccess', 'contractFailed'];
+  const statuses = ['carInspection', 'priceNegotiation', 'contractDraft', 'contractSuccessful', 'contractFailed'];
 
   const result: Record<string, any> = {};
 
@@ -201,10 +201,56 @@ export const getCarListForContract = async (req: Request) => {
         data: `${car.model}(${car.carNumber})`
       }
     );
-  }
+  };
 
   // 3. 반환
   return formattedCarList;
 };
 
+export const getCustomerListForContract = async (req: Request) => {
+// 로직
+// 유저 목록을 가져와야함
+// 유저들은 개개인이 다 다름
+const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
+  // const userId = BigInt(user.id);
+  const userId = BigInt(user.companyId);
 
+  const customerList = await findCustomerListWithCompanyId(userId);
+
+  const formattedCustomerList:{ id:bigint, data:string }[] = [];
+  for (const customer of customerList){
+    formattedCustomerList.push(
+      {
+        id: customer.id,
+        // `: 백틱
+        data: `${customer.name}(${customer.email})`
+      }
+    );
+  };
+  // 3. 반환
+  return formattedCustomerList;
+};
+
+export const getusersListForContract = async (req: Request) => {
+// 로직
+// 유저 목록을 가져와야함
+// 유저들은 개개인이 다 다름
+const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
+  // const userId = BigInt(user.id);
+  const userId = BigInt(user.companyId);
+
+  const usersList = await findusersListWithCompanyId(userId);
+
+  const formattedusersList:{ id:bigint, data:string }[] = [];
+  for (const users of usersList){
+    formattedusersList.push(
+      {
+        id: users.id,
+        // `: 백틱
+        data: `${user.name}(${user.email})`
+      }
+    );
+  };
+  // 3. 반환
+  return formattedusersList;
+};
