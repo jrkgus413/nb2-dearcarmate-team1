@@ -8,14 +8,15 @@ import * as CompanyRepository from '../repositories/company.repository';
  */
 export const createCompany = async ({ companyName, companyCode }: CompanyCreateRequest) => {
   const existingCompany = await CompanyRepository.getCompanyByCode(companyCode);
-  console.log(existingCompany);
+  
   if (existingCompany) throw new ConflictError(`동일한 회사코드가 이미 존재합니다.`);
 
   const newCompany = await CompanyRepository.createCompany({ companyName, companyCode });
   const { _count, ...companyWithoutUsers } = newCompany;
   const formattedCompany = {
     ...companyWithoutUsers,
-    usersCount: _count.users,
+    companyName: companyWithoutUsers.name,
+    userCount: _count.users,
   };
 
   return convertBigIntToString(formattedCompany);
@@ -29,7 +30,8 @@ export const getCompanies = async ({ whereCondition, pageSize, page }: CompanyLi
 
   const formattedCompanies = companies.map(({ _count, ...company }) => ({
     ...company,
-    usersCount: _count.users,
+    companyName: company.name,
+    userCount: _count.users,
   }));
 
   return {
@@ -53,7 +55,7 @@ export const getUserbyCompany = async ({ whereCondition, pageSize, page }: Compa
       email: user.email,
       employeeNumber: user.employeeNumber,
       phoneNumber: user.phoneNumber,
-      company: user.affiliatedCompany,
+      company: { companyName: user.affiliatedCompany.name }
     };
   });
 
@@ -82,7 +84,8 @@ export const updateCompanies = async (companyId: bigint, { companyName, companyC
   const { _count, ...companyWithoutUsers } = companies;
   const formattedCompany = {
     ...companyWithoutUsers,
-    usersCount: _count.users,
+    companyName: companyWithoutUsers.name,
+    userCount: _count.users,
   };
 
   return convertBigIntToString(formattedCompany);
