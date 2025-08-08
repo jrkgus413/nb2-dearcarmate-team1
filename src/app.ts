@@ -17,6 +17,7 @@ import contractsRouter from './routes/contracts.router';
 import { notFoundHandler } from './handlers/not-found.handler';
 import { globalErrorHandler } from './handlers/global-error.handler';
 import { bigintSerialization } from './middlewares/bigint-serialization.middleware';
+import { listenHandler } from './handlers/listen.handler';
 
 const app = express();
 const port: number = Number(ENV.PORT) || 3000;
@@ -44,6 +45,4 @@ app.use('/contracts', contractsRouter);
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+app.listen(port, listenHandler);
