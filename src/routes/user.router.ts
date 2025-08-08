@@ -14,6 +14,8 @@ router.get('/me', allow([USER_ROLE.USER]), UserController.getMyInfo);
 router.delete('/me', allow([USER_ROLE.USER]), UserController.deleteMyAccount);
 // 내 정보 수정
 router.patch('/me', allow([USER_ROLE.USER]), UserController.updateMyInfo);
+//유저 삭제 
+router.delete('/:userId', allow([USER_ROLE.ADMIN]), UserController.deleteUserAsAdmin);
 
 export default router;
 

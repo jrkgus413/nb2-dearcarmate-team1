@@ -46,7 +46,7 @@ export const createUser = async (data: CreateUserParams) => {
   });
 }
 
-export const userRepository = {
+export const removeAccount = {
   findByEmail: (email: string) =>
     prisma.user.findUnique({ where: { email } }),
 
@@ -95,3 +95,22 @@ export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
   });
 }
 
+//유저 삭제 
+export const deleteUser = {
+  findByEmail: (email: string) =>
+    prisma.user.findUnique({ where: { email } }),
+
+  getUserById: (userId: number) =>
+    prisma.user.findUnique({
+      where: { id: (userId) },
+    }),
+
+  softDeleteUser: (userId: number) =>
+    prisma.user.update({
+      where: { id: (userId) },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true,
+      },
+    }),
+}; 

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -25,6 +26,27 @@ async function main() {
       { name: '우리카', companyCode: 'ourcar' },
       { name: '미래카', companyCode: 'future' }
     ]
+  })
+
+  console.log('관리자 계정 생성 중…');
+  const company = await prisma.company.findUnique({ where: { companyCode: 'kcar' } });
+  if (!company) throw new Error('Seed: kcar 회사가 없습니다');
+
+  const adminPassword = await bcrypt.hash('AdminPass123!', 10);
+  await prisma.user.create({
+    data: {
+      name: '관리자',
+      email: 'admin@example.com',
+      employeeNumber: '0000',
+      phoneNumber: '010-0000-0000',
+      password: adminPassword,
+      isAdmin: true,
+      deletedAt: null,
+      isDeleted: false,
+      company: company.name,
+      companyCode: company.companyCode,
+      affiliatedCompany: { connect: { id: company.id } }
+    }
   });
 
   console.log('Seed 완료!');
