@@ -111,40 +111,100 @@
 
 ## 파일 구조  
 ```
-src
-┣ config
-┃ ┗ db.ts
-┣ controllers
-┃ ┣ auth.controller.ts
-┃ ┗ user.controller.ts
-┣ middleware
-┃ ┣ auth.middleware.ts
-┃ ┗ error.middleware.ts
-┣ models
-┃ ┣ user.model.ts
-┃ ┗ course.model.ts
-┣ routes
-┃ ┣ auth.routes.ts
-┃ ┗ user.routes.ts
-┣ services
-┃ ┣ auth.service.ts
-┃ ┗ user.service.ts
-┣ utils
-┃ ┣ jwt.ts
-┃ ┣ constants.ts
-┃ ┗ logger.ts
-┣ app.ts
-┗ server.ts
-
-prisma
-┣ schema.prisma
-┗ seed.ts
-
-.env
-.gitignore
-package.json
-tsconfig.json
-README.md
+NB2-DEARCARMATE-TEAM1
+├─ prisma
+│  ├─ models
+│  │  ├─ alam.prisma.part
+│  │  ├─ car.prisma.part
+│  │  ├─ company.prisma.part
+│  │  ├─ contract-document.prisma.part
+│  │  ├─ contract.prisma.part
+│  │  ├─ customer.prisma.part
+│  │  ├─ file.prisma.part
+│  │  ├─ meeting.prisma.part
+│  │  ├─ refresh_token.prisma.part
+│  │  └─ user.prisma.part
+│  ├─ mock-data.ts
+│  ├─ seed.ts
+│  └─ seed.ts.part
+├─ src
+│  ├─ controllers
+│  │  ├─ auth.controller.ts
+│  │  ├─ car.controller.ts
+│  │  ├─ company.controller.ts
+│  │  ├─ contract-document.controller.ts
+│  │  ├─ contracts.controller.ts
+│  │  ├─ customer.controller.ts
+│  │  ├─ dashboard.controller.ts
+│  │  ├─ images.controller.ts
+│  │  └─ user.controller.ts
+│  ├─ enums
+│  │  ├─ cookie.enum.ts
+│  │  └─ user.enum.ts
+│  ├─ handlers
+│  │  ├─ global-error.handler.ts
+│  │  └─ listen.handler.ts
+│  ├─ middlewares
+│  │  ├─ allow.middleware.ts
+│  │  └─ bigint-serialization.middleware.ts
+│  ├─ repositories
+│  │  ├─ auth.repository.ts
+│  │  ├─ car.repository.ts
+│  │  ├─ company.repository.ts
+│  │  ├─ contract-document.repository.ts
+│  │  ├─ contracts.repository.ts
+│  │  ├─ customer.repository.ts
+│  │  ├─ dashboard.repository.ts
+│  │  └─ user.repository.ts
+│  ├─ routes
+│  │  ├─ auth.router.ts
+│  │  ├─ car.router.ts
+│  │  ├─ company.router.ts
+│  │  ├─ contract-document.router.ts
+│  │  ├─ contracts.router.ts
+│  │  ├─ customer.router.ts
+│  │  ├─ dashboard.router.ts
+│  │  ├─ images.router.ts
+│  │  └─ user.router.ts
+│  ├─ services
+│  │  ├─ auth.service.ts
+│  │  ├─ car.service.ts
+│  │  ├─ company.service.ts
+│  │  ├─ contract-document.service.ts
+│  │  ├─ contracts.service.ts
+│  │  ├─ customer.service.ts
+│  │  ├─ dashboard.service.ts
+│  │  ├─ images.service.ts
+│  │  └─ user.service.ts
+│  ├─ types
+│  │  ├─ car.type.ts
+│  │  ├─ company.type.ts
+│  │  ├─ contract-document.type.ts
+│  │  ├─ contract.type.ts
+│  │  ├─ customer.type.ts
+│  │  ├─ dashboard.type.ts
+│  │  ├─ error.type.ts
+│  │  ├─ express.d.ts
+│  │  ├─ payload.type.ts
+│  │  └─ user.type.ts
+│  ├─ utils
+│  │  ├─ bigint.util.ts
+│  │  ├─ convert.util.ts
+│  │  ├─ env.util.ts
+│  │  ├─ error.util.ts
+│  │  ├─ file.util.ts
+│  │  ├─ firebase.ts
+│  │  ├─ parse.util.ts
+│  │  ├─ password.util.ts
+│  │  ├─ token.util.ts
+│  │  └─ user.util.ts
+│  └─ app.ts
+├─ .env.example
+├─ .gitignore
+├─ package-lock.json
+├─ package.json
+├─ README.md
+└─ tsconfig.json
 ```
 ---
 
