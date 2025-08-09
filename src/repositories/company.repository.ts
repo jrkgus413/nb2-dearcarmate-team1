@@ -132,7 +132,7 @@ export const deleteCompanies = async (companyId: bigint) => {
   return await prisma.$transaction(async (tx) => {
     // 소속 사용자 삭제
     await tx.user.updateMany({
-      where: { companyId: companyId },
+      where: { companyId: companyId, isAdmin: false },
       data: {
         deletedAt: new Date(),
         isDeleted: true
