@@ -13,11 +13,11 @@ router.use(allow([USER_ROLE.USER, USER_ROLE.ADMIN]));
 // 차량 모델 목록 조회
 router.get('/models', carController.getCarModels);
 
+// 차량 번호 또는 차종으로 상세 조회 (새로 추가)
+router.get('/search', carController.getAllCars);
+
 // 차량 목록 조회
 router.get('/', carController.getAllCars);
-
-// 차량 상세 조회
-router.get('/:carId', carController.getCarById);
 
 // 차량 등록
 router.post('/', carController.createCar);
