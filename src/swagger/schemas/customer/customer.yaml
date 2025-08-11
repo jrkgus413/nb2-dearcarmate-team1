@@ -1,0 +1,99 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 고객 구별용 id
+
+  name:
+    type: string
+    description: 고객 이름
+    maxLength: 50
+    nullable: false
+
+  gender:
+    type: string
+    description: 고객 성별
+    nullable: false
+    enum: [male, female]
+
+  phoneNumber:
+    type: string
+    description: 고객 전화번호
+    maxLength: 13
+    nullable: false
+
+  ageGroup:
+    type: string
+    description: 고객 나이대
+    nullable: true
+    enum: [10대, 20대, 30대, 40대, 50대, 60대, 70대, 80대]
+
+  region:
+    type: string
+    description: 고객 지역
+    nullable: true
+    enum:
+      [
+        서울,
+        경기,
+        인천,
+        강원,
+        충북,
+        충남,
+        세종,
+        대전,
+        전북,
+        전남,
+        광주,
+        경북,
+        경남,
+        대구,
+        울산,
+        부산,
+        제주,
+      ]
+
+  email:
+    type: string
+    format: email
+    nullable: true
+    description: 고객 이메일
+
+  memo:
+    type: string
+    nullable: true
+    description: 고객에 대한 간단한 메모
+
+  createdAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 고객을 등록한 시간
+
+  updatedAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 고객 정보를 수정한 시간
+
+  deletedAt:
+    type: string
+    format: date-time
+    nullable: true
+    description: 고객 정보를 삭제한 시간
+
+  isDeleted:
+    type: boolean
+    description: 고객을 삭제하였는지 여부
+
+  companyId:
+    type: integer
+    format: int64
+    nullable: false
+    description: 고객이 속한 회사 구별용 id
+
+  contractCount:
+    type: integer
+    format: int64
+    description: 고객의 계약 개수

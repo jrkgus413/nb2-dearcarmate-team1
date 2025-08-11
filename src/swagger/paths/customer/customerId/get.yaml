@@ -1,0 +1,49 @@
+summary: 특정 고객 조회
+description: 특정 고객의 상세 정보를 조회한다.
+
+tags:
+  - customer
+
+responses:
+  "200":
+    description: 고객 정보 조회 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/customer/response/get-customer.yaml"
+        example:
+            id: 1
+            name: "박수로"
+            gender: "male"
+            phoneNumber: "010-2345-1234"
+            ageGroup: "10대"
+            region: "서울"
+            email: "user@example.com"
+            memo: "tmp memo"
+            contractCount: 0
+  "400":
+    description: 고객 조회 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"
+
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/404.yaml"
+        example:
+          message: "존재하지 않는 고객입니다"

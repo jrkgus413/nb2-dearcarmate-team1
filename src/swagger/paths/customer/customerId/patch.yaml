@@ -1,0 +1,65 @@
+summary: 고객 수정
+description: 들어온 값들을 통해서 고객을 수정한다.
+
+tags:
+  - customer
+
+requestBody:
+  description: 고객을 수정하기 위해 필요한 값들
+  content:
+    application/json:
+      schema:
+        $ref: "../../../schemas/customer/request/update-customer.yaml"
+      example:
+        name: "김기로"
+        gender: "male"
+        phoneNumber: "010-2345-1234"
+        ageGroup: "20대"
+        region: "광주"
+        email: "user@example.com"
+        memo: "tmp memo"
+
+responses:
+  "200":
+    description: 고객 수정 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/customer/response/update-customer.yaml"
+        example:
+          id: 2
+          name: "김기로"
+          gender: "male"
+          phoneNumber: "010-2345-1234"
+          ageGroup: "20대"
+          region: "광주"
+          email: "user@example.com"
+          memo: "tmp memo"
+          contractCount: 0
+
+  "400":
+    description: 고객 수정 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"
+
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/404.yaml"
+        example:
+          message: "존재하지 않는 고객입니다"

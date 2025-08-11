@@ -1,0 +1,15 @@
+parameters:
+  - in: path
+    name: customerId
+    schema:
+      type: integer
+    description: 고객의 id
+
+get:
+  $ref: ./get.yaml
+
+patch:
+  $ref: ./patch.yaml
+
+delete:
+  $ref: ./delete.yaml
