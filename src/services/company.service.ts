@@ -35,9 +35,9 @@ export const getCompanies = async ({ whereCondition, pageSize, page }: CompanyLi
   }));
 
   return {
-    page: Number(page),
-    pageSize: Number(pageSize),
-    totalCount,
+    currentPage: Number(page),
+    totalPages: Math.ceil(totalCount / Number(pageSize)),
+    totalItemCount: totalCount,
     data: convertBigIntToString(formattedCompanies),
   };
 };
@@ -60,9 +60,9 @@ export const getUserbyCompany = async ({ whereCondition, pageSize, page }: Compa
   });
 
   return {
-    page: Number(page),
-    pageSize: Number(pageSize),
-    totalCount,
+    currentPage: Number(page),
+    totalPages: Math.ceil(totalCount / Number(pageSize)),
+    totalItemCount: totalCount,
     data: convertBigIntToString(formattedUsers),
   };
 };
