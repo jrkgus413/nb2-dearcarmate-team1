@@ -16,20 +16,20 @@ export const findCompanyByNameAndCode = async (name: string, code: string) => {
   return prisma.company.findFirst({
     where: {
       name: name,
-      companyCode: code
-    }
+      companyCode: code,
+    },
   });
 };
 
 export const findUserByEmail = async (email: string) => {
   return prisma.user.findUnique({
-    where: { email }
+    where: { email },
   });
 };
 
 export const findUserByEmployeeNumber = async (employeeNumber: string) => {
   return prisma.user.findUnique({
-    where: { employeeNumber }
+    where: { employeeNumber },
   });
 };
 
@@ -39,19 +39,17 @@ export const createUser = async (data: CreateUserParams) => {
     include: {
       affiliatedCompany: {
         select: {
-          companyCode: true
-        }
-      }
-    }
+          companyCode: true,
+        },
+      },
+    },
   });
-}
+};
 
 export const removeAccount = {
-  findByEmail: (email: string) =>
-    prisma.user.findUnique({ where: { email } }),
+  findByEmail: (email: string) => prisma.user.findUnique({ where: { email } }),
 
-  getUserById: (userId: number) =>
-    prisma.user.findUnique({ where: { id: userId } }),
+  getUserById: (userId: number) => prisma.user.findUnique({ where: { id: userId } }),
 
   softDeleteUser: (userId: number) =>
     prisma.user.update({
@@ -69,12 +67,12 @@ export const getMyInfo = async (userId: bigint) => {
     include: {
       affiliatedCompany: {
         select: {
-          companyCode: true
-        }
-      }
-    }
+          companyCode: true,
+        },
+      },
+    },
   });
-}
+};
 
 export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
   return await prisma.user.update({
@@ -83,34 +81,46 @@ export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
       employeeNumber: data.employeeNumber,
       phoneNumber: data.phoneNumber,
       password: data.password,
-      image_url: data.imageUrl
+      image_url: data.imageUrl,
     },
     include: {
       affiliatedCompany: {
         select: {
-          companyCode: true
-        }
-      }
-    }
+          companyCode: true,
+        },
+      },
+    },
   });
-}
+};
 
-//유저 삭제 
+//유저 삭제
 export const deleteUser = {
-  findByEmail: (email: string) =>
-    prisma.user.findUnique({ where: { email } }),
+  findByEmail: (email: string) => prisma.user.findUnique({ where: { email } }),
 
   getUserById: (userId: number) =>
     prisma.user.findUnique({
-      where: { id: (userId) },
+      where: { id: userId },
     }),
 
-  softDeleteUser: (userId: number) =>
-    prisma.user.update({
-      where: { id: (userId) },
-      data: {
-        deletedAt: new Date(),
-        isDeleted: true,
-      },
-    }),
-}; 
+  softDeleteUser: async (userId: number) => {
+    return await prisma.$transaction(async (tx) => {
+      // USER 비활성화
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          deletedAt: new Date(),
+          isDeleted: true,
+        },
+      });
+
+      // CONTRACT 비활성화
+      await tx.contract.updateMany({
+        where: { userId },
+        data: {
+          deletedAt: new Date(),
+          isDeleted: true,
+        },
+      });
+    });
+  },
+};
