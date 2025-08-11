@@ -1,20 +1,20 @@
-summary: 특정 고객 삭제
-description: 특정 고객을 삭제한다.
+summary: 특정 회사 삭제
+description: 특정 회사를 삭제한다.
 
 tags:
-  - customer
+  - company
 
 responses:
   "200":
-    description: 고객 정보 삭제 성공
+    description: 회사 정보 삭제 성공
     content:
       application/json:
         schema:
-          $ref: "../../../schemas/customer/response/delete-customer.yaml"
+          $ref: "../../../schemas/company/response/delete-company.yaml"
         example:
-          message: 고객 삭제 성공
+          message: 회사 삭제 성공
   "400":
-    description: 고객 삭제 실패
+    description: 회사 삭제 실패
     content:
       application/json:
         schema:
@@ -22,19 +22,19 @@ responses:
         example:
           message: 잘못된 요청입니다
   "401":
-    description: 로그인 필요
+    description: 관리자 권한 필요
     content:
       application/json:
         schema:
           $ref: "../../../schemas/error/401.yaml"
         example:
-          message: 로그인이 필요합니다
+          message: 관리자 권한이 필요합니다
 
   "404":
-    description: 고객 없음
+    description: 회사 없음
     content:
       application/json:
         schema:
           $ref: "../../../schemas/error/404.yaml"
         example:
-          message: 존재하지 않는 고객입니다
+          message: 존재하지 않는 회사입니다

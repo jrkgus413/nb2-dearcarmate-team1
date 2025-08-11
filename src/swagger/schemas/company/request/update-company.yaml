@@ -4,6 +4,6 @@ properties:
     $ref: '../company.yaml#/properties/name'
     
   companyCode:
-    $ref: '../company.yaml#/properties/gender'
+    $ref: '../company.yaml#/properties/companyCode'
 
 additionalProperties: false

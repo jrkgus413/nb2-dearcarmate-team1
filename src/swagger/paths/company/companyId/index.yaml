@@ -1,0 +1,12 @@
+parameters:
+  - in: path
+    name: companyId
+    schema:
+      type: integer
+    description: 회사 id
+
+patch:
+  $ref: ./patch.yaml
+
+delete:
+  $ref: ./delete.yaml

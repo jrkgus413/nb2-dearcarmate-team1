@@ -15,7 +15,7 @@ properties:
   data:
     type: array
     items:
-      $ref: '../../user/get-user.yaml'
+      $ref: '../../user/response/get-user.yaml'
 
 required:
   - currentPage

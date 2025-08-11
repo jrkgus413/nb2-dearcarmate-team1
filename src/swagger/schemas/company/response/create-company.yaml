@@ -1,10 +1,10 @@
 type: object
 properties:
   id:
-    $ref: '../company.yaml#properties/id'
+    $ref: '../company.yaml#/properties/id'
 
   companyName:
-    $ref: '../company.yaml#/properties/companyName'
+    $ref: '../company.yaml#/properties/name'
     
   companyCode:
     $ref: '../company.yaml#/properties/companyCode'
