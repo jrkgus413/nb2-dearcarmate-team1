@@ -133,13 +133,16 @@ export const updateCar = async (req: Request, res: Response) => {
 
 // 차량 삭제
 export const deleteCar = async (req: Request, res: Response) => {
-  const id = BigInt(req.params.carId);
+  const user = getUser(req);
+  const companyId = BigInt(user.companyId);
+  const carId = BigInt(req.params.carId);
 
-  const existing = await carService.getCarById(id);
-  if (!existing) throw new NotFoundError('존재하지 않는 차량입니다');
+  const result = await carService.deleteCarCascade(carId, companyId);
 
-  await carService.deleteCar(id);
-  res.status(200).json({ message: '차량 삭제 성공' });
+  res.status(200).json({
+    message: '차량 삭제 성공',
+    carId: result.id,
+  });
 };
 
 // 차량 대용량 업로드
