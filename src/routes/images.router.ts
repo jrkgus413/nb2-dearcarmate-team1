@@ -6,6 +6,6 @@ import { USER_ROLE } from '../enums/user.enum';
 
 const images = express.Router();
 
-images.post('/upload', allow([USER_ROLE.USER]), imageUploader.single('image'), handleUploadImage);
+images.post('/upload', allow([USER_ROLE.USER]), imageUploader.single('file'), handleUploadImage);
 
 export default images;
