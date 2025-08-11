@@ -393,14 +393,14 @@ export const deleteExistContract = async (contractId: bigint) => {
   // 1. deletedAt, isDeleted 를 업데이트 하면 된다.
   return await prisma.contract.update({
     // WHERE : contractId 기반으로 찾음
-    where:{
+    where: {
       id: contractId,
     },
     // DATA : 어떤 데이터가 업데이트 될 것인지 작성
-    data:{
+    data: {
       deletedAt: new Date(),
       isDeleted: true,
-    }
+    },
   });
 };
 
@@ -409,28 +409,27 @@ export const findCarListNoContract = async (companyId: bigint) => {
   // - 계약이 없는 자동차만 보여야 함.
 
   return await prisma.car.findMany({
-    where:{
+    where: {
       companyId,
-      contracts : {
-        none:{}
-      }
-    }
+      contracts: {
+        none: {},
+      },
+    },
   });
-
 };
 
-export const findCustomerListWithCompanyId= async (companyId: bigint) => {
+export const findCustomerListWithCompanyId = async (companyId: bigint) => {
   return await prisma.customer.findMany({
-    where:{
+    where: {
       companyId,
-    }
+    },
   });
 };
 
-export const findusersListWithCompanyId= async (companyId: bigint) => {
+export const findUserListWithCompanyId = async (companyId: bigint) => {
   return await prisma.user.findMany({
-    where:{
+    where: {
       companyId,
-    }
+    },
   });
 };
