@@ -1,7 +1,15 @@
 import express from 'express';
 import { allow } from '../middlewares/allow.middleware';
 import { USER_ROLE } from '../enums/user.enum';
-import { handleCreateContract,  handleDeleteContract,  handleGetCarListForContract,  handleUpdateContract, handleGetContracts,  handleGetCustomerListForContract, handleGetUserListForContract,  } from '../controllers/contracts.controller';
+import {
+  handleCreateContract,
+  handleDeleteContract,
+  handleGetCarListForContract,
+  handleUpdateContract,
+  handleGetContracts,
+  handleGetCustomerListForContract,
+  handleGetUserListForContract,
+} from '../controllers/contracts.controller';
 
 const contracts = express.Router(); //ROUTE + -ER
 

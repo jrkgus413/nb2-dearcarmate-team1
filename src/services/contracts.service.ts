@@ -1,10 +1,18 @@
 import { Request } from 'express';
 import { getUser } from '../utils/user.util';
 import { MeetingRequest, UpdateContractRequest } from '../types/contract.type';
-import { createNewContract, deleteExistContract, findCarListNoContract,findCustomerListWithCompanyId, getContractById, updateExistContract, getContractList as fetchContractsByStatus, findusersListWithCompanyId } from '../repositories/contracts.repository';
+import {
+  createNewContract,
+  deleteExistContract,
+  findCarListNoContract,
+  findCustomerListWithCompanyId,
+  getContractById,
+  updateExistContract,
+  getContractList as fetchContractsByStatus,
+  findUserListWithCompanyId,
+} from '../repositories/contracts.repository';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
-
 
 export const createContract = async (req: Request) => {
   const user: Payload = getUser(req);
@@ -149,7 +157,7 @@ export const getContractList = async (req: Request) => {
 // TODO : deleteContract
 export const deleteContract = async (req: Request) => {
   const user = getUser(req);
-  
+
   // 1. 어떤 계약(contract)을 지우는가 -> 지울 계약의 id 가 필요
   // localhost:3001/contracts/1
   // app.use('/:id', ~~~~);
@@ -167,7 +175,6 @@ export const deleteContract = async (req: Request) => {
   if (!isUserContractManager) {
     throw new ForbiddenError('담당자만 삭제가 가능합니다.');
   }
-  
 
   // 2. soft delete 를 하기 위해서는 무엇을 해야 하는가
   // soft : deletedAt, isDeleted 만 업데이트 해주면 됨.
@@ -175,7 +182,7 @@ export const deleteContract = async (req: Request) => {
 
   // 3. 삭제하고 나서 뭐라고 보내줘야 하나?
   return {
-    message: '계약 삭제 성공'
+    message: '계약 삭제 성공',
   };
 };
 
@@ -193,64 +200,58 @@ export const getCarListForContract = async (req: Request) => {
   // 2. 형식이 정해져있음
   // - id : carId
   // - data : "${car.model}(${car.carNumber})"
-  const formattedCarList:{ id:bigint, data:string }[] = [];
-  for (const car of carList){
-    formattedCarList.push(
-      {
-        id: car.id,
-        data: `${car.model}(${car.carNumber})`
-      }
-    );
-  };
+  const formattedCarList: { id: bigint; data: string }[] = [];
+  for (const car of carList) {
+    formattedCarList.push({
+      id: car.id,
+      data: `${car.model}(${car.carNumber})`,
+    });
+  }
 
   // 3. 반환
   return formattedCarList;
 };
 
 export const getCustomerListForContract = async (req: Request) => {
-// 로직
-// 유저 목록을 가져와야함
-// 유저들은 개개인이 다 다름
-const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
+  // 로직
+  // 유저 목록을 가져와야함
+  // 유저들은 개개인이 다 다름
+  const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
   // const userId = BigInt(user.id);
   const userId = BigInt(user.companyId);
 
   const customerList = await findCustomerListWithCompanyId(userId);
 
-  const formattedCustomerList:{ id:bigint, data:string }[] = [];
-  for (const customer of customerList){
-    formattedCustomerList.push(
-      {
-        id: customer.id,
-        // `: 백틱
-        data: `${customer.name}(${customer.email})`
-      }
-    );
-  };
+  const formattedCustomerList: { id: bigint; data: string }[] = [];
+  for (const customer of customerList) {
+    formattedCustomerList.push({
+      id: customer.id,
+      // `: 백틱
+      data: `${customer.name}(${customer.email})`,
+    });
+  }
   // 3. 반환
   return formattedCustomerList;
 };
 
-export const getusersListForContract = async (req: Request) => {
-// 로직
-// 유저 목록을 가져와야함
-// 유저들은 개개인이 다 다름
-const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
+export const getUserListForContract = async (req: Request) => {
+  // 로직
+  // 유저 목록을 가져와야함
+  // 유저들은 개개인이 다 다름
+  const user = getUser(req); // 로그인한 유저의 정보(id, companyId)
   // const userId = BigInt(user.id);
-  const userId = BigInt(user.companyId);
+  const companyId = BigInt(user.companyId);
 
-  const usersList = await findusersListWithCompanyId(userId);
+  const userList = await findUserListWithCompanyId(companyId);
 
-  const formattedusersList:{ id:bigint, data:string }[] = [];
-  for (const users of usersList){
-    formattedusersList.push(
-      {
-        id: users.id,
-        // `: 백틱
-        data: `${user.name}(${user.email})`
-      }
-    );
-  };
+  const formattedUserList: { id: bigint; data: string }[] = [];
+  for (const userData of userList) {
+    formattedUserList.push({
+      id: userData.id,
+      // `: 백틱
+      data: `${userData.name}(${userData.email})`,
+    });
+  }
   // 3. 반환
-  return formattedusersList;
+  return formattedUserList;
 };
