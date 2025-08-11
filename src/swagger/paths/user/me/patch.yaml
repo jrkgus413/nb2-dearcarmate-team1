@@ -1,0 +1,66 @@
+summary: 유저 수정
+description: 들어온 값들을 통해서 유저를 수정한다.
+
+tags:
+  - user
+
+requestBody:
+  description: 유저를 수정하기 위해 필요한 값들
+  content:
+    application/json:
+      schema:
+        $ref: "../../../schemas/user/request/update-user.yaml"
+      example:
+        name: string
+        email: string
+        employeeNumber: string
+        phoneNumber: string
+        password: string
+        passwordConfirmation: string
+        company: string
+        companyCode: string
+
+responses:
+  "200":
+    description: 유저 수정 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/user/response/update-user.yaml"
+        example:
+          id: 1
+          name: string
+          email: string
+          employeeNumber: string
+          phoneNumber: string
+          imageUrl: string
+          isAdmin: true
+          company: 
+            companyCode: string
+
+  "400":
+    description: 유저 수정 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"
+
+  "404":
+    description: 유저 없음
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/404.yaml"
+        example:
+          message: "존재하지 않는 유저입니다"

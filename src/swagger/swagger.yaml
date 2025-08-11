@@ -17,6 +17,8 @@ tags:
     description: car에 대한 API를 설명합니다.
   - name: company
     description: company에 대한 API를 설명합니다.
+  - name: user
+    description: user에 대한 API를 설명합니다.
 paths:
   /customer:
     get:
@@ -347,7 +349,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
     patch:
@@ -453,7 +455,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
     delete:
@@ -480,7 +482,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
-              message: 잘못된 요청입니다
+              example:
+                message: 잘못된 요청입니다
         '401':
           description: 로그인 필요
           content:
@@ -494,7 +497,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
   /customer/upload:
@@ -889,11 +892,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Not Found
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
     delete:
@@ -935,7 +934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 차량입니다
     patch:
@@ -1059,7 +1058,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
   /car/upload:
@@ -1400,7 +1399,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 회사입니다
     delete:
@@ -1427,7 +1426,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
-              message: 잘못된 요청입니다
+              example:
+                message: 잘못된 요청입니다
         '401':
           description: 관리자 권한 필요
           content:
@@ -1441,7 +1441,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 회사입니다
   /companies/users:
@@ -1491,47 +1491,7 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          format: int64
-                          description: 유저 구별용 id
-                        name:
-                          type: string
-                          description: 유저 이름
-                        email:
-                          type: string
-                          format: email
-                          description: 유저 이메일
-                        employeeNumber:
-                          type: string
-                          description: 유저 사원번호
-                        phoneNumber:
-                          type: string
-                          description: 유저 전화번호
-                        imageUrl:
-                          type: string
-                          description: 유저 프로필 이미지 url
-                        isAdmin:
-                          type: boolean
-                          description: 유저 어드민 유무
-                        company:
-                          type: object
-                          properties:
-                            companyCode:
-                              type: string
-                              description: 회사 코드
-                      required:
-                        - id
-                        - name
-                        - email
-                        - employeeNumber
-                        - phoneNumber
-                        - imageUrl
-                        - isAdmin
-                        - company
-                      additionalProperties: false
+                      $ref: '#/paths/~1user~1me/get/responses/200/content/application~1json/schema'
                 required:
                   - currentPage
                   - totalPages
@@ -1582,3 +1542,401 @@ paths:
                 $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 관리자 권한이 필요합니다
+  /user:
+    post:
+      summary: 회원가입
+      description: 필요한 값들로 회원가입한다.
+      tags:
+        - user
+      requestBody:
+        description: 회원가입하기 위해 필요한 값들
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 유저 이름
+                email:
+                  type: string
+                  format: email
+                  description: 유저 이메일
+                employeeNumber:
+                  type: string
+                  description: 유저 사원번호
+                phoneNumber:
+                  type: string
+                  description: 유저 전화번호
+                password:
+                  type: string
+                  format: password
+                  description: 유저 패스워드
+                passwordConfirmation:
+                  type: string
+                  format: password
+                  description: 유저 패스워드 확인
+                company:
+                  type: string
+                  description: 회사 이름
+                companyCode:
+                  type: string
+                  description: 회사 코드
+              required:
+                - name
+                - email
+                - employeeNumber
+                - phoneNumber
+                - password
+                - passwordConfirmation
+                - company
+                - companyCode
+              additionalProperties: false
+            example:
+              name: string
+              email: string
+              employeeNumber: string
+              phoneNumber: string
+              password: string
+              passwordConfirmation: string
+              company: string
+              companyCode: string
+      responses:
+        '201':
+          description: 회원가입 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    description: 유저 구별용 id
+                  name:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/name'
+                  email:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/email'
+                  employeeNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/employeeNumber'
+                  phoneNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/phoneNumber'
+                  imageUrl:
+                    type: string
+                    description: 유저 프로필 이미지 url
+                  isAdmin:
+                    type: boolean
+                    description: 유저 어드민 유무
+                  company:
+                    type: object
+                    properties:
+                      companyCode:
+                        $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/companyCode'
+                required:
+                  - id
+                  - name
+                  - email
+                  - employeeNumber
+                  - phoneNumber
+                  - imageUrl
+                  - isAdmin
+                  - company
+                additionalProperties: false
+              example:
+                id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                imageUrl: string
+                isAdmin: true
+                company:
+                  companyCode: string
+        '400':
+          description: 비밀번호 확인 일치 하지 않음
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+        '409':
+          description: 이미 존재하는 이메일
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Conflict
+              example:
+                message: 이미 존재하는 이메일입니다
+  /user/me:
+    get:
+      summary: 특정 차량 조회
+      description: 특정 차량의 상세 정보를 조회한다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 차량 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/id'
+                  name:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/name'
+                  email:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/email'
+                  employeeNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/employeeNumber'
+                  phoneNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/phoneNumber'
+                  imageUrl:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/imageUrl'
+                  isAdmin:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/isAdmin'
+                  company:
+                    type: object
+                    properties:
+                      companyCode:
+                        $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/companyCode'
+                required:
+                  - id
+                  - name
+                  - email
+                  - employeeNumber
+                  - phoneNumber
+                  - imageUrl
+                  - isAdmin
+                  - company
+                additionalProperties: false
+              example:
+                id: 1
+                carNumber: string
+                manufacturer: string
+                model: string
+                type: string
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 고객 조회 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 고객 없음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Not Found
+              example:
+                message: 존재하지 않는 고객입니다
+    patch:
+      summary: 유저 수정
+      description: 들어온 값들을 통해서 유저를 수정한다.
+      tags:
+        - user
+      requestBody:
+        description: 유저를 수정하기 위해 필요한 값들
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                employeeNumber: null
+                $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/employeeNumber'
+                phoneNumber:
+                  $ref: ../user.yaml#/properties/phoneNumber
+                currentPassword:
+                  $ref: ../user.yaml#/properties/currentPassword
+                password:
+                  $ref: ../user.yaml#/properties/password
+                passwordConfirmation:
+                  $ref: ../user.yaml#/properties/passwordConfirmation
+                imageUrl:
+                  $ref: ../user.yaml#/properties/imageUrl
+              additionalProperties: false
+            example:
+              name: string
+              email: string
+              employeeNumber: string
+              phoneNumber: string
+              password: string
+              passwordConfirmation: string
+              company: string
+              companyCode: string
+      responses:
+        '200':
+          description: 유저 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/id'
+                  name:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/name'
+                  email:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/email'
+                  employeeNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/employeeNumber'
+                  phoneNumber:
+                    $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/phoneNumber'
+                  imageUrl:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/imageUrl'
+                  isAdmin:
+                    $ref: '#/paths/~1user/post/responses/201/content/application~1json/schema/properties/isAdmin'
+                  company:
+                    type: object
+                    properties:
+                      companyCode:
+                        $ref: '#/paths/~1user/post/requestBody/content/application~1json/schema/properties/companyCode'
+                required:
+                  - id
+                  - name
+                  - email
+                  - employeeNumber
+                  - phoneNumber
+                  - imageUrl
+                  - isAdmin
+                  - company
+                additionalProperties: false
+              example:
+                id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                imageUrl: string
+                isAdmin: true
+                company:
+                  companyCode: string
+        '400':
+          description: 유저 수정 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 유저 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
+              example:
+                message: 존재하지 않는 유저입니다
+    delete:
+      summary: 회원 탈퇴
+      description: 유저 스스로 회원 탈퇴한다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 유저 삭제 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 유저 삭제 성공
+              example:
+                message: 유저 삭제 성공
+        '400':
+          description: 유저 삭제 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+  '/user/{userId}':
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        description: 유저 id
+    delete:
+      summary: 특정 유저 삭제
+      description: 특정 유저를 삭제한다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 유저 삭제 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1me/delete/responses/200/content/application~1json/schema'
+              example:
+                message: 유저 삭제 성공
+        '400':
+          description: 유저 삭제 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 관리자 권한이 필요합니다
+        '404':
+          description: 유저 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1me/get/responses/404/content/application~1json/schema'
+              example:
+                message: 존재하지 않는 유저입니다

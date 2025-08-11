@@ -1,0 +1,31 @@
+summary: 회원 탈퇴
+description: 유저 스스로 회원 탈퇴한다.
+
+tags:
+  - user
+
+responses:
+  "200":
+    description: 유저 삭제 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/user/response/delete-user.yaml"
+        example:
+          message: 유저 삭제 성공
+  "400":
+    description: 유저 삭제 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/400.yaml"
+        example:
+          message: 잘못된 요청입니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/401.yaml"
+        example:
+          message: 로그인이 필요합니다

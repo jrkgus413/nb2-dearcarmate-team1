@@ -1,0 +1,9 @@
+parameters:
+  - in: path
+    name: userId
+    schema:
+      type: integer
+    description: 유저 id
+
+delete:
+  $ref: ./delete.yaml

@@ -22,6 +22,9 @@ tags:
   - name: company
     description: company에 대한 API를 설명합니다.
 
+  - name: user
+    description: user에 대한 API를 설명합니다.
+
 
 paths:
   /customer:
@@ -47,3 +50,9 @@ paths:
   /companies/users:
     $ref: ./paths/company/users/index.yaml
 
+  /user:
+    $ref: ./paths/user/index.yaml
+  /user/me:
+    $ref: ./paths/user/me/index.yaml
+  /user/{userId}:
+    $ref: ./paths/user/userId/index.yaml

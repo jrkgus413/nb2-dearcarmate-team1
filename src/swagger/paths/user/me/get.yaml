@@ -1,0 +1,52 @@
+summary: 특정 차량 조회
+description: 특정 차량의 상세 정보를 조회한다.
+
+tags:
+  - user
+
+responses:
+  "200":
+    description: 차량 정보 조회 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/user/response/get-user.yaml"
+        example:
+            id: 1
+            carNumber: "string"
+            manufacturer: "string"
+            model: "string"
+            type: "string"
+            manufacturingYear: 2020
+            mileage: 30
+            price: 1000000
+            accidentCount: 1
+            explanation: "string"
+            accidentDetails: "string"
+            status: "possession | contractProceeding | contractCompleted"
+  "400":
+    description: 고객 조회 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"
+
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/error/404.yaml"
+        example:
+          message: "존재하지 않는 고객입니다"
