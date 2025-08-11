@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as carService from '../services/car.service';
-import { NotFoundError, UnauthorizedError } from '../types/error.type';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../types/error.type';
 import { getUser } from '../utils/user.util';
 import { prisma } from '../utils/prisma.util';
 import { Manufacturer, manufacturerModels } from '../types/car.type';
@@ -112,23 +112,49 @@ export const createCar = async (req: Request, res: Response) => {
 };
 
 // 차량 수정
-export const updateCar = async (req: Request, res: Response) => {
-  const id = BigInt(req.params.carId);
-  const data = req.body;
+export const updateCar = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = BigInt(req.params.carId);
+    const incoming = req.body ?? {};
 
-  const user = getUser(req);
-  const existing = await carService.getCarById(id);
+    const user = getUser(req);
+    const existing = await carService.getCarById(id);
 
-  if (!existing || existing.isDeleted) {
-    throw new NotFoundError('존재하지 않는 차량입니다');
+    if (!existing || existing.isDeleted) {
+      throw new NotFoundError('존재하지 않는 차량입니다');
+    }
+    if (BigInt(existing.companyId) !== BigInt(user.companyId)) {
+      throw new UnauthorizedError('해당 차량을 수정할 권한이 없습니다');
+    }
+
+    // --- 여기서 accidentCount만 안전하게 변환/검증 ---
+    const data: any = { ...incoming };
+
+    if ('accidentCount' in data) {
+      // "0", "", 0 등 케이스 허용
+      const raw = typeof data.accidentCount === 'string'
+        ? data.accidentCount.trim()
+        : data.accidentCount;
+
+      // 빈 문자열이면 0으로 취급
+      const parsed = raw === '' ? 0 : Number(raw);
+
+      if (!Number.isInteger(parsed) || parsed < 0) {
+        throw new BadRequestError('accidentCount는 0 이상의 정수여야 합니다.');
+      }
+      data.accidentCount = parsed; // 숫자로 고정
+    } else {
+      // 필드가 아예 안 왔으면 그대로 두어 부분 업데이트가 되게 함
+    }
+    // --------------------------------------------------
+
+    const updated = await carService.updateCar(id, data);
+    res.status(200).json(convertBigIntToNumber(updated));
+  } catch (err) {
+    // 에러 원인 파악을 위해 로깅 후 에러 미들웨어로 전달
+    console.error('[cars:update]', err);
+    next(err);
   }
-
-  if (BigInt(existing.companyId) !== BigInt(user.companyId)) {
-    throw new UnauthorizedError('해당 차량을 수정할 권한이 없습니다');
-  }
-
-  const updated = await carService.updateCar(id, data);
-  res.status(200).json(convertBigIntToNumber(updated));
 };
 
 // 차량 삭제
