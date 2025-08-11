@@ -16,6 +16,9 @@ tags:
   - name: customer
     description: customer에 대한 API를 설명합니다.
 
+  - name: car
+    description: car에 대한 API를 설명합니다.
+
 paths:
   /customer:
     $ref: ./paths/customer/index.yaml
@@ -23,4 +26,13 @@ paths:
     $ref: ./paths/customer/customerId/index.yaml
   /customer/upload:
     $ref: ./paths/customer/upload/index.yaml
+
+  /car:
+    $ref: ./paths/car/index.yaml
+  /car/{carId}:
+    $ref: ./paths/car/carId/index.yaml
+  /car/upload:
+    $ref: ./paths/car/upload/index.yaml
+  /car/models:
+    $ref: ./paths/car/models/index.yaml
 

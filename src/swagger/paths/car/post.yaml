@@ -1,0 +1,61 @@
+summary: 차량 등록
+description: 필요한 값들로 차량을 등록한다.
+
+tags:
+  - car
+
+requestBody:
+  description: 차량을 등록하기 위해 필요한 값들
+  content:
+    application/json:
+      schema:
+        $ref: "../../schemas/car/request/create-car.yaml"
+      example:
+        carNumber: "string"
+        manufacturer: "string"
+        model: "string"
+        manufacturingYear: 2020
+        mileage: 30
+        price: 1000000
+        accidentCount: 1
+        explanation: "string"
+        accidentDetails: "string"
+
+responses:
+  "201":
+    description: 고객 등록 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/car/response/create-car.yaml"
+        example:
+          id: 2
+          carNumber: "string"
+          manufacturer: "string"
+          model: "string"
+          type: "string"
+          manufacturingYear: 2020
+          mileage: 30
+          price: 1000000
+          accidentCount: 1
+          explanation: "string"
+          accidentDetails: "string"
+          status: "possession"
+
+  "400":
+    description: 고객 등록 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"

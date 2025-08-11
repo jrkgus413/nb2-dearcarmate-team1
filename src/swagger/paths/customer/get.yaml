@@ -47,24 +47,24 @@ responses:
               totalPages: 5
               totalItemCount: 50
               data:
-                - id: 1
-                  name: string
-                  gender: male
-                  phoneNumber: 010-0000-0000
-                  ageGroup: 10대
-                  region: 서울
-                  email: tmp@tmp.com
-                  memo: string
-                  contractCount: 0
-                - id: 2
-                  name: string
-                  gender: female
-                  phoneNumber: 010-0000-0000
-                  ageGroup: 10대
-                  region: 서울
-                  email: tmp@tmp.com
-                  memo: string
-                  contractCount: 0
+              - id: 1
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
+                contractCount: 0
+              - id: 2
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
+                contractCount: 0
 
   "400":
     description: 고객 목록 조회 실패

@@ -11,13 +11,13 @@ requestBody:
       schema:
         $ref: "../../../schemas/customer/request/update-customer.yaml"
       example:
-        name: "김기로"
-        gender: "male"
-        phoneNumber: "010-2345-1234"
-        ageGroup: "20대"
-        region: "광주"
-        email: "user@example.com"
-        memo: "tmp memo"
+        name: string
+        gender: male | female
+        phoneNumber: string
+        ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+        region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+        email: string
+        memo: string
 
 responses:
   "200":
@@ -27,14 +27,14 @@ responses:
         schema:
           $ref: "../../../schemas/customer/response/update-customer.yaml"
         example:
-          id: 2
-          name: "김기로"
-          gender: "male"
-          phoneNumber: "010-2345-1234"
-          ageGroup: "20대"
-          region: "광주"
-          email: "user@example.com"
-          memo: "tmp memo"
+          id: 1
+          name: string
+          gender: male | female
+          phoneNumber: string
+          ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+          region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+          email: string
+          memo: string
           contractCount: 0
 
   "400":

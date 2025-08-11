@@ -1,26 +1,29 @@
-summary: 특정 고객 조회
-description: 특정 고객의 상세 정보를 조회한다.
+summary: 특정 차량 조회
+description: 특정 차량의 상세 정보를 조회한다.
 
 tags:
-  - customer
+  - car
 
 responses:
   "200":
-    description: 고객 정보 조회 성공
+    description: 차량 정보 조회 성공
     content:
       application/json:
         schema:
-          $ref: "../../../schemas/customer/response/get-customer.yaml"
+          $ref: "../../../schemas/car/response/get-car.yaml"
         example:
             id: 1
-            name: string
-            gender: male | female
-            phoneNumber: string
-            ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
-            region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
-            email: string
-            memo: string
-            contractCount: 0
+            carNumber: "string"
+            manufacturer: "string"
+            model: "string"
+            type: "string"
+            manufacturingYear: 2020
+            mileage: 30
+            price: 1000000
+            accidentCount: 1
+            explanation: "string"
+            accidentDetails: "string"
+            status: "possession | contractProceeding | contractCompleted"
   "400":
     description: 고객 조회 실패
     content:

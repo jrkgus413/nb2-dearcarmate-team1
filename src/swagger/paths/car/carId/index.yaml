@@ -1,0 +1,15 @@
+parameters:
+  - in: path
+    name: carId
+    schema:
+      type: integer
+    description: 차량 id
+
+get:
+  $ref: ./get.yaml
+
+delete:
+  $ref: ./delete.yaml
+
+patch:
+  $ref: ./patch.yaml

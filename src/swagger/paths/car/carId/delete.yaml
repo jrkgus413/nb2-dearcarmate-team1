@@ -1,25 +1,26 @@
-summary: 특정 고객 삭제
-description: 특정 고객을 삭제한다.
+summary: 특정 차량 삭제
+description: 특정 차량을 삭제한다.
 
 tags:
-  - customer
+  - car
 
 responses:
   "200":
-    description: 고객 정보 삭제 성공
+    description: 차량 삭제 성공
     content:
       application/json:
         schema:
-          $ref: "../../../schemas/customer/response/delete-customer.yaml"
+          $ref: "../../../schemas/car/response/delete-car.yaml"
         example:
-          message: 고객 삭제 성공
+          message: 차량 삭제 성공
   "400":
-    description: 고객 삭제 실패
+    description: 차량 삭제 실패
     content:
       application/json:
         schema:
           $ref: "../../../schemas/error/400.yaml"
-        message: 잘못된 요청입니다
+        example:
+          message: 잘못된 요청입니다
   "401":
     description: 로그인 필요
     content:
@@ -30,10 +31,10 @@ responses:
           message: 로그인이 필요합니다
 
   "404":
-    description: 고객 없음
+    description: 차량 없음
     content:
       application/json:
         schema:
           $ref: "../../../schemas/error/404.yaml"
         example:
-          message: 존재하지 않는 고객입니다
+          message: 존재하지 않는 차량입니다

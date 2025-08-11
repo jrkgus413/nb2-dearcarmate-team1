@@ -1,0 +1,21 @@
+type: object
+properties:
+  data:
+    type: array
+    items:
+      type: object
+      properties:
+        manufacturer:
+          type: string
+          description: 차량 제조사
+        
+        model:
+          type: array
+          items:
+            type: string
+          description: 차량 모델
+
+required:
+  - data
+  
+additionalProperties: false

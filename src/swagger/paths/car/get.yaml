@@ -1,0 +1,97 @@
+summary: 차량 목록 조회
+description: 모든 차량 목록을 조회합니다.
+
+tags:
+  - car
+
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: 현재 페이지 번호
+
+  - in: query
+    name: pageSize
+    schema:
+      type: integer
+    description: 페이지 당 요소의 개수
+
+  - in: query
+    name: status
+    schema:
+      type: string
+    description: 차량의 계약 상태
+
+  - in: query
+    name: searchBy
+    schema:
+      type: string
+      enum:
+        - carNumber
+        - model
+    description: 검색 기준(carNumber 또는 model)
+
+  - in: query
+    name: keyword
+    schema:
+      type: string
+    description: 검색어(검증은 서버에서 실시)
+
+responses:
+  "200":
+    description: 차량 목록 조회 성공
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/car/response/get-car-list.yaml"
+        examples:
+          sample:
+            summary: 차량 목록 응답 예시
+            value:
+              currentPage: 1
+              totalPages: 5
+              totalItemCount: 50
+              data:
+                - id: 1
+                  carNumber: "string"
+                  manufacturer: "string"
+                  model: "string"
+                  type: "string"
+                  manufacturingYear: 2020
+                  mileage: 30
+                  price: 1000000
+                  accidentCount: 1
+                  explanation: "string"
+                  accidentDetails: "string"
+                  status: "possession | contractProceeding | contractCompleted"
+                - id: 2
+                  carNumber: "string"
+                  manufacturer: "string"
+                  model: "string"
+                  type: "string"
+                  manufacturingYear: 2020
+                  mileage: 30
+                  price: 1000000
+                  accidentCount: 1
+                  explanation: "string"
+                  accidentDetails: "string"
+                  status: "possession | contractProceeding | contractCompleted"
+
+  "400":
+    description: 차량 목록 조회 실패
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/error/400.yaml"
+        example:
+          message: "잘못된 요청입니다"
+
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/error/401.yaml"
+        example:
+          message: "로그인이 필요합니다"

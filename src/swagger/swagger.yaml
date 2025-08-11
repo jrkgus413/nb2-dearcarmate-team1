@@ -13,6 +13,8 @@ server:
 tags:
   - name: customer
     description: customer에 대한 API를 설명합니다.
+  - name: car
+    description: car에 대한 API를 설명합니다.
 paths:
   /customer:
     get:
@@ -81,20 +83,20 @@ paths:
                     data:
                       - id: 1
                         name: string
-                        gender: male
-                        phoneNumber: 010-0000-0000
-                        ageGroup: 10대
-                        region: 서울
-                        email: tmp@tmp.com
+                        gender: male | female
+                        phoneNumber: string
+                        ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                        region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                        email: string
                         memo: string
                         contractCount: 0
                       - id: 2
                         name: string
-                        gender: female
-                        phoneNumber: 010-0000-0000
-                        ageGroup: 10대
-                        region: 서울
-                        email: tmp@tmp.com
+                        gender: male | female
+                        phoneNumber: string
+                        ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                        region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                        email: string
                         memo: string
                         contractCount: 0
         '400':
@@ -102,11 +104,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: bad request
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               example:
                 message: 잘못된 요청입니다
         '401':
@@ -114,11 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Unauthorized
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 로그인이 필요합니다
     post:
@@ -137,11 +131,9 @@ paths:
                   type: string
                   description: 고객 이름
                   maxLength: 50
-                  nullable: false
                 gender:
                   type: string
                   description: 고객 성별
-                  nullable: false
                   enum:
                     - male
                     - female
@@ -149,11 +141,9 @@ paths:
                   type: string
                   description: 고객 전화번호
                   maxLength: 13
-                  nullable: false
                 ageGroup:
                   type: string
                   description: 고객 나이대
-                  nullable: true
                   enum:
                     - 10대
                     - 20대
@@ -166,7 +156,6 @@ paths:
                 region:
                   type: string
                   description: 고객 지역
-                  nullable: true
                   enum:
                     - 서울
                     - 경기
@@ -188,11 +177,9 @@ paths:
                 email:
                   type: string
                   format: email
-                  nullable: true
                   description: 고객 이메일
                 memo:
                   type: string
-                  nullable: true
                   description: 고객에 대한 간단한 메모
               required:
                 - name
@@ -204,13 +191,13 @@ paths:
                 - memo
               additionalProperties: false
             example:
-              name: 김기로
-              gender: male
-              phoneNumber: 010-2345-1234
-              ageGroup: 20대
-              region: 광주
-              email: user@example.com
-              memo: tmp memo
+              name: string
+              gender: male | female
+              phoneNumber: string
+              ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+              region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+              email: string
+              memo: string
       responses:
         '201':
           description: 고객 등록 성공
@@ -242,6 +229,7 @@ paths:
                     format: int64
                     description: 고객의 계약 개수
                 required:
+                  - id
                   - name
                   - gender
                   - phoneNumber
@@ -249,23 +237,24 @@ paths:
                   - region
                   - email
                   - memo
+                  - contractCount
                 additionalProperties: false
               example:
-                id: 2
-                name: 김기로
-                gender: male
-                phoneNumber: 010-2345-1234
-                ageGroup: 20대
-                region: 광주
-                email: user@example.com
-                memo: tmp memo
+                id: 1
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
                 contractCount: 0
         '400':
           description: 고객 등록 실패
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/400/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               example:
                 message: 잘못된 요청입니다
         '401':
@@ -273,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/401/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 로그인이 필요합니다
   '/customer/{customerId}':
@@ -327,20 +316,20 @@ paths:
                 additionalProperties: false
               example:
                 id: 1
-                name: 박수로
-                gender: male
-                phoneNumber: 010-2345-1234
-                ageGroup: 10대
-                region: 서울
-                email: user@example.com
-                memo: tmp memo
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
                 contractCount: 0
         '400':
           description: 고객 조회 실패
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/400/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               example:
                 message: 잘못된 요청입니다
         '401':
@@ -348,7 +337,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/401/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 로그인이 필요합니다
         '404':
@@ -356,11 +345,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Not Found
+                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
     patch:
@@ -391,13 +376,13 @@ paths:
                   $ref: '#/paths/~1customer/post/requestBody/content/application~1json/schema/properties/memo'
               additionalProperties: false
             example:
-              name: 김기로
-              gender: male
-              phoneNumber: 010-2345-1234
-              ageGroup: 20대
-              region: 광주
-              email: user@example.com
-              memo: tmp memo
+              name: string
+              gender: male | female
+              phoneNumber: string
+              ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+              region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+              email: string
+              memo: string
       responses:
         '200':
           description: 고객 수정 성공
@@ -436,21 +421,21 @@ paths:
                   - contractCount
                 additionalProperties: false
               example:
-                id: 2
-                name: 김기로
-                gender: male
-                phoneNumber: 010-2345-1234
-                ageGroup: 20대
-                region: 광주
-                email: user@example.com
-                memo: tmp memo
+                id: 1
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
                 contractCount: 0
         '400':
           description: 고객 수정 실패
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/400/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               example:
                 message: 잘못된 요청입니다
         '401':
@@ -458,7 +443,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/401/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 로그인이 필요합니다
         '404':
@@ -466,7 +451,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer~1%7BcustomerId%7D/get/responses/404/content/application~1json/schema'
+                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
               example:
                 message: 존재하지 않는 고객입니다
     delete:
@@ -492,22 +477,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/400/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               message: 잘못된 요청입니다
         '401':
           description: 로그인 필요
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/401/content/application~1json/schema'
-              message: 로그인이 필요합니다
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
         '404':
           description: 고객 없음
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer~1%7BcustomerId%7D/get/responses/404/content/application~1json/schema'
-              message: 존재하지 않는 고객입니다
+                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+              example:
+                message: 존재하지 않는 고객입니다
   /customer/upload:
     post:
       summary: 고객 대용량 업로드
@@ -519,11 +506,576 @@ paths:
         content:
           text/csv:
             schema:
+              $ref: '#/paths/~1car~1upload/post/requestBody/content/text~1csv/schema'
+      responses:
+        '200':
+          description: 고객 대용량 등록 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car~1upload/post/responses/200/content/application~1json/schema'
+              example:
+                message: 성공적으로 등록되었습니다
+        '400':
+          description: 고객 등록 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+  /car:
+    get:
+      summary: 차량 목록 조회
+      description: 모든 차량 목록을 조회합니다.
+      tags:
+        - car
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: 현재 페이지 번호
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          description: 페이지 당 요소의 개수
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: 차량의 계약 상태
+        - in: query
+          name: searchBy
+          schema:
+            type: string
+            enum:
+              - carNumber
+              - model
+          description: 검색 기준(carNumber 또는 model)
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          description: 검색어(검증은 서버에서 실시)
+      responses:
+        '200':
+          description: 차량 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPage:
+                    type: integer
+                    description: 현재 페이지 번호
+                  totalPages:
+                    type: integer
+                    description: 전체 페이지 수
+                  totalItemCount:
+                    type: integer
+                    description: 전체 아이템 수
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/200/content/application~1json/schema'
+                required:
+                  - currentPage
+                  - totalPages
+                  - totalItemCount
+                  - data
+                additionalProperties: false
+              examples:
+                sample:
+                  summary: 차량 목록 응답 예시
+                  value:
+                    currentPage: 1
+                    totalPages: 5
+                    totalItemCount: 50
+                    data:
+                      - id: 1
+                        carNumber: string
+                        manufacturer: string
+                        model: string
+                        type: string
+                        manufacturingYear: 2020
+                        mileage: 30
+                        price: 1000000
+                        accidentCount: 1
+                        explanation: string
+                        accidentDetails: string
+                        status: possession | contractProceeding | contractCompleted
+                      - id: 2
+                        carNumber: string
+                        manufacturer: string
+                        model: string
+                        type: string
+                        manufacturingYear: 2020
+                        mileage: 30
+                        price: 1000000
+                        accidentCount: 1
+                        explanation: string
+                        accidentDetails: string
+                        status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 차량 목록 조회 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: bad request
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Unauthorized
+              example:
+                message: 로그인이 필요합니다
+    post:
+      summary: 차량 등록
+      description: 필요한 값들로 차량을 등록한다.
+      tags:
+        - car
+      requestBody:
+        description: 차량을 등록하기 위해 필요한 값들
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                carNumber:
+                  type: string
+                  description: 차 번호
+                manufacturer:
+                  type: string
+                  description: 차 제작 회사
+                model:
+                  type: string
+                  description: 차 모델
+                manufacturingYear:
+                  type: string
+                  description: 차 만든 연도
+                mileage:
+                  type: integer
+                  format: int64
+                  description: 이동한 거리
+                price:
+                  type: integer
+                  format: int64
+                  description: 가격
+                accidentCount:
+                  type: integer
+                  format: int32
+                  description: 사고 횟수
+                explanation:
+                  type: string
+                  description: 설명
+                accidentDetails:
+                  type: string
+                  description: 사고 세부 사항
+              required:
+                - carNumber
+                - manufacturer
+                - model
+                - manufacturingYear
+                - mileage
+                - price
+                - accidentCount
+                - explanation
+              additionalProperties: false
+            example:
+              carNumber: string
+              manufacturer: string
+              model: string
+              manufacturingYear: 2020
+              mileage: 30
+              price: 1000000
+              accidentCount: 1
+              explanation: string
+              accidentDetails: string
+      responses:
+        '201':
+          description: 고객 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    description: 차 구별용 id
+                  carNumber:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/carNumber'
+                  manufacturer:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturer'
+                  model:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/model'
+                  type:
+                    type: string
+                    description: 차 종류
+                  manufacturingYear:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturingYear'
+                  mileage:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/mileage'
+                  price:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/price'
+                  accidentCount:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentCount'
+                  explanation:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/explanation'
+                  accidentDetails:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentDetails'
+                  status:
+                    type: string
+                    description: 사고 세부 사항
+                    enum:
+                      - possession
+                      - contractProceeding
+                      - contractCompleted
+                required:
+                  - id
+                  - carNumber
+                  - manufacturer
+                  - model
+                  - type
+                  - manufacturingYear
+                  - mileage
+                  - price
+                  - accidentCount
+                  - explanation
+                  - accidentDetails
+                  - status
+                additionalProperties: false
+              example:
+                id: 2
+                carNumber: string
+                manufacturer: string
+                model: string
+                type: string
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession
+        '400':
+          description: 고객 등록 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+  '/car/{carId}':
+    parameters:
+      - in: path
+        name: carId
+        schema:
+          type: integer
+        description: 차량 id
+    get:
+      summary: 특정 차량 조회
+      description: 특정 차량의 상세 정보를 조회한다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 차량 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/id'
+                  carNumber:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/carNumber'
+                  manufacturer:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturer'
+                  model:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/model'
+                  type:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/type'
+                  manufacturingYear:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturingYear'
+                  mileage:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/mileage'
+                  price:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/price'
+                  accidentCount:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentCount'
+                  explanation:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/explanation'
+                  accidentDetails:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentDetails'
+                  status:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/status'
+                required:
+                  - id
+                  - carNumber
+                  - manufacturer
+                  - model
+                  - type
+                  - manufacturingYear
+                  - mileage
+                  - price
+                  - accidentCount
+                  - explanation
+                  - accidentDetails
+                  - status
+                additionalProperties: false
+              example:
+                id: 1
+                carNumber: string
+                manufacturer: string
+                model: string
+                type: string
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 고객 조회 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 고객 없음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Not Found
+              example:
+                message: 존재하지 않는 고객입니다
+    delete:
+      summary: 특정 차량 삭제
+      description: 특정 차량을 삭제한다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 차량 삭제 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 고객 삭제 성공
+              example:
+                message: 차량 삭제 성공
+        '400':
+          description: 차량 삭제 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 차량 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+              example:
+                message: 존재하지 않는 차량입니다
+    patch:
+      summary: 차량 수정
+      description: 들어온 값들을 통해서 차량을 수정한다.
+      tags:
+        - car
+      requestBody:
+        description: 차량을 수정하기 위해 필요한 값들
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                carNumber:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/carNumber'
+                manufacturer:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturer'
+                model:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/model'
+                manufacturingYear:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturingYear'
+                mileage:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/mileage'
+                price:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/price'
+                accidentCount:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentCount'
+                explanation:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/explanation'
+                accidentDetails:
+                  $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentDetails'
+              additionalProperties: false
+            example:
+              carNumber: string
+              manufacturer: string
+              model: string
+              manufacturingYear: 2020
+              mileage: 30
+              price: 1000000
+              accidentCount: 1
+              explanation: string
+              accidentDetails: string
+      responses:
+        '200':
+          description: 차량 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/id'
+                  carNumber:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/carNumber'
+                  manufacturer:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturer'
+                  model:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/model'
+                  type:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/type'
+                  manufacturingYear:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/manufacturingYear'
+                  mileage:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/mileage'
+                  price:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/price'
+                  accidentCount:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentCount'
+                  explanation:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/explanation'
+                  accidentDetails:
+                    $ref: '#/paths/~1car/post/requestBody/content/application~1json/schema/properties/accidentDetails'
+                  status:
+                    $ref: '#/paths/~1car/post/responses/201/content/application~1json/schema/properties/status'
+                required:
+                  - id
+                  - carNumber
+                  - manufacturer
+                  - model
+                  - type
+                  - manufacturingYear
+                  - mileage
+                  - price
+                  - accidentCount
+                  - explanation
+                  - accidentDetails
+                  - status
+                additionalProperties: false
+              example:
+                id: 1
+                carNumber: string
+                manufacturer: string
+                model: string
+                type: string
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 차량 수정 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 차량 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car~1%7BcarId%7D/get/responses/404/content/application~1json/schema'
+              example:
+                message: 존재하지 않는 고객입니다
+  /car/upload:
+    post:
+      summary: 차량 대용량 업로드
+      description: csv 파일을 이용해서 차량 정보를 모두 올린다.
+      tags:
+        - car
+      requestBody:
+        description: 차량을 등록하기 위해 필요한 파일
+        content:
+          text/csv:
+            schema:
               type: string
               format: binary
       responses:
-        '201':
-          description: 고객 대용량 등록 성공
+        '200':
+          description: 차량 대용량 등록 성공
           content:
             application/json:
               schema:
@@ -535,11 +1087,11 @@ paths:
               example:
                 message: 성공적으로 등록되었습니다
         '400':
-          description: 고객 등록 실패
+          description: 차량 등록 실패
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/400/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
               example:
                 message: 잘못된 요청입니다
         '401':
@@ -547,6 +1099,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1customer/get/responses/401/content/application~1json/schema'
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
+              example:
+                message: 로그인이 필요합니다
+  /car/models:
+    get:
+      summary: 차량 모델 목록 조회
+      description: 차량 모델 목록을 조회합니다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 차량 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        manufacturer:
+                          type: string
+                          description: 차량 제조사
+                        model:
+                          type: array
+                          items:
+                            type: string
+                          description: 차량 모델
+                required:
+                  - data
+                additionalProperties: false
+              example:
+                data:
+                  - manufacturer: 기아
+                    model:
+                      - K3
+                      - K5
+                      - K7
+                      - K9
+                      - K8
+                  - manufacturer: 현대
+                    model:
+                      - 그랜저
+                      - 아반떼
+                      - 소나타
+                      - 투싼
+                      - 베뉴
+        '400':
+          description: 차량 목록 조회 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/400/content/application~1json/schema'
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1car/get/responses/401/content/application~1json/schema'
               example:
                 message: 로그인이 필요합니다

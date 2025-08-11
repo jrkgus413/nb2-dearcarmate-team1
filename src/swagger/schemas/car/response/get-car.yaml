@@ -1,0 +1,53 @@
+type: object
+properties:
+  id:
+    $ref: '../car.yaml#/properties/id'
+
+  carNumber:
+    $ref: '../car.yaml#/properties/carNumber'
+
+  manufacturer:
+    $ref: '../car.yaml#/properties/manufacturer'
+
+  model:
+    $ref: '../car.yaml#/properties/model'
+
+  type:
+    $ref: '../car.yaml#/properties/type'
+
+  manufacturingYear:
+    $ref: '../car.yaml#/properties/manufacturingYear'
+
+  mileage:
+    $ref: '../car.yaml#/properties/mileage'
+
+  price:
+    $ref: '../car.yaml#/properties/price'
+
+  accidentCount:
+    $ref: '../car.yaml#/properties/accidentCount'
+
+  explanation:
+    $ref: '../car.yaml#/properties/explanation'
+
+  accidentDetails:
+    $ref: '../car.yaml#/properties/accidentDetails'
+
+  status:
+    $ref: '../car.yaml#/properties/status'
+
+required:
+  - id
+  - carNumber
+  - manufacturer
+  - model
+  - type
+  - manufacturingYear
+  - mileage
+  - price
+  - accidentCount
+  - explanation
+  - accidentDetails
+  - status
+
+additionalProperties: false

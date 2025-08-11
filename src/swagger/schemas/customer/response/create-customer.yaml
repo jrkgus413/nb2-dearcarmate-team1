@@ -28,6 +28,7 @@ properties:
     $ref: '../customer.yaml#/properties/contractCount'
 
 required:
+  - id
   - name
   - gender
   - phoneNumber
@@ -35,5 +36,6 @@ required:
   - region
   - email
   - memo
+  - contractCount
   
 additionalProperties: false

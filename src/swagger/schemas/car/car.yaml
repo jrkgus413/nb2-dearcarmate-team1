@@ -1,0 +1,91 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 차 구별용 id
+
+  carNumber:
+    type: string
+    description: 차 번호
+
+  manufacturer:
+    type: string
+    description: 차 제작 회사
+
+  model:
+    type: string
+    description: 차 모델
+
+  type:
+    type: string
+    description: 차 종류
+
+  manufacturingYear:
+    type: string
+    description: 차 만든 연도
+
+  mileage:
+    type: integer
+    format: int64
+    description: 이동한 거리
+
+  price:
+    type: integer
+    format: int64
+    description: 가격
+
+  totalPrice:
+    type: integer
+    format: int64
+    description: 최종 가격
+
+  accidentCount:
+    type: integer
+    format: int32
+    description: 사고 횟수
+
+  explanation:
+    type: string
+    description: 설명
+
+  accidentDetails:
+    type: string
+    description: 사고 세부 사항
+
+  status:
+    type: string
+    description: 사고 세부 사항
+    enum: [possession, contractProceeding, contractCompleted]
+
+  imageUrl:
+    type: string
+    description: 사고 세부 사항
+
+  createdAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 차량을 등록한 시간
+
+  updatedAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 차량 정보를 수정한 시간
+
+  deletedAt:
+    type: string
+    format: date-time
+    nullable: true
+    description: 차량 정보를 삭제한 시간
+
+  isDeleted:
+    type: boolean
+    description: 차량을 삭제하였는지 여부
+
+  companyId:
+    type: integer
+    format: int64
+    nullable: false
+    description: 차량이 속한 회사 구별용 id
