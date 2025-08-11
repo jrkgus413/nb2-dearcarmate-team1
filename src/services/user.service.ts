@@ -124,7 +124,7 @@ export const updateMyInfo = async (userId: bigint, data: UserUpdateRequest) => {
       throw new ConflictError('이미 존재하는 사원번호입니다.');
     }
   }
-  const hashedPassword = await hash(data.password, 10);
+  const hashedPassword = data.password ? await hash(data.password, 10) : user.password;
   const updatedUser = await UserRepository.updateMyInfo(userId, {
     ...data,
     password: hashedPassword,
