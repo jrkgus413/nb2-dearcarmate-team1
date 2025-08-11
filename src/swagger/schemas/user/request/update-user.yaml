@@ -1,0 +1,21 @@
+type: object
+properties:
+  employeeNumber:
+  $ref: ../user.yaml#/properties/employeeNumber
+
+  phoneNumber:
+    $ref: ../user.yaml#/properties/phoneNumber
+
+  currentPassword:
+    $ref: ../user.yaml#/properties/currentPassword
+
+  password:
+    $ref: ../user.yaml#/properties/password
+
+  passwordConfirmation:
+    $ref: ../user.yaml#/properties/passwordConfirmation
+
+  imageUrl:
+    $ref: ../user.yaml#/properties/imageUrl
+
+additionalProperties: false

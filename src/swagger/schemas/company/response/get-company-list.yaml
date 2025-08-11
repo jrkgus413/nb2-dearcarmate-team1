@@ -1,0 +1,26 @@
+type: object
+properties:
+  currentPage:
+    type: integer
+    description: 현재 페이지 번호
+
+  totalPages:
+    type: integer
+    description: 전체 페이지 수
+
+  totalItemCount:
+    type: integer
+    description: 전체 아이템 수
+
+  data:
+    type: array
+    items:
+      $ref: './create-company.yaml'
+
+required:
+  - currentPage
+  - totalPages
+  - totalItemCount
+  - data
+  
+additionalProperties: false

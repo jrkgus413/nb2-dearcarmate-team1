@@ -1,0 +1,40 @@
+type: object
+properties:
+  id:
+    $ref: ../user.yaml#/properties/id
+
+  name:
+    $ref: ../user.yaml#/properties/name
+
+  email:
+    $ref: ../user.yaml#/properties/email
+
+  employeeNumber:
+    $ref: ../user.yaml#/properties/employeeNumber
+
+  phoneNumber:
+    $ref: ../user.yaml#/properties/phoneNumber
+
+  imageUrl:
+    $ref: ../user.yaml#/properties/imageUrl
+
+  isAdmin:
+    $ref: ../user.yaml#/properties/isAdmin
+
+  company:
+    type: object
+    properties:
+      companyCode:
+        $ref: ../user.yaml#/properties/companyCode
+
+required:
+  - id
+  - name
+  - email
+  - employeeNumber
+  - phoneNumber
+  - imageUrl
+  - isAdmin
+  - company
+
+additionalProperties: false

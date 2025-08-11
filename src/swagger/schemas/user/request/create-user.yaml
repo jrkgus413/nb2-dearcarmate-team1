@@ -1,0 +1,37 @@
+type: object
+properties:
+  name:
+    $ref: ../user.yaml#/properties/name
+
+  email:
+    $ref: ../user.yaml#/properties/email
+
+  employeeNumber:
+    $ref: ../user.yaml#/properties/employeeNumber
+
+  phoneNumber:
+    $ref: ../user.yaml#/properties/phoneNumber
+
+  password:
+    $ref: ../user.yaml#/properties/password
+
+  passwordConfirmation:
+    $ref: ../user.yaml#/properties/passwordConfirmation
+
+  company:
+    $ref: ../user.yaml#/properties/company
+
+  companyCode:
+    $ref: ../user.yaml#/properties/companyCode
+
+required:
+  - name
+  - email
+  - employeeNumber
+  - phoneNumber
+  - password
+  - passwordConfirmation
+  - company
+  - companyCode
+
+additionalProperties: false

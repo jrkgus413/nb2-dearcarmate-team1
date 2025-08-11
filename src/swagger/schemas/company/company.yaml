@@ -1,0 +1,40 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 회사 구별용 id
+
+  name:
+    type: string
+    description: 회사 이름
+
+  companyCode:
+    type: string
+    description: 회사 코드
+
+  createdAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 회사를 등록한 시간
+
+  updatedAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 회사 정보를 수정한 시간
+
+  deletedAt:
+    type: string
+    format: date-time
+    nullable: true
+    description: 회사 정보를 삭제한 시간
+
+  isDeleted:
+    type: boolean
+    description: 회사를 삭제하였는지 여부
+
+  userCount:
+    type: integer
+    description: 회사에 속한 유저 수

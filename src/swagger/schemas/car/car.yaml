@@ -60,7 +60,7 @@ properties:
 
   imageUrl:
     type: string
-    description: 사고 세부 사항
+    description: 차 이미지
 
   createdAt:
     type: string

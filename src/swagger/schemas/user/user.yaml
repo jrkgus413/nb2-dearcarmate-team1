@@ -1,0 +1,81 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 유저 구별용 id
+
+  name:
+    type: string
+    description: 유저 이름
+
+  email:
+    type: string
+    format: email
+    description: 유저 이메일
+
+  phoneNumber:
+    type: string
+    description: 유저 전화번호
+
+  password:
+    type: string
+    format: password
+    description: 유저 패스워드
+
+  passwordConfirmation:
+    type: string
+    format: password
+    description: 유저 패스워드 확인
+
+  currentPassword:
+    type: string
+    format: password
+    description: 현재 유저 패스워드
+
+  imageUrl:
+    type: string
+    description: 유저 프로필 이미지 url
+
+  company:
+    type: string
+    description: 회사 이름
+
+  isAdmin:
+    type: boolean
+    description: 유저 어드민 유무
+
+  companyId:
+    type: integer
+    format: int64
+    description: 유저 소속 회사
+
+  companyCode:
+    type: string
+    description: 회사 코드
+
+  employeeNumber:
+    type: string
+    description: 유저 사원번호
+
+  createdAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 차량을 등록한 시간
+
+  updatedAt:
+    type: string
+    format: date-time
+    nullable: false
+    description: 차량 정보를 수정한 시간
+
+  deletedAt:
+    type: string
+    format: date-time
+    nullable: true
+    description: 차량 정보를 삭제한 시간
+
+  isDeleted:
+    type: boolean
+    description: 차량을 삭제하였는지 여부
