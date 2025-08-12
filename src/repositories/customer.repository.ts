@@ -75,7 +75,7 @@ export const deactivateCustomerWithContract = async (customerId: bigint) => awai
     }
   });
 
-  return await prisma.customer.update({
+  return await tx.customer.update({
     where: { id: customerId },
     data: {
       isDeleted: true,
