@@ -17,7 +17,9 @@ post:
   requestBody:
     description: 업로드할 고객 데이터 파일
     content:
-      multipart/form-data:
+      text/csv:
+        schema:
+          type: string
         example:
           file: File
   responses:
