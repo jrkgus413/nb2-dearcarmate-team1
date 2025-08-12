@@ -7,6 +7,9 @@ post:
     description: 업로드할 이미지 파일
     content:
       multipart/form-data:
+        schema:
+          type: string
+          format: binary
         example:
           image: File
   responses:
