@@ -6,14 +6,6 @@ get:
   tags:
     - car
 
-  parameters:
-    - name: Authorization
-      in: header
-      required: true
-      description: Bearer 액세스 토큰
-      schema:
-        type: string
-
   responses:
     "200":
       description: 제조사 및 모델 목록 조회 성공
