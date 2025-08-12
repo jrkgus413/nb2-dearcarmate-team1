@@ -10,8 +10,16 @@ post:
     description: 업로드할 계약서 파일
     content:
       multipart/form-data:
+        schema:
+          type: object
+          properties:
+            files:
+              type: array
+              items:
+                type: string
+                format: binary
         example:
-          contractDocument: File
+          contractDocument: Files
 
   responses:
     "200":
