@@ -6,7 +6,7 @@ post:
   requestBody:
     description: 업로드할 이미지 파일
     content:
-      multipart/form-data:
+      image/*:
         schema:
           type: string
           format: binary
