@@ -1,5 +1,5 @@
-summary: 특정 차량 조회
-description: 특정 차량의 상세 정보를 조회한다.
+summary: 내 정보 조회
+description: 사용자의 상세 정보를 조회한다.
 
 tags:
   - user

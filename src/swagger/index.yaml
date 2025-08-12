@@ -39,14 +39,14 @@ paths:
   /customer:
     $ref: ./paths/customer/index.yaml
   /customer/{customerId}:
-    $ref: ./paths/customer/customerId/index.yaml
+    $ref: ./paths/customer/customer-id/index.yaml
   /customer/upload:
     $ref: ./paths/customer/upload/index.yaml
 
   /car:
     $ref: ./paths/car/index.yaml
   /car/{carId}:
-    $ref: ./paths/car/carId/index.yaml
+    $ref: ./paths/car/car-id/index.yaml
   /car/upload:
     $ref: ./paths/car/upload/index.yaml
   /car/models:
@@ -55,7 +55,7 @@ paths:
   /companies:
     $ref: ./paths/company/index.yaml
   /companies/{companyId}:
-    $ref: ./paths/company/companyId/index.yaml
+    $ref: ./paths/company/company-id/index.yaml
   /companies/users:
     $ref: ./paths/company/users/index.yaml
 
@@ -64,11 +64,35 @@ paths:
   /user/me:
     $ref: ./paths/user/me/index.yaml
   /user/{userId}:
-    $ref: ./paths/user/userId/index.yaml
+    $ref: ./paths/user/user-id/index.yaml
 
   /auth/login:
-    $ref:
+    $ref: ./paths/auth/login/index.yaml
   /auth/refresh:
-    $ref:
+    $ref: ./paths/auth/refresh/index.yaml
 
-  
+  /images/upload:
+    $ref: ./paths/images/upload/index.yaml
+
+  /dashboard:
+    $ref: ./paths/dashboard/index.yaml
+
+  /contracts:
+    $ref: ./paths/contracts/index.yaml
+  /contracts/{contractId}:
+    $ref: ./paths/contracts/contract-id/index.yaml
+  /contracts/cars:
+    $ref: ./paths/contracts/cars/index.yaml
+  /contracts/customers:
+    $ref: ./paths/contracts/customers/index.yaml
+  /contracts/users:
+    $ref: ./paths/contracts/users/index.yaml
+
+  /contractDocuments:
+    $ref: ./paths/contract-documents/index.yaml
+  /contractDocuments/draft:
+    $ref: ./paths/contract-documents/draft/index.yaml
+  /contractDocuments/upload:
+    $ref: ./paths/contract-documents/upload/index.yaml
+  /contractDocuments/{contractDocumentId}/download:
+    $ref: ./paths/contract-documents/contract-document-id-download/index.yaml

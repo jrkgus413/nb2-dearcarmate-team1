@@ -1,22 +1,10 @@
-summary: 고객 등록
-description: 새로운 고객 정보를 등록한다.
+summary: 고객 상세 조회
+description: 특정 고객의 상세 정보를 조회한다.
 tags:
   - customer
-requestBody:
-  description: 등록할 고객 정보
-  content:
-    application/json:
-      example:
-        name: string
-        gender: male | female
-        phoneNumber: string
-        ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
-        region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
-        email: string
-        memo: string
 responses:
-  "201":
-    description: 고객 등록 성공
+  "200":
+    description: 고객 상세 조회 성공
     content:
       application/json:
         example:
@@ -41,3 +29,9 @@ responses:
       application/json:
         example:
           message: 로그인이 필요합니다
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 고객입니다

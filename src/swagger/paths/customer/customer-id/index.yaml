@@ -5,6 +5,13 @@ parameters:
       type: integer
     description: 고객의 id
 
+  - name: Authorization
+    in: header
+    required: true
+    description: Bearer 액세스 토큰
+    schema:
+      type: string
+
 get:
   $ref: ./get.yaml
 
