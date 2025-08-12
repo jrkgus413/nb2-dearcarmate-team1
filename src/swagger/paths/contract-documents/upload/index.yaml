@@ -1,16 +1,10 @@
 post:
+  security:
+    - bearerAuth: []
   summary: 계약서 파일 업로드
   description: 계약서 파일을 업로드한다.
   tags:
     - contractDocuments
-
-  parameters:
-    - name: Authorization
-      in: header
-      required: true
-      description: Bearer 액세스 토큰
-      schema:
-        type: string
 
   requestBody:
     description: 업로드할 계약서 파일
