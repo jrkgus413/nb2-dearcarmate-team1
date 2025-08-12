@@ -7,8 +7,8 @@ requestBody:
   content:
     application/json:
       example:
-        companyName: string
-        companyCode: string
+        companyName: 햇살카
+        companyCode: sunshine
 responses:
   "200":
     description: 회사 수정 성공
