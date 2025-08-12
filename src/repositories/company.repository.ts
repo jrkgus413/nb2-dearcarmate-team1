@@ -130,6 +130,31 @@ export const updateCompanies = async (companyId: bigint, { companyName, companyC
  */
 export const deleteCompanies = async (companyId: bigint) => {
   return await prisma.$transaction(async (tx) => {
+    // 계약 삭제
+    await tx.contract.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+
+    // 등록 차량 삭제
+    await tx.car.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+    // 고객 삭제
+    await tx.customer.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
     // 소속 사용자 삭제
     await tx.user.updateMany({
       where: { companyId: companyId, isAdmin: false },
