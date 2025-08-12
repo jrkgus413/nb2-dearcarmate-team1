@@ -1,0 +1,33 @@
+type: object
+properties:
+  monthlySales:
+    $ref: ../dashboard.yaml#/properties/monthlySales
+
+  lastMonthSales:
+    $ref: ../dashboard.yaml#/properties/lastMonthSales
+
+  growthRate:
+    $ref: ../dashboard.yaml#/properties/growthRate
+
+  proceedingContractsCount:
+    $ref: ../dashboard.yaml#/properties/proceedingContractsCount
+
+  completedContractsCount:
+    $ref: ../dashboard.yaml#/properties/completedContractsCount
+
+  contractsByCarType:
+    $ref: ../dashboard.yaml#/properties/contractsByCarType
+
+  salesByCarType:
+    $ref: ../dashboard.yaml#/properties/salesByCarType
+
+required:
+  - monthlySales
+  - lastMonthSales
+  - growthRate
+  - proceedingContractsCount
+  - completedContractsCount
+  - contractsByCarType
+  - salesByCarType
+
+additionalProperties: false

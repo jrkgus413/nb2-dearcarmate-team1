@@ -1,0 +1,9 @@
+type: object
+properties:
+  accessToken:
+    type: string
+    description: 접근 토큰
+
+  refreshToken:
+    type: string
+    description: 재발급 토큰

@@ -25,6 +25,15 @@ tags:
   - name: user
     description: user에 대한 API를 설명합니다.
 
+  - name: auth
+    description: auth에 대한 API를 설명합니다.
+
+  - name: image
+    description: 이미지에 대한 API를 설명합니다.
+
+  - name: dashboard
+    description: 대시보드에 대한 API를 설명합니다.
+
 
 paths:
   /customer:
@@ -56,3 +65,8 @@ paths:
     $ref: ./paths/user/me/index.yaml
   /user/{userId}:
     $ref: ./paths/user/userId/index.yaml
+
+  /auth/login:
+    $ref:
+  /auth/refresh:
+    $ref:
