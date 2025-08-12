@@ -1,4 +1,4 @@
-summary: 회사 삭제
+summary: 회사 삭제 (관리자 전용)
 description: 회사 ID를 통해 회사를 삭제한다.
 tags:
   - company
