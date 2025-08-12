@@ -4,14 +4,14 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('기존 데이터 삭제 중...');
+  /* console.log('기존 데이터 삭제 중...');
 
   // 모든 데이터 삭제
   await prisma.contract.deleteMany();
   await prisma.car.deleteMany();
   await prisma.customer.deleteMany();
   await prisma.user.deleteMany();
-  await prisma.company.deleteMany();
+  await prisma.company.deleteMany(); */
 
   console.log('회사 데이터 다시 생성 중...');
 
@@ -24,9 +24,9 @@ async function main() {
       { name: '믿음카', companyCode: 'trust' },
       { name: '신뢰카', companyCode: 'reliable' },
       { name: '우리카', companyCode: 'ourcar' },
-      { name: '미래카', companyCode: 'future' }
-    ]
-  })
+      { name: '미래카', companyCode: 'future' },
+    ],
+  });
 
   console.log('관리자 계정 생성 중…');
   const company = await prisma.company.findUnique({ where: { companyCode: 'kcar' } });
@@ -45,8 +45,8 @@ async function main() {
       isDeleted: false,
       company: company.name,
       companyCode: company.companyCode,
-      affiliatedCompany: { connect: { id: company.id } }
-    }
+      affiliatedCompany: { connect: { id: company.id } },
+    },
   });
 
   console.log('Seed 완료!');

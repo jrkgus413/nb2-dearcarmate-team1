@@ -65,6 +65,25 @@ export const update = async (customerId: bigint, data: CustomerUpdateData) => aw
   include: globalInclude
 });
 
+// 활성화 된 고객 비활성화(고객 삭제 + 계약 비활성화)
+export const deactivateCustomerWithContract = async (customerId: bigint) => await prisma.$transaction(async (tx) => {
+  await tx.contract.updateMany({
+    where: { customerId },
+    data: {
+      isDeleted: true,
+      deletedAt: new Date()
+    }
+  });
+
+  return await tx.customer.update({
+    where: { id: customerId },
+    data: {
+      isDeleted: true,
+      deletedAt: new Date()
+    }
+  });
+});
+
 // 고객 삭제
 export const remove = async (customerId: bigint) =>
   await prisma.customer.update({

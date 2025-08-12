@@ -36,65 +36,83 @@ export const createCar = async (data: CarCreateRequest, companyId: bigint) => {
 export const updateCar = async (id: bigint, data: any) => {
   const patch: any = {};
 
-  if (data?.mileage !== undefined && data?.mileage !== null) {
-    const raw = data.mileage;
-    if (typeof raw === 'string') {
-      const t = raw.trim();
-      if (t !== '') {
-        const n = Number(t);
-        if (Number.isFinite(n)) patch.mileage = n;
-      }
-    } else if (typeof raw === 'number' && Number.isFinite(raw)) {
-      patch.mileage = raw;
+  const toTrimmedOrNull = (v: unknown) => {
+    if (typeof v === 'string') {
+      const t = v.trim();
+      return t === '' ? null : t;
     }
+    return v ?? null;
+  };
+
+  const toInt = (v: unknown) => {
+    if (typeof v === 'number' && Number.isFinite(v)) return Math.trunc(v);
+    if (typeof v === 'string') {
+      const t = v.trim();
+      if (t === '') return undefined;
+      const n = Number(t);
+      if (Number.isFinite(n)) return Math.trunc(n);
+    }
+    return undefined;
+  };
+
+  const toBig = (v: unknown) => {
+    if (typeof v === 'bigint') return v;
+    if (typeof v === 'number' && Number.isFinite(v)) return BigInt(Math.trunc(v));
+    if (typeof v === 'string') {
+      const t = v.trim();
+      if (t === '') return undefined;
+      // 정수 문자열이면 그대로 BigInt
+      if (/^-?\d+$/.test(t)) return BigInt(t);
+      const n = Number(t);
+      if (Number.isFinite(n)) return BigInt(Math.trunc(n));
+    }
+    return undefined;
+  };
+
+  if (data?.mileage !== undefined) {
+    const b = toBig(data.mileage);
+    if (b !== undefined) patch.mileage = b;
+  }
+  if (data?.price !== undefined) {
+    const b = toBig(data.price);
+    if (b !== undefined) patch.price = b;
+  }
+  if (data?.totalPrice !== undefined) {
+    const b = toBig(data.totalPrice);
+    if (b !== undefined) patch.totalPrice = b;
   }
 
-  if (data?.price !== undefined && data?.price !== null) {
-    const raw = data.price;
-    if (typeof raw === 'string') {
-      const t = raw.trim();
-      if (t !== '') {
-        const n = Number(t);
-        if (Number.isFinite(n)) patch.price = n;
-      }
-    } else if (typeof raw === 'number' && Number.isFinite(raw)) {
-      patch.price = raw;
-    }
+  if (data?.manufacturingYear !== undefined) {
+    const n = toInt(data.manufacturingYear);
+    if (n !== undefined) patch.manufacturingYear = n;
   }
 
-  if (data?.manufacturingYear !== undefined && data?.manufacturingYear !== null) {
-    const raw = data.manufacturingYear;
-    if (typeof raw === 'string') {
-      const t = raw.trim();
-      if (t !== '') {
-        const n = Number(t);
-        if (Number.isFinite(n)) patch.manufacturingYear = n;
-      }
-    } else if (typeof raw === 'number' && Number.isFinite(raw)) {
-      patch.manufacturingYear = raw;
-    }
-  }
-
+  //accidentCount (빈 문자열이면 0 허용)
   if ('accidentCount' in (data || {})) {
     const raw = data.accidentCount;
-    if (!(raw === undefined || raw === null || (typeof raw === 'string' && raw.trim() === ''))) {
-      const parsed = Number(typeof raw === 'string' ? raw.trim() : raw);
-      if (!Number.isInteger(parsed) || parsed < 0) {
-        throw new Error('accidentCount는 0 이상의 정수여야 합니다.');
-      }
-      patch.accidentCount = parsed; // 0도 정상 반영
+    const n = (typeof raw === 'string' && raw.trim() === '') ? 0 : toInt(raw);
+    const parsed = n ?? 0;
+    if (!Number.isInteger(parsed) || parsed < 0) {
+      throw new Error('accidentCount는 0 이상의 정수여야 합니다.');
     }
+    patch.accidentCount = parsed; // 0도 반영
   }
+  
+  if (data?.manufacturer !== undefined) patch.manufacturer = typeof data.manufacturer === 'string' ? data.manufacturer.trim() : data.manufacturer;
+  if (data?.model !== undefined)        patch.model        = typeof data.model        === 'string' ? data.model.trim()        : data.model;
+  if (data?.type !== undefined)         patch.type         = typeof data.type         === 'string' ? data.type.trim()         : data.type;
+  if (data?.status !== undefined)       patch.status       = typeof data.status       === 'string' ? data.status.trim()       : data.status;
 
-  if (data?.manufacturer !== undefined) patch.manufacturer = data.manufacturer;
-  if (data?.model !== undefined) patch.model = data.model;
-  if (data?.type !== undefined) patch.type = data.type;
-  if (data?.explanation !== undefined) patch.explanation = data.explanation;
-  if (data?.accidentDetails !== undefined) patch.accidentDetails = data.accidentDetails;
-  if (data?.status !== undefined) patch.status = data.status;
+  if (data?.explanation !== undefined)     patch.explanation     = toTrimmedOrNull(data.explanation);
+  if (data?.accidentDetails !== undefined) patch.accidentDetails = toTrimmedOrNull(data.accidentDetails);
 
-  return await prisma.car.update({
-    where: { id: Number(id) }, // bigint → number 변환 유지
+  // imageUrl 반영
+  if ('imageUrl' in (data || {})) {
+    patch.imageUrl = toTrimmedOrNull(data.imageUrl);
+  }
+  
+  return prisma.car.update({
+    where: { id },     
     data: patch,
   });
 };
