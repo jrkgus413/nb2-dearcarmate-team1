@@ -65,17 +65,24 @@ export const update = async (customerId: bigint, data: CustomerUpdateData) => aw
   include: globalInclude
 });
 
-// 고객 삭제
-export const remove = async (customerId: bigint) =>
-  await prisma.customer.update({
-    where: {id: customerId},
-    data:{
+// 활성화 된 고객 비활성화(고객+계약 삭제 처리)
+export const deactivateCustomerWithContract = async (customerId: bigint) => await prisma.$transaction(async (tx) => {
+  await tx.contract.updateMany({
+    where: { customerId },
+    data: {
       isDeleted: true,
       deletedAt: new Date()
     }
-  }
-);
-//await prisma.customer.delete({ where: { id: customerId } });
+  });
+
+  return await tx.customer.update({
+    where: { id: customerId },
+    data: {
+      isDeleted: true,
+      deletedAt: new Date()
+    }
+  });
+});
 
 // 고객 대용량 업로드
 export const createMany = async (data: CustomerCsvUploadRequest[]) =>
