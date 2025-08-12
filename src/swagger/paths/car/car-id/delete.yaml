@@ -1,9 +1,8 @@
-summary: 특정 차량 삭제
+summary: 차량 삭제
 description: 특정 차량을 삭제한다.
-
 tags:
   - car
-
+  
 responses:
   "200":
     description: 차량 삭제 성공
@@ -12,7 +11,7 @@ responses:
         example:
           message: 차량 삭제 성공
   "400":
-    description: 차량 삭제 실패
+    description: 잘못된 요청
     content:
       application/json:
         example:
@@ -23,7 +22,6 @@ responses:
       application/json:
         example:
           message: 로그인이 필요합니다
-
   "404":
     description: 차량 없음
     content:

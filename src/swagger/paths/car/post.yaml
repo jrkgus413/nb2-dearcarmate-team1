@@ -1,53 +1,48 @@
 summary: 차량 등록
-description: 필요한 값들로 차량을 등록한다.
-
+description: 새로운 차량을 등록한다.
 tags:
   - car
-
 requestBody:
-  description: 차량을 등록하기 위해 필요한 값들
+  description: 차량 등록에 필요한 값들
   content:
     application/json:
       example:
-        carNumber: "string"
-        manufacturer: "string"
-        model: "string"
+        carNumber: string
+        manufacturer: 기아 | 쉐보레
+        model: K5 | 스파크
         manufacturingYear: 2020
         mileage: 30
         price: 1000000
         accidentCount: 1
-        explanation: "string"
-        accidentDetails: "string"
-
+        explanation: string
+        accidentDetails: string
 responses:
   "201":
-    description: 고객 등록 성공
+    description: 차량 등록 성공
     content:
       application/json:
         example:
-          id: 2
-          carNumber: "string"
-          manufacturer: "string"
-          model: "string"
-          type: "string"
+          id: 123
+          carNumber: string
+          manufacturer: 기아 | 쉐보레
+          model: K5 | 스파크
+          type: 세단 | 경차 | SUV
           manufacturingYear: 2020
           mileage: 30
           price: 1000000
           accidentCount: 1
-          explanation: "string"
-          accidentDetails: "string"
-          status: "possession"
-
+          explanation: string
+          accidentDetails: string
+          status: possession
   "400":
-    description: 고객 등록 실패
+    description: 잘못된 요청
     content:
       application/json:
         example:
-          message: "잘못된 요청입니다"
-
+          message: 잘못된 요청입니다
   "401":
     description: 로그인 필요
     content:
       application/json:
         example:
-          message: "로그인이 필요합니다"
+          message: 로그인이 필요합니다

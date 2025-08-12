@@ -1,9 +1,17 @@
 parameters:
   - in: path
     name: carId
+    required: true
     schema:
       type: integer
     description: 차량 id
+
+  - name: Authorization
+    in: header
+    required: true
+    description: Bearer 액세스 토큰
+    schema:
+      type: string
 
 get:
   $ref: ./get.yaml

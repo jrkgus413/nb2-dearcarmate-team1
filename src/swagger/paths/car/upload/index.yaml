@@ -1,24 +1,32 @@
 post:
-  summary: 차량 대용량 업로드
-  description: csv 파일을 이용해서 차량 정보를 모두 올린다.
-
+  summary: 차량 대량 등록
+  description: CSV 파일을 업로드하여 차량을 대량 등록한다.
   tags:
     - car
 
+  parameters:
+  - name: Authorization
+    in: header
+    required: true
+    description: Bearer 액세스 토큰
+    schema:
+      type: string
+      
   requestBody:
-    description: 차량을 등록하기 위해 필요한 파일
+    description: 차량 등록 CSV 파일
     content:
-      text/csv:
-
+      multipart/form-data:
+        example:
+          file: File
   responses:
     "200":
-      description: 차량 대용량 등록 성공
+      description: 차량 대량 등록 성공
       content:
         application/json:
           example:
             message: 성공적으로 등록되었습니다
     "400":
-      description: 차량 등록 실패
+      description: 잘못된 요청
       content:
         application/json:
           example:
