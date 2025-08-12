@@ -3,54 +3,66 @@ info:
   title: Dear carmate
   version: 1.0.0
 
-server:
-  url: "http://localhost:3001"
-  description: 로컬 호스트에서 테스트할 때, 사용할 수 있는 기본 서버이다.
-  port:
-    enum:
-      - "3000"
-      - "3001"
-    default: "3000"
+servers:
+  - url: "http://localhost:3001"
+    description: 로컬 호스트에서 테스트할 때, 사용할 수 있는 기본 서버
+    port:
+      enum:
+        - "3000"
+        - "3001"
+      default: "3000"
+
+  - url: " https://nb2-dearcarmate-team1.onrender.com"
+    description: 배포 완료된 호스트에서 테스트할 때, 사용/테스트하는 서버
 
 tags:
   - name: customer
-    description: customer에 대한 API를 설명합니다.
+    description: customer API를 설명합니다.
 
   - name: car
-    description: car에 대한 API를 설명합니다.
+    description: car API를 설명합니다.
 
   - name: company
-    description: company에 대한 API를 설명합니다.
+    description: company API를 설명합니다.
 
   - name: user
-    description: user에 대한 API를 설명합니다.
+    description: user API를 설명합니다.
 
   - name: auth
-    description: auth에 대한 API를 설명합니다.
+    description: auth API를 설명합니다.
 
-  - name: image
-    description: 이미지에 대한 API를 설명합니다.
+  - name: images
+    description: 이미지 API를 설명합니다.
 
   - name: dashboard
-    description: 대시보드에 대한 API를 설명합니다.
+    description: 대시보드 API를 설명합니다.
+
+  - name: contract
+    description: 계약 API를 설명합니다.
+  
+  - name: contractDocument
+    description: 계약서 API를 설명합니다.
 
 
 paths:
-  /customer:
-    $ref: ./paths/customer/index.yaml
-  /customer/{customerId}:
-    $ref: ./paths/customer/customer-id/index.yaml
-  /customer/upload:
-    $ref: ./paths/customer/upload/index.yaml
 
-  /car:
-    $ref: ./paths/car/index.yaml
-  /car/{carId}:
-    $ref: ./paths/car/car-id/index.yaml
-  /car/upload:
-    $ref: ./paths/car/upload/index.yaml
-  /car/models:
-    $ref: ./paths/car/models/index.yaml
+  /auth/login:
+    $ref: ./paths/auth/login/index.yaml
+  /auth/refresh:
+    $ref: ./paths/auth/refresh/index.yaml
+
+  /users:
+    $ref: ./paths/user/index.yaml
+  /users/me:
+    $ref: ./paths/user/me/index.yaml
+  /users/{userId}:
+    $ref: ./paths/user/user-id/index.yaml
+
+  /dashboard:
+    $ref: ./paths/dashboard/index.yaml
+
+  /images/upload:
+    $ref: ./paths/images/upload/index.yaml
 
   /companies:
     $ref: ./paths/company/index.yaml
@@ -59,23 +71,21 @@ paths:
   /companies/users:
     $ref: ./paths/company/users/index.yaml
 
-  /user:
-    $ref: ./paths/user/index.yaml
-  /user/me:
-    $ref: ./paths/user/me/index.yaml
-  /user/{userId}:
-    $ref: ./paths/user/user-id/index.yaml
+  /cars:
+    $ref: ./paths/car/index.yaml
+  /cars/{carId}:
+    $ref: ./paths/car/car-id/index.yaml
+  /cars/upload:
+    $ref: ./paths/car/upload/index.yaml
+  /cars/models:
+    $ref: ./paths/car/models/index.yaml
 
-  /auth/login:
-    $ref: ./paths/auth/login/index.yaml
-  /auth/refresh:
-    $ref: ./paths/auth/refresh/index.yaml
-
-  /images/upload:
-    $ref: ./paths/images/upload/index.yaml
-
-  /dashboard:
-    $ref: ./paths/dashboard/index.yaml
+  /customers:
+    $ref: ./paths/customer/index.yaml
+  /customers/{customerId}:
+    $ref: ./paths/customer/customer-id/index.yaml
+  /customers/upload:
+    $ref: ./paths/customer/upload/index.yaml
 
   /contracts:
     $ref: ./paths/contracts/index.yaml
