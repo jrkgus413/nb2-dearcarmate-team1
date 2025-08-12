@@ -7,17 +7,12 @@ export type DashboardResponse = {
   proceedingContractsCount: number, // 진행 중인 계약 건수
   completedContractsCount: number, // 완료된 계약 건수
   contractsByCarType: ContractsByCarType[],
-  salesByCarType: SalesByCarType[]
+  salesByCarType: ContractsByCarType[]
 }
 
 export type ContractsByCarType = {
   carType: string,
   count: number
-}
-
-export type SalesByCarType = {
-  carType: string,
-  sales: number
 }
 
 // 대시보드 날짜 데이터 타입

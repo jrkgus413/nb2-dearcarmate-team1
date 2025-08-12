@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express';
 import  * as CompanyService from '../services/company.service';
-import { CompanyCreateRequest, CompanyGetQuery, CompanyUpdateRequest } from '../types/company.type';
+import { CompanyCreateRequest, CompanyGetQuery, CompanyUpdateRequest, UserGetQuery } from '../types/company.type';
 
 /**
  * @description 회사 등록 
@@ -47,8 +47,9 @@ export const getCompanies = async (req: Request, res: Response) => {
   if (keyword && typeof keyword !== 'string') {
     return res.status(400).json({ error: '검색어는 문자열이어야 합니다.' });
   }
-
-  const whereCondition: object = keyword ? { [searchBy]: { contains: keyword } } : {};
+  
+  const searchType = searchBy === 'companyName' ? 'name' : searchBy;
+  const whereCondition: object = keyword ? { [searchType]: { contains: keyword } } : {};
 
   const response = await CompanyService.getCompanies({ page, pageSize, whereCondition });
 
@@ -63,18 +64,20 @@ export const getCompanies = async (req: Request, res: Response) => {
  * @param {string} keyword - 검색어
  */
 export const getUserbyCompany = async (req: Request, res: Response) => {
-  const { page = 1, pageSize = 10, searchBy = 'companyName', keyword }: CompanyGetQuery = req.query;
-  const whereCondition: object = keyword ? { [searchBy]: { contains: keyword } } : {};
+  const { page = 1, pageSize = 10, searchBy = 'companyName', keyword }: UserGetQuery = req.query;
 
   if (page < 1 || pageSize < 1) {
     return res.status(400).json({ error: '페이지 번호와 페이지 크기는 1 이상이어야 합니다.' });
   }
-  if (searchBy && !['companyName', 'companyCode'].includes(searchBy)) {
+  if (searchBy && !['companyName', 'name', 'email'].includes(searchBy)) {
     return res.status(400).json({ error: '유효하지 않은 검색 기준입니다.' });
   }
   if (keyword && typeof keyword !== 'string') {
     return res.status(400).json({ error: '검색어는 문자열이어야 합니다.' });
   }
+  console.log('검색 조건:', { searchBy, keyword });
+  const searchType = searchBy === 'companyName' ? 'company' : searchBy;
+  const whereCondition: object = keyword ? { [searchType]: { contains: keyword } } : {};
 
   const response = await CompanyService.getUserbyCompany({ whereCondition, pageSize, page });
   res.status(200).json(response);

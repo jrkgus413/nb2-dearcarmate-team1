@@ -126,16 +126,53 @@ export const updateCompanies = async (companyId: bigint, { companyName, companyC
 
 /**
  * @description 회사 삭제
+ * * 회사와 연관된 사용자들은 soft delete 처리
  */
 export const deleteCompanies = async (companyId: bigint) => {
-  return await prisma.company.update({
-    data: {
-      deletedAt: new Date(),
-      isDeleted: true
-    },
-    where: { id: companyId },
-    select: {
-      id: true
-    }
-  })
-}
+  return await prisma.$transaction(async (tx) => {
+    // 계약 삭제
+    await tx.contract.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+
+    // 등록 차량 삭제
+    await tx.car.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+    // 고객 삭제
+    await tx.customer.updateMany({
+      where: { companyId: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+    // 소속 사용자 삭제
+    await tx.user.updateMany({
+      where: { companyId: companyId, isAdmin: false },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      }
+    });
+    // 회사 삭제
+    await tx.company.update({
+      where: { id: companyId },
+      data: {
+        deletedAt: new Date(),
+        isDeleted: true
+      },
+      select: {
+        id: true
+      }
+    });
+  });
+} 

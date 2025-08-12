@@ -80,6 +80,9 @@ export const getContractList = async (user: Payload) => {
   const where = {
     companyId: BigInt(user.companyId),
     userId: BigInt(user.id),
+    isDeleted: false,
+    deletedAt: null,
+    status: 'contractSuccessful',
     documents: {
       none: {},
     },
