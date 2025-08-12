@@ -1,17 +1,14 @@
-summary: 회사 수정
-description: 들어온 값들을 통해서 회사를 수정한다.
-
+summary: 회사 정보 수정
+description: 회사 정보를 수정한다.
 tags:
   - company
-
 requestBody:
-  description: 고객을 수정하기 위해 필요한 값들
+  description: 수정할 회사 정보
   content:
     application/json:
       example:
         companyName: string
         companyCode: string
-
 responses:
   "200":
     description: 회사 수정 성공
@@ -22,23 +19,20 @@ responses:
           companyName: string
           companyCode: string
           userCount: 3
-
   "400":
-    description: 회사 수정 실패
+    description: 잘못된 요청
     content:
       application/json:
         example:
           message: "잘못된 요청입니다"
-
   "401":
     description: 관리자 권한 필요
     content:
       application/json:
         example:
           message: "관리자 권한이 필요합니다"
-
   "404":
-    description: 회사 없음
+    description: 존재하지 않는 회사
     content:
       application/json:
         example:

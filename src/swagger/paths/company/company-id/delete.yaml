@@ -1,32 +1,29 @@
-summary: 특정 회사 삭제
-description: 특정 회사를 삭제한다.
-
+summary: 회사 삭제
+description: 회사 ID를 통해 회사를 삭제한다.
 tags:
   - company
-
 responses:
   "200":
-    description: 회사 정보 삭제 성공
+    description: 회사 삭제 성공
     content:
       application/json:
         example:
-          message: 회사 삭제 성공
+          message: "회사 삭제 성공"
   "400":
-    description: 회사 삭제 실패
+    description: 잘못된 요청
     content:
       application/json:
         example:
-          message: 잘못된 요청입니다
+          message: "잘못된 요청입니다"
   "401":
     description: 관리자 권한 필요
     content:
       application/json:
         example:
-          message: 관리자 권한이 필요합니다
-
+          message: "관리자 권한이 필요합니다"
   "404":
-    description: 회사 없음
+    description: 존재하지 않는 회사
     content:
       application/json:
         example:
-          message: 존재하지 않는 회사입니다
+          message: "존재하지 않는 회사입니다"

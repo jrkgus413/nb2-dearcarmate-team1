@@ -1,76 +1,49 @@
-get:
+get: 
   summary: 회사별 유저 목록 조회
-  description: 모든 회사의 유저 목록을 조회합니다.
-
+  description: 회사별 유저 목록을 페이지네이션하여 조회한다.
   tags:
     - company
-
   parameters:
-    - in: query
-      name: page
+    - name: page
+      in: query
       schema:
-        type: integer
-      description: 현재 페이지 번호
-
-    - in: query
-      name: pageSize
+        type: number
+    - name: pageSize
+      in: query
       schema:
-        type: integer
-      description: 페이지 당 요소의 개수
-
-    - in: query
-      name: searchBy
+        type: number
+    - name: searchBy
+      in: query
       schema:
         type: string
-      description: 검색 기준
-
-    - in: query
-      name: keyword
+        enum: [companyName, name, email]
+    - name: keyword
+      in: query
       schema:
         type: string
-      description: 검색어(검증은 서버에서 실시)
-
   responses:
     "200":
-      description: 회사 목록 조회 성공
+      description: 회사별 유저 목록 조회 성공
       content:
         application/json:
-          examples:
-            sample:
-              summary: 회사 목록 응답 예시
-              value:
-                currentPage: 1
-                totalPages: 2
-                totalItemCount: 6
-                data:
-                  - id: 1
-                    name: "string"
-                    email: "string"
-                    employeeNumber: "string"
-                    phoneNumber: "string"
-                    company:
-                      type: object
-                      properties:
-                        companyName:
-                          type: string
-                  - id: 2
-                    name: "string"
-                    email: "string"
-                    employeeNumber: "string"
-                    phoneNumber: "string"
-                    company:
-                      type: object
-                      properties:
-                        companyName:
-                          type: string
-
+          example:
+            currentPage: 1
+            totalPages: 2
+            totalItemCount: 6
+            data:
+              - id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                company:
+                  companyName: string
     "400":
-      description: 회사 목록 조회 실패
+      description: 잘못된 요청
       content:
         application/json:
           example:
             message: "잘못된 요청입니다"
-
     "401":
       description: 관리자 권한 필요
       content:

@@ -1,9 +1,7 @@
 summary: 회사 등록
 description: 필요한 값들로 회사를 등록한다.
-
 tags:
   - company
-
 requestBody:
   description: 회사를 등록하기 위해 필요한 값들
   content:
@@ -11,7 +9,6 @@ requestBody:
       example:
         companyName: string
         companyCode: string
-
 responses:
   "201":
     description: 회사 등록 성공
@@ -22,14 +19,12 @@ responses:
           companyName: string
           companyCode: string
           userCount: 3
-
   "400":
-    description: 고객 등록 실패
+    description: 회사 등록 실패
     content:
       application/json:
         example:
           message: "잘못된 요청입니다"
-
   "401":
     description: 관리자 권한 필요
     content:
