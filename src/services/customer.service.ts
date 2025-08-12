@@ -1,5 +1,6 @@
 import * as customerRepo from '../repositories/customer.repository';
 import { CustomerCsvUploadRequest, CustomerCreateData, FindManyArgs, CustomerUpdateData } from '../types/customer.type';
+import { ConflictError } from '../types/error.type';
 import { Payload } from '../types/payload.type';
 import { csvToCustomerList } from '../utils/parse.util';
 
@@ -35,17 +36,11 @@ export const createCustomer = async (data: CustomerCreateData) => {
 
   const deletedCustomerFound = await customerRepo.findDeletedFirst(data.phoneNumber);
 
-  let createdCustomer;
-
   if( deletedCustomerFound ){
-    createdCustomer = await customerRepo.update(deletedCustomerFound.id, {
-      ...data,
-      isDeleted: false,
-      deletedAt: null
-    });
-  } else {
-    createdCustomer = await customerRepo.create(data);
+    throw new ConflictError("비활성화 된 고객입니다.");
   }
+
+  const createdCustomer = await customerRepo.create(data);
 
   return {
     ...createdCustomer,
