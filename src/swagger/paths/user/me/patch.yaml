@@ -1,26 +1,21 @@
-summary: 유저 수정
-description: 들어온 값들을 통해서 유저를 수정한다.
-
+summary: 내 정보 수정
+description: 현재 로그인한 유저의 정보를 수정한다.
 tags:
   - user
-
 requestBody:
-  description: 유저를 수정하기 위해 필요한 값들
+  description: 수정할 유저 정보
   content:
     application/json:
       example:
-        name: string
-        email: string
         employeeNumber: string
         phoneNumber: string
+        currentPassword: string
         password: string
         passwordConfirmation: string
-        company: string
-        companyCode: string
-
+        imageUrl: string
 responses:
   "200":
-    description: 유저 수정 성공
+    description: 내 정보 수정 성공
     content:
       application/json:
         example:
@@ -31,26 +26,28 @@ responses:
           phoneNumber: string
           imageUrl: string
           isAdmin: true
-          company: 
+          company:
             companyCode: string
-
   "400":
-    description: 유저 수정 실패
+    description: 비밀번호 불일치 또는 현재 비밀번호 불일치
     content:
       application/json:
-        example:
-          message: "잘못된 요청입니다"
-
+        examples:
+          passwordMismatch:
+            value:
+              message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+          currentPasswordMismatch:
+            value:
+              message: 현재 비밀번호가 맞지 않습니다
   "401":
     description: 로그인 필요
     content:
       application/json:
         example:
-          message: "로그인이 필요합니다"
-
+          message: 로그인이 필요합니다
   "404":
     description: 유저 없음
     content:
       application/json:
         example:
-          message: "존재하지 않는 유저입니다"
+          message: 존재하지 않는 유저입니다

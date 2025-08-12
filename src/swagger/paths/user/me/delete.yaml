@@ -1,9 +1,7 @@
-summary: 회원 탈퇴
-description: 유저 스스로 회원 탈퇴한다.
-
+summary: 내 계정 삭제
+description: 현재 로그인한 유저의 계정을 삭제한다.
 tags:
   - user
-
 responses:
   "200":
     description: 유저 삭제 성공
@@ -12,7 +10,7 @@ responses:
         example:
           message: 유저 삭제 성공
   "400":
-    description: 유저 삭제 실패
+    description: 잘못된 요청
     content:
       application/json:
         example:
