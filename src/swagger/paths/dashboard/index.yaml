@@ -1,15 +1,10 @@
 get:
+  security:
+    - bearerAuth: []
   summary: 대시보드 데이터 조회
   description: 월간 매출, 계약 현황 등의 대시보드 데이터를 반환한다.
   tags:
     - dashboard
-  parameters:
-    - name: Authorization
-      in: header
-      required: true
-      description: Bearer 액세스 토큰
-      schema:
-        type: string
   requestBody:
     description: 없음
   responses:
