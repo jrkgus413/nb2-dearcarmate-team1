@@ -69,7 +69,7 @@ export const updateCustomer = async (customerId: bigint, data: CustomerUpdateDat
 // 고객 삭제
 export const removeCustomer = async (customerId: bigint) => {
 
-  const deletedCustomer = await customerRepo.remove(customerId);
+  const deletedCustomer = await customerRepo.deactivateCustomerWithContract(customerId);
 
   return deletedCustomer;
 };
