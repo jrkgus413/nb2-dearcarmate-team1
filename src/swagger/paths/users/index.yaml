@@ -8,14 +8,14 @@ post:
     content:
       application/json:
         example:
-          name: string
-          email: string
-          employeeNumber: string
-          phoneNumber: string
-          password: string
-          passwordConfirmation: string
-          company: string
-          companyCode: string
+          name: 일이삼
+          email: tmp@tmp.com
+          employeeNumber: "1234"
+          phoneNumber: 010-2345-1234
+          password: "1234"
+          passwordConfirmation: "1234"
+          company: 햇살카
+          companyCode: sunshine
   responses:
     "201":
       description: 유저 등록 성공
@@ -28,7 +28,7 @@ post:
             employeeNumber: string
             phoneNumber: string
             imageUrl: string
-            isAdmin: true
+            isAdmin: false
             company:
               companyCode: string
     "400":

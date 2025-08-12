@@ -4,13 +4,13 @@ info:
   version: 1.0.0
 
 servers:
-  - url: "http://localhost:3001"
+  - url: "http://localhost:{port}"
     description: 로컬 호스트에서 테스트할 때, 사용할 수 있는 기본 서버
     port:
       enum:
         - "3000"
         - "3001"
-      default: "3000"
+      default: "3001"
 
   - url: " https://nb2-dearcarmate-team1.onrender.com"
     description: 배포 완료된 호스트에서 테스트할 때, 사용/테스트하는 서버

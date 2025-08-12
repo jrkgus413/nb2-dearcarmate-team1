@@ -7,11 +7,11 @@ requestBody:
   content:
     application/json:
       example:
-        employeeNumber: string
-        phoneNumber: string
-        currentPassword: string
-        password: string
-        passwordConfirmation: string
+        employeeNumber: "sss"
+        phoneNumber: 010-2345-1235
+        currentPassword: "1234"
+        password: "12345"
+        passwordConfirmation: "12345"
         imageUrl: string
 responses:
   "200":
@@ -25,7 +25,7 @@ responses:
           employeeNumber: string
           phoneNumber: string
           imageUrl: string
-          isAdmin: true
+          isAdmin: false
           company:
             companyCode: string
   "400":
