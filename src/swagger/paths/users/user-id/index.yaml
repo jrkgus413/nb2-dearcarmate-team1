@@ -1,4 +1,6 @@
 delete:
+  security:
+    - bearerAuth: []
   summary: 유저 삭제 (관리자 전용)
   description: 관리자 권한으로 특정 유저를 삭제한다.
   tags:
@@ -10,13 +12,6 @@ delete:
       schema:
         type: integer
       description: 유저 ID
-
-    - name: Authorization
-      in: header
-      required: true
-      description: Bearer 액세스 토큰
-      schema:
-        type: string
 
   responses:
     "200":
