@@ -6,18 +6,18 @@ parameters:
       type: integer
     description: 차량 id
 
-  - name: Authorization
-    in: header
-    required: true
-    description: Bearer 액세스 토큰
-    schema:
-      type: string
-
 get:
+  security:
+          - bearerAuth: []
   $ref: ./get.yaml
+  
 
 delete:
+  security:
+          - bearerAuth: []
   $ref: ./delete.yaml
 
 patch:
+  security:
+          - bearerAuth: []
   $ref: ./patch.yaml

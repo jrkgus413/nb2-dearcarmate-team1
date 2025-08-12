@@ -1,16 +1,10 @@
 post:
+  security:
+        - bearerAuth: []
   summary: 차량 대량 등록
   description: CSV 파일을 업로드하여 차량을 대량 등록한다.
   tags:
     - car
-
-  parameters:
-  - name: Authorization
-    in: header
-    required: true
-    description: Bearer 액세스 토큰
-    schema:
-      type: string
       
   requestBody:
     description: 차량 등록 CSV 파일
