@@ -41,6 +41,7 @@ export type CarCreateRequest = {
   accidentDetails?: string;
   type: string;
   status?: string;
+  imageUrl?: string;
   isDeleted?: boolean;   
   deletedAt?: Date | null; 
 };
@@ -62,6 +63,7 @@ export type CarResponse = {
   explanation?: string;
   accidentDetails?: string;
   status: 'possession' | 'contractProceeding' | 'contractCompleted';
+  imageUrl?: string;
 };
 
 // TODO: 통합 고려 CSV 전용 업로드

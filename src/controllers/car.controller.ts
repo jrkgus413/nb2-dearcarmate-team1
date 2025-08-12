@@ -115,43 +115,86 @@ export const createCar = async (req: Request, res: Response) => {
 export const updateCar = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = BigInt(req.params.carId);
-    const incoming = req.body ?? {};
+    const body = (req.body ?? {}) as Record<string, unknown>;
 
     const user = getUser(req);
     const existing = await carService.getCarById(id);
-
-    if (!existing || existing.isDeleted) {
-      throw new NotFoundError('존재하지 않는 차량입니다');
-    }
+    if (!existing || existing.isDeleted) throw new NotFoundError('존재하지 않는 차량입니다');
     if (BigInt(existing.companyId) !== BigInt(user.companyId)) {
       throw new UnauthorizedError('해당 차량을 수정할 권한이 없습니다');
     }
+    
+    const data: any = {};
+    ([
+      'carNumber', 'manufacturer', 'model', 'type',
+      'manufacturingYear', 'mileage', 'price', 'totalPrice',
+      'accidentCount', 'explanation', 'accidentDetails',
+      'status', 'imageUrl',
+    ] as const).forEach((k) => {
+      if (Object.prototype.hasOwnProperty.call(body, k)) data[k] = body[k];
+    });
 
-    // --- 여기서 accidentCount만 안전하게 변환/검증 ---
-    const data: any = { ...incoming };
+    // 문자열 필드 트림 
+    ['carNumber', 'manufacturer', 'model', 'type', 'status'].forEach((k) => {
+      if (k in data && typeof data[k] === 'string') data[k] = (data[k] as string).trim();
+    });
+    ['explanation', 'accidentDetails'].forEach((k) => {
+      if (k in data && typeof data[k] === 'string') {
+        const t = (data[k] as string).trim();
+        data[k] = t === '' ? null : t;
+      }
+    });
+    // imageUrl: 빈문자면 null, 값 있으면 그대로
+    if ('imageUrl' in data) {
+      if (typeof data.imageUrl === 'string') {
+        const t = data.imageUrl.trim();
+        data.imageUrl = t === '' ? null : t;
+      } else if (data.imageUrl == null) {
+        data.imageUrl = null;
+      }
+    }
+  
+    if ('manufacturingYear' in data && data.manufacturingYear !== '') {
+      const n = Number(data.manufacturingYear);
+      if (!Number.isFinite(n)) throw new BadRequestError('manufacturingYear는 숫자여야 합니다.');
+      data.manufacturingYear = n;
+    } else {
+      delete data.manufacturingYear;
+    }
 
     if ('accidentCount' in data) {
-      // "0", "", 0 등 케이스 허용
-      const raw = typeof data.accidentCount === 'string'
-        ? data.accidentCount.trim()
-        : data.accidentCount;
-
-      // 빈 문자열이면 0으로 취급
-      const parsed = raw === '' ? 0 : Number(raw);
-
-      if (!Number.isInteger(parsed) || parsed < 0) {
+      const n = data.accidentCount === '' ? 0 : Number(data.accidentCount);
+      if (!Number.isInteger(n) || n < 0) {
         throw new BadRequestError('accidentCount는 0 이상의 정수여야 합니다.');
       }
-      data.accidentCount = parsed; // 숫자로 고정
-    } else {
-      // 필드가 아예 안 왔으면 그대로 두어 부분 업데이트가 되게 함
+      data.accidentCount = n;
     }
-    // --------------------------------------------------
+    
+    if ('mileage' in data) {
+      if (data.mileage === '' || data.mileage == null) delete data.mileage;
+      else data.mileage =
+        typeof data.mileage === 'bigint' ? data.mileage as bigint
+        : typeof data.mileage === 'number' ? BigInt(Math.trunc(data.mileage as number))
+        : BigInt(String(data.mileage));
+    }
+    if ('price' in data) {
+      if (data.price === '' || data.price == null) delete data.price;
+      else data.price =
+        typeof data.price === 'bigint' ? data.price as bigint
+        : typeof data.price === 'number' ? BigInt(Math.trunc(data.price as number))
+        : BigInt(String(data.price));
+    }
+    if ('totalPrice' in data) {
+      if (data.totalPrice === '' || data.totalPrice == null) delete data.totalPrice;
+      else data.totalPrice =
+        typeof data.totalPrice === 'bigint' ? data.totalPrice as bigint
+        : typeof data.totalPrice === 'number' ? BigInt(Math.trunc(data.totalPrice as number))
+        : BigInt(String(data.totalPrice));
+    }
 
     const updated = await carService.updateCar(id, data);
     res.status(200).json(convertBigIntToNumber(updated));
   } catch (err) {
-    // 에러 원인 파악을 위해 로깅 후 에러 미들웨어로 전달
     console.error('[cars:update]', err);
     next(err);
   }
