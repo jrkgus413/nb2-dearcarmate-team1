@@ -5,15 +5,7 @@ get:
   description: 계약 등록을 위해 선택 가능한 고객 목록을 조회한다.
   tags:
     - contracts
-
-  parameters:
-  - name: Authorization
-    in: header
-    required: true
-    description: Bearer 액세스 토큰
-    schema:
-      type: string
-
+  
   responses:
     "200":
       description: 고객 목록 조회 성공
