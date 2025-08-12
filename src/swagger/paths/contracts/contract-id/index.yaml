@@ -1,10 +1,4 @@
 parameters:
-  - name: Authorization
-    in: header
-    required: true
-    description: Bearer 액세스 토큰
-    schema:
-      type: string
   - name: contractId
     in: path
     required: true
@@ -13,7 +7,11 @@ parameters:
       type: integer
 
 delete:
+  security:
+    - bearerAuth: []
   $ref: ./delete.yaml
 
 patch:
+  security:
+    - bearerAuth: []
   $ref: ./patch.yaml
