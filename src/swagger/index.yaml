@@ -43,6 +43,8 @@ tags:
   - name: contractDocuments
     description: 계약서 API를 설명합니다.
 
+  - name: root
+    description: 헬스 체크를 설명합니다.
 
 paths:
 
@@ -106,3 +108,6 @@ paths:
     $ref: ./paths/contract-documents/upload/index.yaml
   /contractDocuments/{contractDocumentId}/download:
     $ref: ./paths/contract-documents/contract-document-id-download/index.yaml
+
+  /:
+    $ref: ./paths/root/index.yaml
