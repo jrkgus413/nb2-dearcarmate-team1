@@ -12,7 +12,7 @@ post:
       text/csv:
         schema:
           type: string
-        example:
+        example: |
           name,gender,phoneNumber,ageGroup,region,email,memo
           홍길동,male,010-1234-5678,30대,서울,hong@example.com,단골 고객입니다.
           김영희,female,010-2345-6789,20대,부산,kim@example.com,신규 가입자
