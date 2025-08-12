@@ -1,9 +1,9 @@
 get:
   security:
-        - bearerAuth: []
+    - bearerAuth: []
   $ref: ./get.yaml
 
 post:
   security:
-        - bearerAuth: []
+    - bearerAuth: []
   $ref: ./post.yaml

@@ -10,6 +10,7 @@ requestBody:
         carNumber: string
         manufacturer: 기아 | 쉐보레
         model: K5 | 스파크
+        type: string
         manufacturingYear: 2020
         mileage: 30
         price: 1000000

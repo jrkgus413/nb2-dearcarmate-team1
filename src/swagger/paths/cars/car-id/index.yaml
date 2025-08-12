@@ -8,16 +8,15 @@ parameters:
 
 get:
   security:
-          - bearerAuth: []
+    - bearerAuth: []
   $ref: ./get.yaml
-  
 
 delete:
   security:
-          - bearerAuth: []
+    - bearerAuth: []
   $ref: ./delete.yaml
 
 patch:
   security:
-          - bearerAuth: []
+    - bearerAuth: []
   $ref: ./patch.yaml
