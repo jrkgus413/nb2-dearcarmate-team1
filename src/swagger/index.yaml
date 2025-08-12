@@ -16,31 +16,31 @@ servers:
     description: 배포 완료된 호스트에서 테스트할 때, 사용/테스트하는 서버
 
 tags:
-  - name: customer
-    description: customer API를 설명합니다.
-
-  - name: car
-    description: car API를 설명합니다.
-
-  - name: company
-    description: company API를 설명합니다.
-
-  - name: user
-    description: user API를 설명합니다.
-
   - name: auth
     description: auth API를 설명합니다.
-
-  - name: images
-    description: 이미지 API를 설명합니다.
+  
+  - name: user
+    description: user API를 설명합니다.
 
   - name: dashboard
     description: 대시보드 API를 설명합니다.
 
-  - name: contract
+  - name: images
+    description: 이미지 API를 설명합니다.
+
+  - name: company
+    description: company API를 설명합니다.
+
+  - name: car
+    description: car API를 설명합니다.
+
+  - name: customer
+    description: customer API를 설명합니다.
+
+  - name: contracts
     description: 계약 API를 설명합니다.
   
-  - name: contractDocument
+  - name: contractDocuments
     description: 계약서 API를 설명합니다.
 
 
@@ -52,11 +52,11 @@ paths:
     $ref: ./paths/auth/refresh/index.yaml
 
   /users:
-    $ref: ./paths/user/index.yaml
+    $ref: ./paths/users/index.yaml
   /users/me:
-    $ref: ./paths/user/me/index.yaml
+    $ref: ./paths/users/me/index.yaml
   /users/{userId}:
-    $ref: ./paths/user/user-id/index.yaml
+    $ref: ./paths/users/user-id/index.yaml
 
   /dashboard:
     $ref: ./paths/dashboard/index.yaml
@@ -65,27 +65,27 @@ paths:
     $ref: ./paths/images/upload/index.yaml
 
   /companies:
-    $ref: ./paths/company/index.yaml
+    $ref: ./paths/companies/index.yaml
   /companies/{companyId}:
-    $ref: ./paths/company/company-id/index.yaml
+    $ref: ./paths/companies/company-id/index.yaml
   /companies/users:
-    $ref: ./paths/company/users/index.yaml
+    $ref: ./paths/companies/users/index.yaml
 
   /cars:
-    $ref: ./paths/car/index.yaml
+    $ref: ./paths/cars/index.yaml
   /cars/{carId}:
-    $ref: ./paths/car/car-id/index.yaml
+    $ref: ./paths/cars/car-id/index.yaml
   /cars/upload:
-    $ref: ./paths/car/upload/index.yaml
+    $ref: ./paths/cars/upload/index.yaml
   /cars/models:
-    $ref: ./paths/car/models/index.yaml
+    $ref: ./paths/cars/models/index.yaml
 
   /customers:
-    $ref: ./paths/customer/index.yaml
+    $ref: ./paths/customers/index.yaml
   /customers/{customerId}:
-    $ref: ./paths/customer/customer-id/index.yaml
+    $ref: ./paths/customers/customer-id/index.yaml
   /customers/upload:
-    $ref: ./paths/customer/upload/index.yaml
+    $ref: ./paths/customers/upload/index.yaml
 
   /contracts:
     $ref: ./paths/contracts/index.yaml
