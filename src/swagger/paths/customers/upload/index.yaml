@@ -1,38 +1,41 @@
-summary: 고객 일괄 업로드
-description: 파일을 업로드하여 고객 정보를 일괄 등록한다.
-tags:
-  - customer
+post:
+  security:
+    - bearerAuth: []
+  summary: 고객 일괄 업로드
+  description: 파일을 업로드하여 고객 정보를 일괄 등록한다.
+  tags:
+    - customer
 
-parameters:
-  - name: Authorization
-    in: header
-    required: true
-    description: Bearer 액세스 토큰
-    schema:
-      type: string
-      
-requestBody:
-  description: 업로드할 고객 데이터 파일
-  content:
-    multipart/form-data:
-      example:
-        file: File
-responses:
-  "200":
-    description: 업로드 성공
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      description: Bearer 액세스 토큰
+      schema:
+        type: string
+        
+  requestBody:
+    description: 업로드할 고객 데이터 파일
     content:
-      application/json:
+      multipart/form-data:
         example:
-          message: 성공적으로 등록되었습니다
-  "400":
-    description: 잘못된 요청
-    content:
-      application/json:
-        example:
-          message: 잘못된 요청입니다
-  "401":
-    description: 로그인 필요
-    content:
-      application/json:
-        example:
-          message: 로그인이 필요합니다
+          file: File
+  responses:
+    "200":
+      description: 업로드 성공
+      content:
+        application/json:
+          example:
+            message: 성공적으로 등록되었습니다
+    "400":
+      description: 잘못된 요청
+      content:
+        application/json:
+          example:
+            message: 잘못된 요청입니다
+    "401":
+      description: 로그인 필요
+      content:
+        application/json:
+          example:
+            message: 로그인이 필요합니다
