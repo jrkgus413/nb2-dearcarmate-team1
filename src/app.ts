@@ -19,8 +19,13 @@ import { globalErrorHandler } from './handlers/global-error.handler';
 import { bigintSerialization } from './middlewares/bigint-serialization.middleware';
 import { listenHandler } from './handlers/listen.handler';
 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+
 const app = express();
 const port: number = Number(ENV.PORT) || 3000;
+const swaggerSpec: any = YAML.load(path.join(__dirname, './swagger/swagger.yaml'));
 
 // PRE MIDDLEWARES
 app.use(cors());
@@ -40,6 +45,9 @@ app.use('/contractDocuments', contractDocumentRouter);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/contracts', contractsRouter);
+
+// Swagger API Docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // POST MIDDLEWARES
 app.use(notFoundHandler);
