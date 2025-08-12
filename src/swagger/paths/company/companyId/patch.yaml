@@ -8,8 +8,6 @@ requestBody:
   description: 고객을 수정하기 위해 필요한 값들
   content:
     application/json:
-      schema:
-        $ref: "../../../schemas/company/request/update-company.yaml"
       example:
         companyName: string
         companyCode: string
@@ -19,8 +17,6 @@ responses:
     description: 회사 수정 성공
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/company/response/update-company.yaml"
         example:
           id: 1
           companyName: string
@@ -31,8 +27,6 @@ responses:
     description: 회사 수정 실패
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/400.yaml"
         example:
           message: "잘못된 요청입니다"
 
@@ -40,8 +34,6 @@ responses:
     description: 관리자 권한 필요
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/401.yaml"
         example:
           message: "관리자 권한이 필요합니다"
 
@@ -49,7 +41,5 @@ responses:
     description: 회사 없음
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/404.yaml"
         example:
           message: "존재하지 않는 회사입니다"

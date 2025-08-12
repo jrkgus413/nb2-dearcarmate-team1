@@ -9,8 +9,6 @@ responses:
     description: 차량 정보 조회 성공
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/car/response/get-car.yaml"
         example:
             id: 1
             carNumber: "string"
@@ -28,8 +26,6 @@ responses:
     description: 고객 조회 실패
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/400.yaml"
         example:
           message: "잘못된 요청입니다"
 
@@ -37,8 +33,6 @@ responses:
     description: 로그인 필요
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/401.yaml"
         example:
           message: "로그인이 필요합니다"
 
@@ -46,7 +40,5 @@ responses:
     description: 고객 없음
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/404.yaml"
         example:
           message: "존재하지 않는 고객입니다"

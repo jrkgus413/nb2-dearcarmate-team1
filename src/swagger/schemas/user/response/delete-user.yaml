@@ -1,5 +1,0 @@
-type: object
-properties:
-  message:
-    type: string
-    description: 유저 삭제 성공

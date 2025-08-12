@@ -1,9 +1,0 @@
-type: object
-properties:
-  companyName:
-    $ref: '../company.yaml#/properties/name'
-    
-  companyCode:
-    $ref: '../company.yaml#/properties/companyCode'
-
-additionalProperties: false

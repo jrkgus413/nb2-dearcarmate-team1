@@ -1,5 +1,0 @@
-type: object
-properties:
-  message:
-    type: string
-    description: 고객 삭제 성공

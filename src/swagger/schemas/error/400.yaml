@@ -1,5 +1,0 @@
-type: object
-properties:
-    message:
-      type: string
-      description: bad request

@@ -1,9 +1,0 @@
-type: object
-properties:
-  refreshToken:
-    $ref: ../auth.yaml#/properties/refreshToken
-
-required:
-  - refreshToken
-
-additionalProperties: false

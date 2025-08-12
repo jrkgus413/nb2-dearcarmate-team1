@@ -8,8 +8,6 @@ requestBody:
   description: 차량을 수정하기 위해 필요한 값들
   content:
     application/json:
-      schema:
-        $ref: "../../../schemas/car/request/update-car.yaml"
       example:
         carNumber: "string"
         manufacturer: "string"
@@ -26,8 +24,6 @@ responses:
     description: 차량 수정 성공
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/car/response/update-car.yaml"
         example:
           id: 1
           carNumber: "string"
@@ -46,8 +42,6 @@ responses:
     description: 차량 수정 실패
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/400.yaml"
         example:
           message: "잘못된 요청입니다"
 
@@ -55,8 +49,6 @@ responses:
     description: 로그인 필요
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/401.yaml"
         example:
           message: "로그인이 필요합니다"
 
@@ -64,7 +56,5 @@ responses:
     description: 차량 없음
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/404.yaml"
         example:
           message: "존재하지 않는 고객입니다"

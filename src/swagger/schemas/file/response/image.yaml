@@ -1,5 +1,0 @@
-type: object
-properties:
-    imageUrl:
-      type: string
-      description: OK

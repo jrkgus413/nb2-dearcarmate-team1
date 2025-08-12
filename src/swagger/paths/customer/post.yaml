@@ -8,8 +8,6 @@ requestBody:
   description: 고객을 등록하기 위해 필요한 값들
   content:
     application/json:
-      schema:
-        $ref: "../../schemas/customer/request/create-customer.yaml"
       example:
         name: string
         gender: male | female
@@ -24,8 +22,6 @@ responses:
     description: 고객 등록 성공
     content:
       application/json:
-        schema:
-          $ref: "../../schemas/customer/response/create-customer.yaml"
         example:
           id: 1
           name: string
@@ -41,8 +37,6 @@ responses:
     description: 고객 등록 실패
     content:
       application/json:
-        schema:
-          $ref: "../../schemas/error/400.yaml"
         example:
           message: "잘못된 요청입니다"
 
@@ -50,7 +44,5 @@ responses:
     description: 로그인 필요
     content:
       application/json:
-        schema:
-          $ref: "../../schemas/error/401.yaml"
         example:
           message: "로그인이 필요합니다"

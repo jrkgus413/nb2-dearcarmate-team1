@@ -9,24 +9,18 @@ responses:
     description: 유저 삭제 성공
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/user/response/delete-user.yaml"
         example:
           message: 유저 삭제 성공
   "400":
     description: 유저 삭제 실패
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/400.yaml"
         example:
           message: 잘못된 요청입니다
   "401":
     description: 관리자 권한 필요
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/401.yaml"
         example:
           message: 관리자 권한이 필요합니다
 
@@ -34,7 +28,5 @@ responses:
     description: 유저 없음
     content:
       application/json:
-        schema:
-          $ref: "../../../schemas/error/404.yaml"
         example:
           message: 존재하지 않는 유저입니다
