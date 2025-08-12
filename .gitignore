@@ -151,3 +151,5 @@ service-account-key.json
 
 docker-compose.yml 
 cors.json
+
+swagger.yaml
