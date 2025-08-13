@@ -13,7 +13,7 @@
 - **권은혜** [(개인 Github 링크)](#)
 - **박건영** [(개인 Github 링크)](#)
 - **박규남** [(개인 Github 링크)](https://github.com/gyunam-bark/nb02-dear-carmate-development-report)
-- **박성국** [(개인 Github 링크)](#)
+- **박성국** [(개인 Github 링크)](https://www.notion.so/2071de3a2b0b80f3a54dfde6f48f798a)
 
 ---
 
@@ -235,19 +235,16 @@
 
 ### 박성국
 
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
+- **고객 API**
 
-- **학생 시간 정보 관리 API**
+  - `POST /customers`: 고객 등록
+  - `GET /customers`: 고객 목록 조회
+  - `GET /customers/{customerId}`: 고객 상세 정보 조회
+  - `PATCH /customers/{customerId}`: 고객 수정
+  - `DELETE /customers/{customerId}`: 고객 삭제
 
-  - 학생별 시간 정보를 조회하는 API 구현
-  - `fetch(GET)`을 통해 실시간 접속 현황을 관리
-
-- **수정 및 탈퇴 API**
-
-  - `fetch(PATCH, DELETE)`을 사용하여 수강생의 개인정보 수정 및 탈퇴 처리
-
-- **공용 Modal API**
-  - 공통 Modal 컴포넌트를 처리하는 API 구현
+- **문서 API**
+  - `/api-docs`: swagger 문서 API
 
 ---
 
