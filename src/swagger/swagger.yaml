@@ -1,0 +1,1794 @@
+openapi: 3.0.4
+info:
+  title: Dear carmate
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:{port}'
+    description: '로컬 호스트에서 테스트할 때, 사용할 수 있는 기본 서버'
+    variables:
+      port:
+        enum:
+          - '3000'
+          - '3001'
+        default: '3001'
+  - url: ' https://nb2-dearcarmate-team1.onrender.com'
+    description: '배포 완료된 호스트에서 테스트할 때, 사용/테스트하는 서버'
+tags:
+  - name: auth
+    description: auth API를 설명합니다.
+  - name: user
+    description: user API를 설명합니다.
+  - name: dashboard
+    description: 대시보드 API를 설명합니다.
+  - name: images
+    description: 이미지 API를 설명합니다.
+  - name: company
+    description: company API를 설명합니다.
+  - name: car
+    description: car API를 설명합니다.
+  - name: customer
+    description: customer API를 설명합니다.
+  - name: contracts
+    description: 계약 API를 설명합니다.
+  - name: contractDocuments
+    description: 계약서 API를 설명합니다.
+  - name: root
+    description: 헬스 체크를 설명합니다.
+paths:
+  /auth/login:
+    post:
+      summary: 사용자 로그인
+      description: 이메일과 비밀번호로 로그인을 시도한다.
+      tags:
+        - auth
+      requestBody:
+        description: 로그인 요청에 필요한 값들
+        content:
+          application/json:
+            example:
+              email: tmp@tmp.com
+              password: '1234'
+      responses:
+        '200':
+          description: 로그인 성공
+          content:
+            application/json:
+              example:
+                user:
+                  id: 1
+                  name: string
+                  email: string
+                  employeeNumber: string
+                  phoneNumber: string
+                  imageUrl: string
+                  isAdmin: true
+                  company:
+                    companyCode: string
+                accessToken: string
+                refreshToken: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '404':
+          description: 사용자 없음 또는 비밀번호 불일치
+          content:
+            application/json:
+              example:
+                message: 존재하지 않거나 비밀번호가 일치하지 않습니다
+  /auth/refresh:
+    post:
+      summary: 토큰 갱신
+      description: Refresh Token으로 Access Token을 재발급한다.
+      tags:
+        - auth
+      requestBody:
+        description: 토큰 갱신 요청
+        content:
+          application/json:
+            example:
+              refreshToken: string
+      responses:
+        '200':
+          description: 토큰 재발급 성공
+          content:
+            application/json:
+              example:
+                accessToken: string
+                refreshToken: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+  /users:
+    post:
+      summary: 유저 등록
+      description: 새로운 유저를 등록한다.
+      tags:
+        - user
+      requestBody:
+        description: 유저 등록을 위해 필요한 값들
+        content:
+          application/json:
+            example:
+              name: 일이삼
+              email: tmp@tmp.com
+              employeeNumber: '1234'
+              phoneNumber: 010-2345-1234
+              password: '1234'
+              passwordConfirmation: '1234'
+              companyName: 햇살카
+              companyCode: sunshine
+      responses:
+        '201':
+          description: 유저 등록 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                imageUrl: string
+                isAdmin: false
+                company:
+                  companyCode: string
+        '400':
+          description: 비밀번호 불일치
+          content:
+            application/json:
+              example:
+                message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+        '409':
+          description: 중복 이메일
+          content:
+            application/json:
+              example:
+                message: 이미 존재하는 이메일입니다
+  /users/me:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 내 정보 조회
+      description: 현재 로그인한 유저의 정보를 조회한다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 내 정보 조회 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                imageUrl: string
+                isAdmin: true
+                company:
+                  companyCode: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 유저 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 유저입니다
+    patch:
+      security:
+        - bearerAuth: []
+      summary: 내 정보 수정
+      description: 현재 로그인한 유저의 정보를 수정한다.
+      tags:
+        - user
+      requestBody:
+        description: 수정할 유저 정보
+        content:
+          application/json:
+            example:
+              employeeNumber: sss
+              phoneNumber: 010-2345-1235
+              currentPassword: '1234'
+              password: '12345'
+              passwordConfirmation: '12345'
+              imageUrl: string
+      responses:
+        '200':
+          description: 내 정보 수정 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                name: string
+                email: string
+                employeeNumber: string
+                phoneNumber: string
+                imageUrl: string
+                isAdmin: false
+                company:
+                  companyCode: string
+        '400':
+          description: 비밀번호 불일치 또는 현재 비밀번호 불일치
+          content:
+            application/json:
+              examples:
+                passwordMismatch:
+                  value:
+                    message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+                currentPasswordMismatch:
+                  value:
+                    message: 현재 비밀번호가 맞지 않습니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 유저 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 유저입니다
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 내 계정 삭제
+      description: 현재 로그인한 유저의 계정을 삭제한다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 유저 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 유저 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  '/users/{userId}':
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 유저 삭제 (관리자 전용)
+      description: 관리자 권한으로 특정 유저를 삭제한다.
+      tags:
+        - user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 유저 ID
+      responses:
+        '200':
+          description: 유저 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 유저 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+        '404':
+          description: 유저 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 유저입니다
+  /dashboard:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 대시보드 데이터 조회
+      description: '월간 매출, 계약 현황 등의 대시보드 데이터를 반환한다.'
+      tags:
+        - dashboard
+      requestBody:
+        description: 없음
+      responses:
+        '200':
+          description: 대시보드 데이터 조회 성공
+          content:
+            application/json:
+              example:
+                monthlySales: 123
+                lastMonthSales: 123
+                growthRate: 123
+                proceedingContractsCount: 123
+                completedContractsCount: 123
+                contractsByCarType:
+                  - carType: 경·소형
+                    count: 123
+                  - carType: 준중·중형
+                    count: 123
+                  - carType: 대형
+                    count: 123
+                  - carType: 스포츠카
+                    count: 123
+                  - carType: SUV
+                    count: 123
+                salesByCarType:
+                  - carType: 경·소형
+                    count: 123
+                  - carType: 준중·중형
+                    count: 123
+                  - carType: 대형
+                    count: 123
+                  - carType: 스포츠카
+                    count: 123
+                  - carType: SUV
+                    count: 123
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /images/upload:
+    post:
+      summary: 이미지 업로드
+      description: 이미지를 업로드하고 URL을 반환한다.
+      tags:
+        - images
+      requestBody:
+        description: 업로드할 이미지 파일
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+            example:
+              image: File
+      responses:
+        '200':
+          description: 업로드 성공
+          content:
+            application/json:
+              example:
+                imageUrl: string
+  /companies:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 회사 목록 조회 (관리자 전용)
+      description: 회사 목록을 페이지네이션하여 조회한다.
+      tags:
+        - company
+      parameters:
+        - name: page
+          in: query
+          description: 현재 페이지 번호
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          description: 페이지 당 아이템 수
+          schema:
+            type: number
+        - name: searchBy
+          in: query
+          description: 검색 기준
+          schema:
+            type: string
+            enum:
+              - companyName
+        - name: keyword
+          in: query
+          description: 검색어
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 회사 목록 조회 성공
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 2
+                totalItemCount: 6
+                data:
+                  - id: 1
+                    companyName: string
+                    companyCode: string
+                    userCount: 3
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+    post:
+      security:
+        - bearerAuth: []
+      summary: 회사 등록 (관리자 전용)
+      description: 필요한 값들로 회사를 등록한다.
+      tags:
+        - company
+      requestBody:
+        description: 회사를 등록하기 위해 필요한 값들
+        content:
+          application/json:
+            example:
+              companyName: 햇살카
+              companyCode: sunshine
+      responses:
+        '201':
+          description: 회사 등록 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                companyName: string
+                companyCode: string
+                userCount: 3
+        '400':
+          description: 회사 등록 실패
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+  '/companies/{companyId}':
+    parameters:
+      - in: path
+        name: companyId
+        required: true
+        schema:
+          type: integer
+        description: 회사 id
+    patch:
+      security:
+        - bearerAuth: []
+      summary: 회사 정보 수정 (관리자 전용)
+      description: 회사 정보를 수정한다.
+      tags:
+        - company
+      requestBody:
+        description: 수정할 회사 정보
+        content:
+          application/json:
+            example:
+              companyName: 햇살카
+              companyCode: sunshine
+      responses:
+        '200':
+          description: 회사 수정 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                companyName: string
+                companyCode: string
+                userCount: 3
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+        '404':
+          description: 존재하지 않는 회사
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 회사입니다
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 회사 삭제 (관리자 전용)
+      description: 회사 ID를 통해 회사를 삭제한다.
+      tags:
+        - company
+      responses:
+        '200':
+          description: 회사 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 회사 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+        '404':
+          description: 존재하지 않는 회사
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 회사입니다
+  /companies/users:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 회사별 유저 목록 조회 (관리자 전용)
+      description: 회사별 유저 목록을 페이지네이션하여 조회한다.
+      tags:
+        - company
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          schema:
+            type: number
+        - name: searchBy
+          in: query
+          schema:
+            type: string
+            enum:
+              - companyName
+              - name
+              - email
+        - name: keyword
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 회사별 유저 목록 조회 성공
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 2
+                totalItemCount: 6
+                data:
+                  - id: 1
+                    name: string
+                    email: string
+                    employeeNumber: string
+                    phoneNumber: string
+                    company:
+                      companyName: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 관리자 권한 필요
+          content:
+            application/json:
+              example:
+                message: 관리자 권한이 필요합니다
+  /cars:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 차량 목록 조회
+      description: 등록된 차량 목록을 페이지네이션과 필터 조건으로 조회한다.
+      tags:
+        - car
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 현재 페이지 번호
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+          description: 페이지당 아이템 수
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - possession
+              - contractProceeding
+              - contractCompleted
+          description: 차량 상태
+        - name: searchBy
+          in: query
+          schema:
+            type: string
+            enum:
+              - carNumber
+              - model
+          description: 검색 기준
+        - name: keyword
+          in: query
+          schema:
+            type: string
+          description: 검색어
+      responses:
+        '200':
+          description: 차량 목록 조회 성공
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 5
+                totalItemCount: 50
+                data:
+                  - id: 1
+                    carNumber: string
+                    manufacturer: string
+                    model: string
+                    type: string
+                    manufacturingYear: 2020
+                    mileage: 30
+                    price: 1000000
+                    accidentCount: 1
+                    explanation: string
+                    accidentDetails: string
+                    status: possession | contractProceeding | contractCompleted
+                  - id: 2
+                    carNumber: string
+                    manufacturer: string
+                    model: string
+                    type: string
+                    manufacturingYear: 2020
+                    mileage: 30
+                    price: 1000000
+                    accidentCount: 1
+                    explanation: string
+                    accidentDetails: string
+                    status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+    post:
+      security:
+        - bearerAuth: []
+      summary: 차량 등록
+      description: 새로운 차량을 등록한다.
+      tags:
+        - car
+      requestBody:
+        description: 차량 등록에 필요한 값들
+        content:
+          application/json:
+            example:
+              carNumber: string
+              manufacturer: 기아 | 쉐보레
+              model: K5 | 스파크
+              type: string
+              manufacturingYear: 2020
+              mileage: 30
+              price: 1000000
+              accidentCount: 1
+              explanation: string
+              accidentDetails: string
+      responses:
+        '201':
+          description: 차량 등록 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                carNumber: string
+                manufacturer: 기아 | 쉐보레
+                model: K5 | 스파크
+                type: 세단 | 경차 | SUV
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  '/cars/{carId}':
+    parameters:
+      - in: path
+        name: carId
+        required: true
+        schema:
+          type: integer
+        description: 차량 id
+    get:
+      security:
+        - bearerAuth: []
+      summary: 차량 상세 조회
+      description: 특정 차량의 상세 정보를 조회한다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 차량 상세 조회 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                carNumber: string
+                manufacturer: string
+                model: string
+                type: string
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 차량 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 차량입니다
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 차량 삭제
+      description: 특정 차량을 삭제한다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 차량 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 차량 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 차량 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 차량입니다
+    patch:
+      security:
+        - bearerAuth: []
+      summary: 차량 정보 수정
+      description: 특정 차량의 정보를 수정한다.
+      tags:
+        - car
+      requestBody:
+        description: 수정할 차량 정보
+        content:
+          application/json:
+            example:
+              carNumber: string
+              manufacturer: 기아 | 쉐보레
+              model: K5 | 스파크
+              type: string
+              manufacturingYear: 2020
+              mileage: 30
+              price: 1000000
+              accidentCount: 1
+              explanation: string
+              accidentDetails: string
+      responses:
+        '200':
+          description: 차량 수정 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                carNumber: string
+                manufacturer: 기아 | 쉐보레
+                model: K5 | 스파크
+                type: 세단 | 경차 | SUV
+                manufacturingYear: 2020
+                mileage: 30
+                price: 1000000
+                accidentCount: 1
+                explanation: string
+                accidentDetails: string
+                status: possession | contractProceeding | contractCompleted
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 차량 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 차량입니다
+  /cars/upload:
+    post:
+      security:
+        - bearerAuth: []
+      summary: 차량 대량 등록
+      description: CSV 파일을 업로드하여 차량을 대량 등록한다.
+      tags:
+        - car
+      requestBody:
+        description: 차량 등록 CSV 파일
+        content:
+          text/csv:
+            schema:
+              type: string
+            example: |
+              carNumber,manufacturer,model,manufacturingYear,mileage,price,accidentCount,explanation,accidentDetails
+              12가3456,기아,K5,2020,30,1000000,1,"이 차량은 깨끗하게 관리되었습니다.","경미한 추돌 사고 1회"
+              34나5678,쉐보레,스파크,2019,45,800000,0,"연비 우수","사고 이력 없음"
+              78다1234,기아,K5,2021,15,1200000,2,"완전 무사고","앞 범퍼 교체, 좌측 펜더 교체"
+              56라7890,쉐보레,스파크,2018,60,600000,1,"가성비 좋은 중고차입니다.","우측 도어 단독 사고"
+              11마2222,기아,K5,2017,80,500000,3,"다소 사고 이력 있음","앞 범퍼 및 후면 트렁크 교체"
+      responses:
+        '200':
+          description: 차량 대량 등록 성공
+          content:
+            application/json:
+              example:
+                message: 성공적으로 등록되었습니다
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /cars/models:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 차량 제조사 및 모델 목록 조회
+      description: 제조사별 차량 모델 목록을 조회한다.
+      tags:
+        - car
+      responses:
+        '200':
+          description: 제조사 및 모델 목록 조회 성공
+          content:
+            application/json:
+              example:
+                data:
+                  - manufacturer: 기아
+                    model:
+                      - K3
+                      - K5
+                      - K7
+                      - K9
+                      - K8
+                  - manufacturer: 현대
+                    model:
+                      - 그랜저
+                      - 아반떼
+                      - 소나타
+                      - 투싼
+                      - 베뉴
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /customers:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 고객 목록 조회
+      description: 등록된 고객 목록을 페이지네이션 및 검색 조건으로 조회한다.
+      tags:
+        - customer
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: 현재 페이지 번호
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: 페이지당 아이템 수
+        - name: searchBy
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - name
+              - email
+          description: 검색 기준
+        - name: keyword
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 검색어
+      responses:
+        '200':
+          description: 고객 목록 조회 성공
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 5
+                totalItemCount: 50
+                data:
+                  - id: 1
+                    name: string
+                    gender: male | female
+                    phoneNumber: string
+                    ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                    region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                    email: string
+                    memo: string
+                    contractCount: 0
+                  - id: 2
+                    name: string
+                    gender: male | female
+                    phoneNumber: string
+                    ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                    region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                    email: string
+                    memo: string
+                    contractCount: 0
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+    post:
+      security:
+        - bearerAuth: []
+      summary: 고객 등록
+      description: 새로운 고객 정보를 등록한다.
+      tags:
+        - customer
+      requestBody:
+        description: 등록할 고객 정보
+        content:
+          application/json:
+            example:
+              name: string
+              gender: male | female
+              phoneNumber: string
+              ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+              region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+              email: string
+              memo: string
+      responses:
+        '201':
+          description: 고객 등록 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
+                contractCount: 0
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  '/customers/{customerId}':
+    parameters:
+      - in: path
+        name: customerId
+        schema:
+          type: integer
+        description: 고객의 id
+    get:
+      security:
+        - bearerAuth: []
+      summary: 고객 상세 조회
+      description: 특정 고객의 상세 정보를 조회한다.
+      tags:
+        - customer
+      responses:
+        '200':
+          description: 고객 상세 조회 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
+                contractCount: 0
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 고객 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 고객입니다
+    patch:
+      security:
+        - bearerAuth: []
+      summary: 고객 정보 수정
+      description: 특정 고객의 정보를 수정한다.
+      tags:
+        - customer
+      requestBody:
+        description: 수정할 고객 정보
+        content:
+          application/json:
+            example:
+              name: string
+              gender: male | female
+              phoneNumber: string
+              ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+              region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+              email: string
+              memo: string
+      responses:
+        '200':
+          description: 고객 정보 수정 성공
+          content:
+            application/json:
+              example:
+                id: 123
+                name: string
+                gender: male | female
+                phoneNumber: string
+                ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+                region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+                email: string
+                memo: string
+                contractCount: 0
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 고객 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 고객입니다
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 고객 삭제
+      description: 특정 고객을 삭제한다.
+      tags:
+        - customer
+      responses:
+        '200':
+          description: 고객 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 고객 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '404':
+          description: 고객 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 고객입니다
+  /customers/upload:
+    post:
+      security:
+        - bearerAuth: []
+      summary: 고객 일괄 업로드
+      description: 파일을 업로드하여 고객 정보를 일괄 등록한다.
+      tags:
+        - customer
+      requestBody:
+        description: 업로드할 고객 데이터 파일
+        content:
+          text/csv:
+            schema:
+              type: string
+            example: |
+              name,gender,phoneNumber,ageGroup,region,email,memo
+              홍길동,male,010-1234-5678,30대,서울,hong@example.com,단골 고객입니다.
+              김영희,female,010-2345-6789,20대,부산,kim@example.com,신규 가입자
+              박철수,male,010-3456-7890,40대,경기,park@example.com,문의 많음
+              이민정,female,010-4567-8901,50대,광주,lee@example.com,리뷰 작성 고객
+              정우성,male,010-5678-9012,60대,제주,jung@example.com,전화 상담 완료
+      responses:
+        '200':
+          description: 업로드 성공
+          content:
+            application/json:
+              example:
+                message: 성공적으로 등록되었습니다
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 로그인 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contracts:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약 목록 조회
+      description: 계약 목록을 상태별로 조회한다.
+      tags:
+        - contracts
+      parameters:
+        - name: searchBy
+          in: query
+          required: false
+          description: 검색 기준 (customerName | userName)
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          required: false
+          description: 검색어
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 계약 목록 조회 성공
+          content:
+            application/json:
+              example:
+                carInspection:
+                  totalItemCount: 50
+                  data:
+                    - id: 1
+                      car:
+                        id: 1
+                        model: K5
+                      customer:
+                        id: 1
+                        name: 최효정
+                      user:
+                        id: 1
+                        name: 김연우
+                      meetings:
+                        - date: '2024-02-22'
+                          alarms:
+                            - '2024-02-22T09:00:00.000Z'
+                            - '2024-02-21T09:00:00.000Z'
+                      contractPrice: 2000000
+                      resolutionDate: '2024-02-22T07:47:49.803Z'
+                      status: string
+                priceNegotiation:
+                  totalItemCount: 20
+                  data:
+                    - ...
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+    post:
+      security:
+        - bearerAuth: []
+      summary: 계약 생성
+      description: 새로운 계약을 생성한다.
+      tags:
+        - contracts
+      requestBody:
+        description: 계약 생성에 필요한 값들
+        content:
+          application/json:
+            example:
+              carId: 1
+              customerId: 2
+              meetings:
+                - date: '2024-02-22'
+                  alarms:
+                    - '2024-02-22T09:00:00'
+                    - '2024-02-21T09:00:00'
+      responses:
+        '201':
+          description: 계약 생성 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                status: carInspection
+                resolutionDate: '2024-02-22T09:00:00'
+                contractPrice: 20000000
+                meetings:
+                  - date: '2024-02-22'
+                    alarms:
+                      - '2024-02-22T09:00:00'
+                      - '2024-02-21T09:00:00'
+                    user:
+                      id: 1
+                      name: string
+                    customer:
+                      id: 5
+                      name: string
+                    car:
+                      id: 6
+                      model: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  '/contracts/{contractId}':
+    parameters:
+      - name: contractId
+        in: path
+        required: true
+        description: 계약 ID
+        schema:
+          type: integer
+    delete:
+      security:
+        - bearerAuth: []
+      summary: 계약 삭제
+      description: 계약을 삭제한다.
+      tags:
+        - contracts
+      responses:
+        '200':
+          description: 계약 삭제 성공
+          content:
+            application/json:
+              example:
+                message: 계약 삭제 성공
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              example:
+                message: 담당자만 삭제가 가능합니다
+        '404':
+          description: 계약 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 계약입니다
+    patch:
+      security:
+        - bearerAuth: []
+      summary: 계약 수정
+      description: 계약 정보를 수정한다.
+      tags:
+        - contracts
+      requestBody:
+        description: 수정할 계약 정보
+        content:
+          application/json:
+            example:
+              status: carInspection
+              resolutionDate: '2024-02-22T09:00:00'
+              contractPrice: 20000000
+              meetings:
+                - date: '2024-02-22'
+                  alarms:
+                    - '2024-02-22T09:00:00'
+                    - '2024-02-21T09:00:00'
+              contractDocuments:
+                - id: 1
+                  fileName: Contract File 1
+                - id: 2
+                  fileName: Contract File 2
+              userId: 2
+              customerId: 3
+              carId: 4
+      responses:
+        '200':
+          description: 계약 수정 성공
+          content:
+            application/json:
+              example:
+                id: 1
+                status: carInspection
+                resolutionDate: '2024-02-22T09:00:00'
+                contractPrice: 20000000
+                meetings:
+                  - date: '2024-02-22'
+                    alarms:
+                      - '2024-02-22T09:00:00'
+                      - '2024-02-21T09:00:00'
+                    user:
+                      id: 1
+                      name: string
+                    customer:
+                      id: 5
+                      name: string
+                    car:
+                      id: 6
+                      model: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              example:
+                message: 담당자만 수정이 가능합니다
+        '404':
+          description: 계약 없음
+          content:
+            application/json:
+              example:
+                message: 존재하지 않는 계약입니다
+  /contracts/cars:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약 차량 목록 조회
+      description: 계약 등록을 위해 선택 가능한 차량 목록을 조회한다.
+      tags:
+        - contracts
+      responses:
+        '200':
+          description: 차량 목록 조회 성공
+          content:
+            application/json:
+              example:
+                - id: 1
+                  data: 레이(01더 0101)
+                - id: 2
+                  data: 레이(01가 1818)
+                - id: 3
+                  data: 레이(22구 1234)
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contracts/customers:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약 고객 목록 조회
+      description: 계약 등록을 위해 선택 가능한 고객 목록을 조회한다.
+      tags:
+        - contracts
+      responses:
+        '200':
+          description: 고객 목록 조회 성공
+          content:
+            application/json:
+              example:
+                - id: 1
+                  data: 최효정(hjhj@codeit.com)
+                - id: 2
+                  data: 김이박(kip@codeit.com)
+                - id: 3
+                  data: 최홍만(hm@codeit.com)
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contracts/users:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약 담당자 목록 조회
+      description: 계약 등록을 위해 선택 가능한 담당자 목록을 조회한다.
+      tags:
+        - contracts
+      responses:
+        '200':
+          description: 담당자 목록 조회 성공
+          content:
+            application/json:
+              example:
+                - id: 1
+                  data: 최효정(hjhj@codeit.com)
+                - id: 2
+                  data: 김이박(kip@codeit.com)
+                - id: 3
+                  data: 최홍만(hm@codeit.com)
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contractDocuments:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약서 목록 조회
+      description: 계약서 정보를 페이지네이션 및 검색 조건으로 조회한다.
+      tags:
+        - contractDocuments
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: 현재 페이지 번호
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: 페이지 당 아이템 수
+        - name: searchBy
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - contractName
+          description: 검색 기준
+        - name: keyword
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 검색어
+      responses:
+        '200':
+          description: 계약서 목록 조회 성공
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 2
+                totalItemCount: 6
+                data:
+                  - id: 1
+                    contractName: string
+                    resolutionDate: '2024-02-22T09:00:00.000Z'
+                    documentsCount: 2
+                    manager: string
+                    carNumber: string
+                    documents:
+                      - id: 1
+                        fileName: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contractDocuments/draft:
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약서 초안 목록 조회
+      description: 계약서 작성이 필요한 계약 목록을 조회한다.
+      tags:
+        - contractDocuments
+      responses:
+        '200':
+          description: 계약서 초안 목록 조회 성공
+          content:
+            application/json:
+              example:
+                - id: 1
+                  data: 그랜저 - 김고객 고객님
+                - id: 2
+                  data: K3 - 홍길동 고객님
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                message: 잘못된 요청입니다
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /contractDocuments/upload:
+    post:
+      security:
+        - bearerAuth: []
+      summary: 계약서 파일 업로드
+      description: 계약서 파일을 업로드한다.
+      tags:
+        - contractDocuments
+      requestBody:
+        description: 업로드할 계약서 파일
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+            example:
+              contractDocument: Files
+      responses:
+        '200':
+          description: 계약서 업로드 성공
+          content:
+            application/json:
+              example:
+                contractDocumentId: 1
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  '/contractDocuments/{contractDocumentId}/download':
+    get:
+      security:
+        - bearerAuth: []
+      summary: 계약서 다운로드
+      description: 계약서 파일을 다운로드한다.
+      tags:
+        - contractDocuments
+      parameters:
+        - name: contractDocumentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 계약서 ID
+      responses:
+        '200':
+          description: 계약서 다운로드 성공
+          content:
+            application/json:
+              example:
+                message: 계약서 다운로드 성공
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              example:
+                message: 로그인이 필요합니다
+  /:
+    get:
+      summary: 서버 상태 조회
+      description: '서버의 상태, 가동 시간, 메모리 사용량 등을 확인한다.'
+      tags:
+        - root
+      responses:
+        '200':
+          description: 서버 상태 조회 성공
+          content:
+            application/json:
+              example:
+                status: OK
+                uptime: 3602.14875234
+                timestamp: '2025-08-12T06:25:52.798Z'
+                memory:
+                  rss: 331.28MB
+                  heapTotal: 222.66MB
+                  heapUsed: 221.34MB
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
