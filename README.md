@@ -1,22 +1,28 @@
-## 팀 이름  
+## 팀 이름
+
 ### NB2-DearCarmate-Team1
 
 (팀 협업 문서 링크 게시)
 
 ---
 
-## 팀원 구성  
-- **조가현** [(개인 Github 링크)](#)  
-- **권나현** [(개인 Github 링크)](https://github.com/kwonnahyun0125/NB2_Dear-Carmate-Team1-Report/blob/main/README.md)  
+## 팀원 구성
+
+- **조가현** [(개인 Github 링크)](#)
+- **권나현** [(개인 Github 링크)](https://github.com/kwonnahyun0125/NB2_Dear-Carmate-Team1-Report/blob/main/README.md)
 - **권은혜** [(개인 Github 링크)](#)
 - **박건영** [(개인 Github 링크)](#)
-- **박규남** [(개인 Github 링크)](#)  
+- **박규남** [(개인 Github 링크)](https://github.com/gyunam-bark/nb02-dear-carmate-development-report)
 - **박성국** [(개인 Github 링크)](#)
 
 ---
-## 프로젝트 기간: 2025.07.22 ~ 2025.08.13  
+
+## 프로젝트 기간: 2025.07.22 ~ 2025.08.13
+
 ---
-## 프로젝트 소개  
+
+## 프로젝트 소개
+
 - **Dear Carmate**는 중고차 판매 현장에서 발생하는 계약∙차량∙고객 관리를 통합 지원하는 올인원 중고차 계약 관리 서비스입니다.
 - 복잡하고 분산된 판매 프로세스를 한 곳에서 관리할 수 있도록 설계되어, 계약 진행부터 매출 분석까지 업무 효율성을 극대화합니다.
 
@@ -36,47 +42,47 @@
 
 - 인증/회원관리
 
-   - 이메일·비밀번호 기반 로그인/로그아웃
+  - 이메일·비밀번호 기반 로그인/로그아웃
 
-   - 기업 인증코드를 통한 회원가입
+  - 기업 인증코드를 통한 회원가입
 
-   - 개인정보 수정 시 비밀번호 재검증
+  - 개인정보 수정 시 비밀번호 재검증
 
 - 차량 관리
 
-   - 차량 등록/수정/삭제/목록 조회
+  - 차량 등록/수정/삭제/목록 조회
 
-   - 차량 검색 및 페이지네이션
+  - 차량 검색 및 페이지네이션
 
-   - CSV를 통한 대량 등록
+  - CSV를 통한 대량 등록
 
 - 고객 관리
 
-   - 고객 등록/수정/삭제/목록 조회
+  - 고객 등록/수정/삭제/목록 조회
 
-   - 고객 검색 및 페이지네이션
+  - 고객 검색 및 페이지네이션
 
 - 계약 관리
 
-   - 계약 등록/수정/삭제
+  - 계약 등록/수정/삭제
 
-   - 거래 상태별 칸반 보드
+  - 거래 상태별 칸반 보드
 
-   - 고객명, 담당자명 검색
+  - 고객명, 담당자명 검색
 
 - 대시보드
 
-   - 매출 및 계약 현황 시각화
+  - 매출 및 계약 현황 시각화
 
 - 계약서 관리
 
-   - 계약서 업로드, 다운로드, 삭제, 목록 조회
+  - 계약서 업로드, 다운로드, 삭제, 목록 조회
 
-   - 자동 메일 발송 기능
+  - 자동 메일 발송 기능
 
 - 대용량 업로드
 
-   - CSV 파일 기반 고객·차량 데이터 대량 처리
+  - CSV 파일 기반 고객·차량 데이터 대량 처리
 
 **3. 기술적 특징**
 
@@ -86,17 +92,18 @@
 
 - 데이터베이스 성능 최적화 및 무결성 보장
   (캐스캐이딩, 트랜잭션, 대용량 처리 최적화)
- 
+
 **4. 적용 분야**
 
 - 중고차 매매 업체
 
 - 계약 관리 자동화가 필요한 영업 조직
 
-- 매출 분석 및 고객 관리가 필요한 B2B∙B2C 서비스**  
+- 매출 분석 및 고객 관리가 필요한 B2B∙B2C 서비스\*\*
 
-### 기술 스택  
-- **Backend:** node.js, express.js, typescript, tsc, nodemon, jsonwebtoken, bcrypt, multer, ts-node, cookie-parser, dotenv, prisma(ORM)  
+### 기술 스택
+
+- **Backend:** node.js, express.js, typescript, tsc, nodemon, jsonwebtoken, bcrypt, multer, ts-node, cookie-parser, dotenv, prisma(ORM)
 - **Database:** Postgresql
 - **API문서화:** Swagger
 - **공통 Tool:** Git & Github, Discord
@@ -104,52 +111,62 @@
 
 ---
 
-## 팀원별 구현 기능 상세  
+## 팀원별 구현 기능 상세
 
-### 조가현  
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
+### 조가현
 
-- **소셜 로그인 API**  
-  - 구글 소셜 로그인 API를 활용하여 소셜 로그인 기능 구현  
-  - 로그인 후 추가 정보 입력을 위한 API 엔드포인트 개발  
+(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
 
-- **회원 추가 정보 입력 API**  
-  - 회원 유형(관리자, 학생)에 따른 조건부 입력 처리 API 구현  
+- **소셜 로그인 API**
+
+  - 구글 소셜 로그인 API를 활용하여 소셜 로그인 기능 구현
+  - 로그인 후 추가 정보 입력을 위한 API 엔드포인트 개발
+
+- **회원 추가 정보 입력 API**
+  - 회원 유형(관리자, 학생)에 따른 조건부 입력 처리 API 구현
 
 ---
 
-### 권나현  
+### 권나현
+
 <img width="1434" height="750" alt="스크린샷 2025-08-13 002515" src="https://github.com/user-attachments/assets/dbe8e000-5cb9-4def-bd2b-5fc2d647ec09" />
 
-- **차량API**  
-   - 차량 등록/수정/삭제/목록 조회
-   - 차량 검색 및 페이지네이션
-   - 차량 이미지 수정 시 imageUrl 갱신 
+- **차량API**
 
-- **유저 API**  
+  - 차량 등록/수정/삭제/목록 조회
+  - 차량 검색 및 페이지네이션
+  - 차량 이미지 수정 시 imageUrl 갱신
+
+- **유저 API**
+
   - 회원가입 기능 구현
- 
+
 - **계약 API**
   - 목록 조회 기능 구현
 
 ---
 
 ### 권은혜
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
+
+(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
 
 - 유저 삭제·회원 탈퇴 API
-   - 본인 탈퇴 및 관리자 유저 삭제 엔드포인트 구현 (DELETE /users/me, DELETE /users/:id)
-   - fetch(DELETE)을 사용하여 소프트 삭제(isDeleted, deletedAt) 처리
+
+  - 본인 탈퇴 및 관리자 유저 삭제 엔드포인트 구현 (DELETE /users/me, DELETE /users/:id)
+  - fetch(DELETE)을 사용하여 소프트 삭제(isDeleted, deletedAt) 처리
 
 - 권한 검증 및 예외 처리
-   - JWT 인증 및 Role 체크로 관리자 전용 삭제 보호
-   - BigInt ID 변환(문자열→BigInt)과 403/404/409 예외 규격화
 
-- **공용 Modal API**  
+  - JWT 인증 및 Role 체크로 관리자 전용 삭제 보호
+  - BigInt ID 변환(문자열→BigInt)과 403/404/409 예외 규격화
+
+- **공용 Modal API**
   - 탈퇴/삭제 확인용 공통 Modal 컴포넌트 상태/콜백 처리
+
 ---
 
-### 박건영  
+### 박건영
+
 차량 목록 조회
 <img width="567" height="582" alt="image" src="https://github.com/user-attachments/assets/e392b0ef-a0cc-41d8-a584-3eaa163105c5" />
 고객 목록 조회
@@ -157,46 +174,95 @@
 유저 목록 조회
 <img width="756" height="481" alt="image" src="https://github.com/user-attachments/assets/1ec33481-ba53-43db-b09a-2bfb489823f2" />
 
-- **계약용 차량 목록 조회 API**  
-  - 계약 시에 필요한 차량 목록을 보여주는 api 구현  
-- **계약용 고객 목록 조회 API**  
+- **계약용 차량 목록 조회 API**
+  - 계약 시에 필요한 차량 목록을 보여주는 api 구현
+- **계약용 고객 목록 조회 API**
   - 계약 시에 필요한 고객의 목록을 보여주는 api 구현
-- **계약용 유저 목록 조회 API**  
+- **계약용 유저 목록 조회 API**
   - 계약 시에 필요한 유저 목록을 보여주는 api 구현
 
 ---
 
-### 박규남  
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
+### 박규남
 
-- **학생 시간 정보 관리 API**  
-  - 학생별 시간 정보를 조회하는 API 구현  
-  - `fetch(GET)`을 통해 실시간 접속 현황을 관리  
+(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
 
-- **수정 및 탈퇴 API**  
-  - `fetch(PATCH, DELETE)`을 사용하여 수강생의 개인정보 수정 및 탈퇴 처리  
+- **헬스체크**
 
-- **공용 Modal API**  
-  - 공통 Modal 컴포넌트를 처리하는 API 구현
+  - `[GET] /` : 서버 헬스체크 구현
 
- ---
- 
+- **인증 API / 검증 미들웨어**
+
+  - `[POST] auth/login` : 사용자 로그인 구현 및 토큰 발급
+  - `[POST] auth/refresh` : `accessToken` 및 `refreshToken` 재발급
+  - `[MIDDLEWARE] allow` : 토큰 검증 미들웨어 구현, `토큰 인증` 및 `req 확장` 구현
+
+- **계약 API**
+
+  - `[POST] contracts/` : 계약 생성
+  - `[PATCH] contracts/:id` : 계약 수정
+
+- **이미지 업로드 API**
+
+  - \[multer\] \-\> \[firebase\] \-\> \[postgresql\] \-\> \[return url\]
+  - `[POST] images/upload` : 이미지 업로드(사용자, 차량) 기능
+
+- **파일 업로드 API**
+
+  - \[multer\] \-\> \[firebase\] \-\> \[postgresql\] \-\> \[return url\]
+  - `[POST] contractDocument/upload` : 파일 업로드 기능
+
+- **파일 다운로드 API**
+
+  - \[postgresql\] \-\> \[return url\] \-\> \[frontend\] \-\> \[axios.get:blob\]
+  - `[POST] contractDocument/:id/download` : 파일 다운로드 기능
+  - 실제로 파일을 다운로드 받을 수 있도록 프론트엔드 코드 수정
+
+- **대용량 업로드 API**
+
+  - \[multer\] \-\> \[csvToCarList / csvToCustomerList\] \-\> \[postgresql\]
+  - `[POST] cars/upload` : 차량 업로드 기능
+  - `[POST] customers/upload` : 고객 업로드 기능
+
+- **NotFound 핸들러 미들웨어**
+
+  - `NotFoundHandler` : 지원하지 않는 API 에 접근 했을 때 공통적으로 `404` 에러를 반환하는 미들웨어
+
+- **글로벌 에러 핸들러 미들웨어**
+
+  - `GlobalErrorHandler` : API 서버에서 발생하는 에러를 처리하는 에러 핸들러 미들웨어
+
+- **파이어베이스 스토리지 연동/관리**
+
+  - `GCS Bucket CORS 관리` : `GCSUTIL CLI` 를 사용해서 `cors.json` 업로드하여 권한 수정
+
+- **프론트엔드 배포**
+
+  - `vercel` 을 사용하여 배포
+  - `차량` 항목에 이미지(imageURL)을 추가하고 변경할 수 있도록 프론트엔드 코드 수정
+
+  ***
+
 ### 박성국
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
 
-- **학생 시간 정보 관리 API**  
-  - 학생별 시간 정보를 조회하는 API 구현  
-  - `fetch(GET)`을 통해 실시간 접속 현황을 관리  
+(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
 
-- **수정 및 탈퇴 API**  
-  - `fetch(PATCH, DELETE)`을 사용하여 수강생의 개인정보 수정 및 탈퇴 처리  
+- **학생 시간 정보 관리 API**
 
-- **공용 Modal API**  
+  - 학생별 시간 정보를 조회하는 API 구현
+  - `fetch(GET)`을 통해 실시간 접속 현황을 관리
+
+- **수정 및 탈퇴 API**
+
+  - `fetch(PATCH, DELETE)`을 사용하여 수강생의 개인정보 수정 및 탈퇴 처리
+
+- **공용 Modal API**
   - 공통 Modal 컴포넌트를 처리하는 API 구현
 
 ---
 
-## 파일 구조  
+## 파일 구조
+
 ```
 NB2-DEARCARMATE-TEAM1
 ├─ prisma
@@ -293,15 +359,19 @@ NB2-DEARCARMATE-TEAM1
 ├─ README.md
 └─ tsconfig.json
 ```
+
 ---
 
-## 구현 홈페이지  
+## 구현 홈페이지
+
 - 백엔드 : https://nb2-dearcarmate-team1.onrender.com/
 
 - 프론트엔드 : https://www.nb02-dearcarmate.online/signin
+
 ---
 
-## 프로젝트 회고록  
+## 프로젝트 회고록
+
 시연영상
 <img width="1283" height="665" alt="스크린샷 2025-08-13 021325" src="https://github.com/user-attachments/assets/fa6f013b-3975-49a9-ab55-e651b5b58770" />
 <img width="1282" height="720" alt="스크린샷 2025-08-13 021437" src="https://github.com/user-attachments/assets/5100d734-4006-4c5a-9c9a-d9a1aec4c9bb" />
@@ -324,32 +394,3 @@ NB2-DEARCARMATE-TEAM1
 <img width="1280" height="719" alt="스크린샷 2025-08-13 021949" src="https://github.com/user-attachments/assets/7e0e6bb8-07a1-42f8-8f30-cd3e4f7800a6" />
 <img width="1278" height="719" alt="스크린샷 2025-08-13 022001" src="https://github.com/user-attachments/assets/b4242dd3-4cdf-49d9-80a1-adc5557d4270" />
 <img width="1281" height="719" alt="스크린샷 2025-08-13 022014" src="https://github.com/user-attachments/assets/7575dfa1-5352-4bb4-8af5-4eed8c8ce2ae" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
