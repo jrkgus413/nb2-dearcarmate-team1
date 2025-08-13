@@ -1,0 +1,45 @@
+post:
+  summary: 유저 등록
+  description: 새로운 유저를 등록한다.
+  tags:
+    - user
+  requestBody:
+    description: 유저 등록을 위해 필요한 값들
+    content:
+      application/json:
+        example:
+          name: 일이삼
+          email: tmp@tmp.com
+          employeeNumber: "1234"
+          phoneNumber: 010-2345-1234
+          password: "1234"
+          passwordConfirmation: "1234"
+          companyName: 햇살카
+          companyCode: sunshine
+  responses:
+    "201":
+      description: 유저 등록 성공
+      content:
+        application/json:
+          example:
+            id: 1
+            name: string
+            email: string
+            employeeNumber: string
+            phoneNumber: string
+            imageUrl: string
+            isAdmin: false
+            company:
+              companyCode: string
+    "400":
+      description: 비밀번호 불일치
+      content:
+        application/json:
+          example:
+            message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+    "409":
+      description: 중복 이메일
+      content:
+        application/json:
+          example:
+            message: 이미 존재하는 이메일입니다

@@ -1,0 +1,121 @@
+openapi: 3.0.4
+info:
+  title: Dear carmate
+  version: 1.0.0
+
+servers:
+  - url: "http://localhost:{port}"
+    description: 로컬 호스트에서 테스트할 때, 사용할 수 있는 기본 서버
+    variables:
+      port:
+        enum:
+          - "3000"
+          - "3001"
+        default: "3001"
+
+  - url: " https://nb2-dearcarmate-team1.onrender.com"
+    description: 배포 완료된 호스트에서 테스트할 때, 사용/테스트하는 서버
+
+tags:
+  - name: auth
+    description: auth API를 설명합니다.
+  
+  - name: user
+    description: user API를 설명합니다.
+
+  - name: dashboard
+    description: 대시보드 API를 설명합니다.
+
+  - name: images
+    description: 이미지 API를 설명합니다.
+
+  - name: company
+    description: company API를 설명합니다.
+
+  - name: car
+    description: car API를 설명합니다.
+
+  - name: customer
+    description: customer API를 설명합니다.
+
+  - name: contracts
+    description: 계약 API를 설명합니다.
+  
+  - name: contractDocuments
+    description: 계약서 API를 설명합니다.
+
+  - name: root
+    description: 헬스 체크를 설명합니다.
+
+paths:
+
+  /auth/login:
+    $ref: ./paths/auth/login/index.yaml
+  /auth/refresh:
+    $ref: ./paths/auth/refresh/index.yaml
+
+  /users:
+    $ref: ./paths/users/index.yaml
+  /users/me:
+    $ref: ./paths/users/me/index.yaml
+  /users/{userId}:
+    $ref: ./paths/users/user-id/index.yaml
+
+  /dashboard:
+    $ref: ./paths/dashboard/index.yaml
+
+  /images/upload:
+    $ref: ./paths/images/upload/index.yaml
+
+  /companies:
+    $ref: ./paths/companies/index.yaml
+  /companies/{companyId}:
+    $ref: ./paths/companies/company-id/index.yaml
+  /companies/users:
+    $ref: ./paths/companies/users/index.yaml
+
+  /cars:
+    $ref: ./paths/cars/index.yaml
+  /cars/{carId}:
+    $ref: ./paths/cars/car-id/index.yaml
+  /cars/upload:
+    $ref: ./paths/cars/upload/index.yaml
+  /cars/models:
+    $ref: ./paths/cars/models/index.yaml
+
+  /customers:
+    $ref: ./paths/customers/index.yaml
+  /customers/{customerId}:
+    $ref: ./paths/customers/customer-id/index.yaml
+  /customers/upload:
+    $ref: ./paths/customers/upload/index.yaml
+
+  /contracts:
+    $ref: ./paths/contracts/index.yaml
+  /contracts/{contractId}:
+    $ref: ./paths/contracts/contract-id/index.yaml
+  /contracts/cars:
+    $ref: ./paths/contracts/cars/index.yaml
+  /contracts/customers:
+    $ref: ./paths/contracts/customers/index.yaml
+  /contracts/users:
+    $ref: ./paths/contracts/users/index.yaml
+
+  /contractDocuments:
+    $ref: ./paths/contract-documents/index.yaml
+  /contractDocuments/draft:
+    $ref: ./paths/contract-documents/draft/index.yaml
+  /contractDocuments/upload:
+    $ref: ./paths/contract-documents/upload/index.yaml
+  /contractDocuments/{contractDocumentId}/download:
+    $ref: ./paths/contract-documents/contract-document-id-download/index.yaml
+
+  /:
+    $ref: ./paths/root/index.yaml
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes

@@ -1,0 +1,22 @@
+parameters:
+  - in: path
+    name: carId
+    required: true
+    schema:
+      type: integer
+    description: 차량 id
+
+get:
+  security:
+    - bearerAuth: []
+  $ref: ./get.yaml
+
+delete:
+  security:
+    - bearerAuth: []
+  $ref: ./delete.yaml
+
+patch:
+  security:
+    - bearerAuth: []
+  $ref: ./patch.yaml

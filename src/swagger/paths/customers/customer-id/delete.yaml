@@ -1,0 +1,29 @@
+summary: 고객 삭제
+description: 특정 고객을 삭제한다.
+tags:
+  - customer
+responses:
+  "200":
+    description: 고객 삭제 성공
+    content:
+      application/json:
+        example:
+          message: 고객 삭제 성공
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: 잘못된 요청입니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        example:
+          message: 로그인이 필요합니다
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 고객입니다

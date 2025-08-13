@@ -1,0 +1,37 @@
+summary: 내 정보 조회
+description: 현재 로그인한 유저의 정보를 조회한다.
+tags:
+  - user
+responses:
+  "200":
+    description: 내 정보 조회 성공
+    content:
+      application/json:
+        example:
+          id: 1
+          name: string
+          email: string
+          employeeNumber: string
+          phoneNumber: string
+          imageUrl: string
+          isAdmin: true
+          company:
+            companyCode: string
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: 잘못된 요청입니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        example:
+          message: 로그인이 필요합니다
+  "404":
+    description: 유저 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 유저입니다

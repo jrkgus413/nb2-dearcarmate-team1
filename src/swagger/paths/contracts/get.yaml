@@ -1,0 +1,59 @@
+summary: 계약 목록 조회
+description: 계약 목록을 상태별로 조회한다.
+tags:
+  - contracts
+parameters:
+  - name: searchBy
+    in: query
+    required: false
+    description: 검색 기준 (customerName | userName)
+    schema:
+      type: string
+  - name: keyword
+    in: query
+    required: false
+    description: 검색어
+    schema:
+      type: string
+responses:
+  "200":
+    description: 계약 목록 조회 성공
+    content:
+      application/json:
+        example:
+          carInspection:
+            totalItemCount: 50
+            data:
+              - id: 1
+                car:
+                  id: 1
+                  model: K5
+                customer:
+                  id: 1
+                  name: 최효정
+                user:
+                  id: 1
+                  name: 김연우
+                meetings:
+                  - date: "2024-02-22"
+                    alarms:
+                      - "2024-02-22T09:00:00.000Z"
+                      - "2024-02-21T09:00:00.000Z"
+                contractPrice: 2000000
+                resolutionDate: "2024-02-22T07:47:49.803Z"
+                status: string
+          priceNegotiation:
+            totalItemCount: 20
+            data: [...]
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: "잘못된 요청입니다"
+  "401":
+    description: 인증 실패
+    content:
+      application/json:
+        example:
+          message: "로그인이 필요합니다"

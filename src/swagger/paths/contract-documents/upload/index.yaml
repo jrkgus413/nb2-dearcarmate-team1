@@ -1,0 +1,36 @@
+post:
+  security:
+    - bearerAuth: []
+  summary: 계약서 파일 업로드
+  description: 계약서 파일을 업로드한다.
+  tags:
+    - contractDocuments
+
+  requestBody:
+    description: 업로드할 계약서 파일
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            files:
+              type: array
+              items:
+                type: string
+                format: binary
+        example:
+          contractDocument: Files
+
+  responses:
+    "200":
+      description: 계약서 업로드 성공
+      content:
+        application/json:
+          example:
+            contractDocumentId: 1
+    "401":
+      description: 인증 필요
+      content:
+        application/json:
+          example:
+            message: "로그인이 필요합니다"

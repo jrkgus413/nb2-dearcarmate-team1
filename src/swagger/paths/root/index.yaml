@@ -1,0 +1,20 @@
+get:
+  summary: 서버 상태 조회
+  description: 서버의 상태, 가동 시간, 메모리 사용량 등을 확인한다.
+
+  tags:
+    - root
+
+  responses:
+    "200":
+      description: 서버 상태 조회 성공
+      content:
+        application/json:
+          example:
+            status: "OK"
+            uptime: 3602.14875234
+            timestamp: "2025-08-12T06:25:52.798Z"
+            memory:
+              rss: "331.28MB"
+              heapTotal: "222.66MB"
+              heapUsed: "221.34MB"

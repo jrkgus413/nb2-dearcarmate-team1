@@ -12,6 +12,7 @@
     "start": "node dist/app.js",
     "db:seed": "prisma db seed",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
+    "swagger":"swagger-cli bundle ./src/swagger/index.yaml --outfile ./src/swagger/swagger.yaml --type yaml",
     "prisma:build": "node prisma/merge-schema.js",
     "prisma:migrate": "npm run prisma:build && npx prisma migrate dev",
     "prisma:deploy": "npm run prisma:build && npx prisma migrate deploy",
@@ -47,8 +48,8 @@
     "firebase-admin": "^13.4.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -60,10 +61,11 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
-    "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "@types/yamljs": "^0.2.34",
     "nodemon": "^3.1.10",
     "prisma": "^6.12.0",
+    "swagger-cli": "^4.0.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

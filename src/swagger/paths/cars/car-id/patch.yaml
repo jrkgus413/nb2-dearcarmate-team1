@@ -1,0 +1,56 @@
+summary: 차량 정보 수정
+description: 특정 차량의 정보를 수정한다.
+tags:
+  - car
+
+requestBody:
+  description: 수정할 차량 정보
+  content:
+    application/json:
+      example:
+        carNumber: string
+        manufacturer: 기아 | 쉐보레
+        model: K5 | 스파크
+        type: string
+        manufacturingYear: 2020
+        mileage: 30
+        price: 1000000
+        accidentCount: 1
+        explanation: string
+        accidentDetails: string
+responses:
+  "200":
+    description: 차량 수정 성공
+    content:
+      application/json:
+        example:
+          id: 123
+          carNumber: string
+          manufacturer: 기아 | 쉐보레
+          model: K5 | 스파크
+          type: 세단 | 경차 | SUV
+          manufacturingYear: 2020
+          mileage: 30
+          price: 1000000
+          accidentCount: 1
+          explanation: string
+          accidentDetails: string
+          status: possession | contractProceeding | contractCompleted
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: 잘못된 요청입니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        example:
+          message: 로그인이 필요합니다
+  "404":
+    description: 차량 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 차량입니다

@@ -1,0 +1,21 @@
+post:
+  summary: 이미지 업로드
+  description: 이미지를 업로드하고 URL을 반환한다.
+  tags:
+    - images
+  requestBody:
+    description: 업로드할 이미지 파일
+    content:
+      image/*:
+        schema:
+          type: string
+          format: binary
+        example:
+          image: File
+  responses:
+    "200":
+      description: 업로드 성공
+      content:
+        application/json:
+          example:
+            imageUrl: string

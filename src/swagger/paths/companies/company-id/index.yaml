@@ -1,0 +1,17 @@
+parameters:
+  - in: path
+    name: companyId
+    required: true
+    schema:
+      type: integer
+    description: 회사 id
+
+patch:
+  security:
+    - bearerAuth: []
+  $ref: ./patch.yaml
+
+delete:
+  security:
+    - bearerAuth: []
+  $ref: ./delete.yaml

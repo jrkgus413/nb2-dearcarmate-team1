@@ -1,0 +1,14 @@
+get:
+  security:
+    - bearerAuth: []
+  $ref: ./get.yaml
+
+patch:
+  security:
+    - bearerAuth: []
+  $ref: ./patch.yaml
+
+delete:
+  security:
+    - bearerAuth: []
+  $ref: ./delete.yaml

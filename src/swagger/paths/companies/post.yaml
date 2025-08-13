@@ -1,0 +1,33 @@
+summary: 회사 등록 (관리자 전용)
+description: 필요한 값들로 회사를 등록한다.
+tags:
+  - company
+requestBody:
+  description: 회사를 등록하기 위해 필요한 값들
+  content:
+    application/json:
+      example:
+        companyName: 햇살카
+        companyCode: sunshine
+responses:
+  "201":
+    description: 회사 등록 성공
+    content:
+      application/json:
+        example:
+          id: 1
+          companyName: string
+          companyCode: string
+          userCount: 3
+  "400":
+    description: 회사 등록 실패
+    content:
+      application/json:
+        example:
+          message: "잘못된 요청입니다"
+  "401":
+    description: 관리자 권한 필요
+    content:
+      application/json:
+        example:
+          message: "관리자 권한이 필요합니다"

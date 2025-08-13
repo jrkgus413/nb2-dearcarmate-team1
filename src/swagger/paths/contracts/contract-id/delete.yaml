@@ -1,0 +1,35 @@
+summary: 계약 삭제
+description: 계약을 삭제한다.
+tags:
+  - contracts
+responses:
+  "200":
+    description: 계약 삭제 성공
+    content:
+      application/json:
+        example:
+          message: "계약 삭제 성공"
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: "잘못된 요청입니다"
+  "401":
+    description: 인증 실패
+    content:
+      application/json:
+        example:
+          message: "로그인이 필요합니다"
+  "403":
+    description: 권한 없음
+    content:
+      application/json:
+        example:
+          message: "담당자만 삭제가 가능합니다"
+  "404":
+    description: 계약 없음
+    content:
+      application/json:
+        example:
+          message: "존재하지 않는 계약입니다"

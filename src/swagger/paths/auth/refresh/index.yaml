@@ -1,0 +1,25 @@
+post:
+  summary: 토큰 갱신
+  description: Refresh Token으로 Access Token을 재발급한다.
+  tags:
+    - auth
+  requestBody:
+    description: 토큰 갱신 요청
+    content:
+      application/json:
+        example:
+          refreshToken: string
+  responses:
+    "200":
+      description: 토큰 재발급 성공
+      content:
+        application/json:
+          example:
+            accessToken: string
+            refreshToken: string
+    "400":
+      description: 잘못된 요청
+      content:
+        application/json:
+          example:
+            message: "잘못된 요청입니다"

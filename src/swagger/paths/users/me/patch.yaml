@@ -1,0 +1,53 @@
+summary: 내 정보 수정
+description: 현재 로그인한 유저의 정보를 수정한다.
+tags:
+  - user
+requestBody:
+  description: 수정할 유저 정보
+  content:
+    application/json:
+      example:
+        employeeNumber: "sss"
+        phoneNumber: 010-2345-1235
+        currentPassword: "1234"
+        password: "12345"
+        passwordConfirmation: "12345"
+        imageUrl: string
+responses:
+  "200":
+    description: 내 정보 수정 성공
+    content:
+      application/json:
+        example:
+          id: 1
+          name: string
+          email: string
+          employeeNumber: string
+          phoneNumber: string
+          imageUrl: string
+          isAdmin: false
+          company:
+            companyCode: string
+  "400":
+    description: 비밀번호 불일치 또는 현재 비밀번호 불일치
+    content:
+      application/json:
+        examples:
+          passwordMismatch:
+            value:
+              message: 비밀번호와 비밀번호 확인이 일치하지 않습니다
+          currentPasswordMismatch:
+            value:
+              message: 현재 비밀번호가 맞지 않습니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        example:
+          message: 로그인이 필요합니다
+  "404":
+    description: 유저 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 유저입니다

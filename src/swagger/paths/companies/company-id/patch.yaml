@@ -1,0 +1,39 @@
+summary: 회사 정보 수정 (관리자 전용)
+description: 회사 정보를 수정한다.
+tags:
+  - company
+requestBody:
+  description: 수정할 회사 정보
+  content:
+    application/json:
+      example:
+        companyName: 햇살카
+        companyCode: sunshine
+responses:
+  "200":
+    description: 회사 수정 성공
+    content:
+      application/json:
+        example:
+          id: 1
+          companyName: string
+          companyCode: string
+          userCount: 3
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: "잘못된 요청입니다"
+  "401":
+    description: 관리자 권한 필요
+    content:
+      application/json:
+        example:
+          message: "관리자 권한이 필요합니다"
+  "404":
+    description: 존재하지 않는 회사
+    content:
+      application/json:
+        example:
+          message: "존재하지 않는 회사입니다"

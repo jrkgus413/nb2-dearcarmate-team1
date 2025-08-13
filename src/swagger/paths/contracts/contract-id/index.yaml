@@ -1,0 +1,17 @@
+parameters:
+  - name: contractId
+    in: path
+    required: true
+    description: 계약 ID
+    schema:
+      type: integer
+
+delete:
+  security:
+    - bearerAuth: []
+  $ref: ./delete.yaml
+
+patch:
+  security:
+    - bearerAuth: []
+  $ref: ./patch.yaml

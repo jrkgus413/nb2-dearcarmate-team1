@@ -1,0 +1,42 @@
+post:
+  summary: 사용자 로그인
+  description: 이메일과 비밀번호로 로그인을 시도한다.
+  tags:
+    - auth
+  requestBody:
+    description: 로그인 요청에 필요한 값들
+    content:
+      application/json:
+        example:
+          email: tmp@tmp.com
+          password: "1234"
+  responses:
+    "200":
+      description: 로그인 성공
+      content:
+        application/json:
+          example:
+            user:
+              id: 1
+              name: string
+              email: string
+              employeeNumber: string
+              phoneNumber: string
+              imageUrl: string
+              isAdmin: true
+              company:
+                companyCode: string
+            accessToken: string
+            refreshToken: string
+    "400":
+      description: 잘못된 요청
+      content:
+        application/json:
+          example:
+            message: "잘못된 요청입니다"
+    "404":
+      description: 사용자 없음 또는 비밀번호 불일치
+      content:
+        application/json:
+          example:
+            message: "존재하지 않거나 비밀번호가 일치하지 않습니다"

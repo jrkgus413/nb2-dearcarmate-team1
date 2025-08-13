@@ -1,0 +1,49 @@
+summary: 고객 정보 수정
+description: 특정 고객의 정보를 수정한다.
+tags:
+  - customer
+requestBody:
+  description: 수정할 고객 정보
+  content:
+    application/json:
+      example:
+        name: string
+        gender: male | female
+        phoneNumber: string
+        ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+        region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+        email: string
+        memo: string
+responses:
+  "200":
+    description: 고객 정보 수정 성공
+    content:
+      application/json:
+        example:
+          id: 123
+          name: string
+          gender: male | female
+          phoneNumber: string
+          ageGroup: 10대 | 20대 | 30대 | 40대 | 50대 | 60대 | 70대 | 80대
+          region: 서울 | 경기 | 인천 | 강원 | 충북 | 충남 | 세종 | 대전 | 전북 | 전남 | 광주 | 경북 | 경남 | 대구 | 울산 | 부산 | 제주
+          email: string
+          memo: string
+          contractCount: 0
+  "400":
+    description: 잘못된 요청
+    content:
+      application/json:
+        example:
+          message: 잘못된 요청입니다
+  "401":
+    description: 로그인 필요
+    content:
+      application/json:
+        example:
+          message: 로그인이 필요합니다
+  "404":
+    description: 고객 없음
+    content:
+      application/json:
+        example:
+          message: 존재하지 않는 고객입니다
