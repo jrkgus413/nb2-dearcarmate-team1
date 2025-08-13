@@ -13,7 +13,7 @@
 - **권은혜** [(개인 Github 링크)](#)
 - **박건영** [(개인 Github 링크)](#)
 - **박규남** [(개인 Github 링크)](https://github.com/gyunam-bark/nb02-dear-carmate-development-report)
-- **박성국** [(개인 Github 링크)](https://www.notion.so/2071de3a2b0b80f3a54dfde6f48f798a)
+- **박성국** [(개인 Github 링크)](https://adhesive-seagull-c5e.notion.site/2071de3a2b0b80f3a54dfde6f48f798a?pvs=74)
 
 ---
 
