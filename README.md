@@ -131,7 +131,7 @@
 
 <img width="1434" height="750" alt="스크린샷 2025-08-13 002515" src="https://github.com/user-attachments/assets/dbe8e000-5cb9-4def-bd2b-5fc2d647ec09" />
 
-- **차량API**
+- **차량 API**
 
   - `[POST] /cars` : 차량 등록
   - `[GET] /cars` : 차량 목록 조회
