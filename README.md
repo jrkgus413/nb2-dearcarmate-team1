@@ -150,17 +150,19 @@
 ---
 
 ### 박건영  
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
+차량 목록 조회
+<img width="567" height="582" alt="image" src="https://github.com/user-attachments/assets/e392b0ef-a0cc-41d8-a584-3eaa163105c5" />
+고객 목록 조회
+<img width="571" height="556" alt="image" src="https://github.com/user-attachments/assets/1581cfee-0a86-4422-8ecc-7593ec46484f" />
+유저 목록 조회
+<img width="756" height="481" alt="image" src="https://github.com/user-attachments/assets/1ec33481-ba53-43db-b09a-2bfb489823f2" />
 
-- **관리자 API**  
-  - Path Parameter를 활용한 동적 라우팅 기능 구현  
-  - `fetch(PATCH, DELETE)`를 사용하여 학생 정보를 수정하고 탈퇴하는 API 엔드포인트 개발  
-
-- **CRUD 기능**  
-  - 학생 정보 CRUD 기능을 제공하는 API 구현  
-
-- **회원관리 슬라이더**  
-  - 학생별 정보 목록을 carousel 방식으로 보여주는 API 개발  
+- **계약용 차량 목록 조회 API**  
+  - 계약 시에 필요한 차량 목록을 보여주는 api 구현  
+- **계약용 고객 목록 조회 API**  
+  - 계약 시에 필요한 고객의 목록을 보여주는 api 구현
+- **계약용 유저 목록 조회 API**  
+  - 계약 시에 필요한 유저 목록을 보여주는 api 구현
 
 ---
 
