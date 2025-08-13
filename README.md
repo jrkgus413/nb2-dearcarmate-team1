@@ -156,10 +156,9 @@
    - fetch(DELETE)로 소프트 삭제(isDeleted, deletedAt) 처리.
 
 - 권한 검증 및 예외 처리
-
-  -  JWT 인증과 Role 체크로 관리자 전용 삭제 보호
+  
   -  회원 탈퇴는 본인 인증 필수.
-  -  BigInt ID 변환(문자열→BigInt)과 403/404/409 예외 규격화
+
 
 - **공용 Modal API**
   - 탈퇴/삭제 확인용 공통 Modal 컴포넌트 상태·콜백 처리 및 API 호출 흐름 연동.
