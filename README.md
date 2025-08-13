@@ -137,13 +137,13 @@
 ### 권은혜
 (자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)  
 
--유저 삭제·회원 탈퇴 API
-  - 본인 탈퇴 및 관리자 유저 삭제 엔드포인트 구현 (DELETE /users/me, DELETE /users/:id)
-  - fetch(DELETE)을 사용하여 소프트 삭제(isDeleted, deletedAt) 처리
+- 유저 삭제·회원 탈퇴 API
+   - 본인 탈퇴 및 관리자 유저 삭제 엔드포인트 구현 (DELETE /users/me, DELETE /users/:id)
+   - fetch(DELETE)을 사용하여 소프트 삭제(isDeleted, deletedAt) 처리
 
--권한 검증 및 예외 처리
-  - JWT 인증 및 Role 체크로 관리자 전용 삭제 보호
-  - BigInt ID 변환(문자열→BigInt)과 403/404/409 예외 규격화
+- 권한 검증 및 예외 처리
+   - JWT 인증 및 Role 체크로 관리자 전용 삭제 보호
+   - BigInt ID 변환(문자열→BigInt)과 403/404/409 예외 규격화
 
 - **공용 Modal API**  
   - 탈퇴/삭제 확인용 공통 Modal 컴포넌트 상태/콜백 처리
