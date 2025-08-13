@@ -92,7 +92,7 @@ function person(g: 'M' | 'F') {
 async function main() {
   console.log('🔄 Clear...');
   // 참조 순서대로 삭제
-  await prisma.alarm.deleteMany();
+  /* await prisma.alarm.deleteMany();
   await prisma.meeting.deleteMany();
   await prisma.contractDocument.deleteMany();
   await prisma.file.deleteMany();
@@ -102,7 +102,7 @@ async function main() {
   await prisma.customer.deleteMany();
   await prisma.userImage.deleteMany();
   await prisma.user.deleteMany();
-  await prisma.company.deleteMany();
+  await prisma.company.deleteMany(); */
 
   console.log('🏢 Companies (8)');
   const companies = await Promise.all(
