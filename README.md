@@ -133,16 +133,20 @@
 
 - **차량API**
 
-  - 차량 등록/수정/삭제/목록 조회
+  - `[POST] /cars` : 차량 등록
+  - `[GET] /cars` : 차량 목록 조회
+  - `[PATCH] /cars/{carId}` : 차량 수정  
+  - `[DELETE] /cars/{carId}` : 차량 삭제
+  - `[GET] /cars/{carId}` : 차량 모델 목록 조회
   - 차량 검색 및 페이지네이션
   - 차량 이미지 수정 시 imageUrl 갱신
 
 - **유저 API**
 
-  - 회원가입 기능 구현
+  - `[POST] /users` : 회원가입 
 
 - **계약 API**
-  - 목록 조회 기능 구현
+  - `[GET] /contracts` : 목록 조회
 
 ---
 
