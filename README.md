@@ -8,7 +8,7 @@
 
 ## 팀원 구성
 
-- **조가현** [(개인 Github 링크)](#)
+- **조가현** [(개인 Github 링크)](https://github.com/jrkgus413/nb02-dear-carmate-report/blob/main/README.md)
 - **권나현** [(개인 Github 링크)](https://github.com/kwonnahyun0125/NB2_Dear-Carmate-Team1-Report/blob/main/README.md)
 - **권은혜** [(개인 Github 링크)](#)
 - **박건영** [(개인 Github 링크)](#)
@@ -115,15 +115,37 @@
 
 ### 조가현
 
-(자신이 개발한 기능에 대한 사진이나 gif 파일 첨부)
+- **유저 API**
+  - `[GET] /users/me`  로그인한 사용자의 정보 조회 API 구현
+  - `[PATCH] /users/me` 로그인한 사용자의 정보 수정 API 구현
+    - 유저 프로필 이미지 수정 시 imageUrl 갱신
 
-- **소셜 로그인 API**
+- **회사 API**
+  - `[POST] /companies` 회사 등록 API 구현
+  - `[GET] /companies` 회사 목록 조회 API 구현
+    - 회사 검색 및 페이지네이션
+  - `[GET] /companies/users` 회사별 유저 목록 API 구현
+    - 유저 검색 및 페이지네이션
+  - `[PATCH] /companies/{companyId}` 회사 수정 API 구현
+  - `[DELETE] /companies/{companyId}` 회사 삭제 API 구현
 
-  - 구글 소셜 로그인 API를 활용하여 소셜 로그인 기능 구현
-  - 로그인 후 추가 정보 입력을 위한 API 엔드포인트 개발
+- **대시보드 API**
+  - `[GET] /dashboard`
+    - 이번달 매출 / 지난달 매출 / 성장률 계산
+    - 차량 타입별 매출액
+    - 차량 타입별 계약 수
+    - 진행 중인 계약 건수
+    - 완료된 계약 건수
+  - 트랜잭션 적용을 적용하여 데이터 베이스 최적화 처리
+  
 
-- **회원 추가 정보 입력 API**
-  - 회원 유형(관리자, 학생)에 따른 조건부 입력 처리 API 구현
+- **Bigint 변환 미들웨어**
+  - BigInt 값을 응답 시 숫자로 변환하되, 자바스크립트 정수 범위 이상일 경우 문자열로 처리하는 전역 미들웨어
+  - BigInt 타입의 필드 응답 시 JSON 직렬화 오류 발생
+  - 모든 ID는 기본 bigint 타입으로 개별 컨트롤러에서 변환하는 방식보다 전역 처리 방식으로 적용
+
+- **회원탈퇴 UI**
+  - API 명세에만 정의된 회원 탈퇴 기능을 실제 화면에 적용할 수 있도록, 샘플 프론트엔드 코드에 회원 탈퇴 버튼 UI 추가
 
 ---
 
