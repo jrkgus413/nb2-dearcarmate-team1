@@ -114,6 +114,8 @@
 ## 팀원별 구현 기능 상세
 
 ### 조가현
+회원정보 조회 및 회원탈퇴 UI 화면
+<img width="601" height="819" alt="회원탈퇴 UI" src="https://github.com/user-attachments/assets/8650287f-29b5-4ca5-9b8a-b3841b2075f5" />
 
 - **유저 API**
   - `[GET] /users/me`  로그인한 사용자의 정보 조회 API 구현
