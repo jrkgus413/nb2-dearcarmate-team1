@@ -10,8 +10,8 @@
 
 - **조가현** [(개인 Github 링크)](https://github.com/jrkgus413/nb02-dear-carmate-report/blob/main/README.md)
 - **권나현** [(개인 Github 링크)](https://github.com/kwonnahyun0125/NB2_Dear-Carmate-Team1-Report/blob/main/README.md)
-- **권은혜** [(개인 Github 링크)](#)
-- **박건영** [(개인 Github 링크)](#)
+- **권은혜** [(개인 Github 링크)](https://www.notion.so/24de6a4f0ef38060b3abc7bc108e7933?pvs=25)
+- **박건영** [(개인 Github 링크)](https://github.com/geonyoung28/-/blob/main/README.md)
 - **박규남** [(개인 Github 링크)](https://github.com/gyunam-bark/nb02-dear-carmate-development-report)
 - **박성국** [(개인 Github 링크)](https://adhesive-seagull-c5e.notion.site/2071de3a2b0b80f3a54dfde6f48f798a?pvs=74)
 
@@ -197,7 +197,6 @@
 - **계약용 유저 목록 조회 API**
   - 계약 시에 필요한 유저 목록을 보여주는 api 구현
 
-개인 개발 레포트 = "https://github.com/geonyoung28/-/blob/main/README.md" 
 ---
 
 ### 박규남
